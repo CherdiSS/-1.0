@@ -73,7 +73,6 @@
       transition: background-color 0.45s ease, color 0.35s ease;
     }
 
-    /* Живой атмосферный фон с плавными световыми пятнами */
     body::before {
       content: '';
       position: fixed;
@@ -105,9 +104,9 @@
     }
 
     @keyframes activeWordPulse {
-      0% { box-shadow: 0 0 0 2px var(--word-active-bg), 0 0 14px rgba(250, 204, 21, 0.55); }
-      50% { box-shadow: 0 0 0 3px var(--word-active-bg), 0 0 24px rgba(250, 204, 21, 0.85); }
-      100% { box-shadow: 0 0 0 2px var(--word-active-bg), 0 0 14px rgba(250, 204, 21, 0.55); }
+      0% { box-shadow: 0 0 0 2px var(--word-active-bg), 0 0 12px rgba(250, 204, 21, 0.45); }
+      50% { box-shadow: 0 0 0 3px var(--word-active-bg), 0 0 20px rgba(250, 204, 21, 0.75); }
+      100% { box-shadow: 0 0 0 2px var(--word-active-bg), 0 0 12px rgba(250, 204, 21, 0.45); }
     }
 
     @keyframes eqBarBounce {
@@ -148,7 +147,6 @@
       animation: pageContentFade 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
-    /* Кнопки с плавным откликом и микро-анимацией */
     button {
       transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
     }
@@ -183,7 +181,7 @@
       margin: 0 -1px;
       border-radius: 6px;
       cursor: pointer;
-      transition: background-color 0.16s ease, color 0.16s ease, transform 0.16s ease, box-shadow 0.16s ease;
+      transition: background-color 0.14s ease, color 0.14s ease, box-shadow 0.14s ease;
       line-height: 1.8;
       word-break: break-word;
     }
@@ -197,6 +195,11 @@
       color: var(--word-active-text) !important;
       font-weight: 600;
       animation: activeWordPulse 1.6s ease-in-out infinite;
+    }
+
+    .reader-word.active-phrase-fallback:not(.active-word) {
+      background-color: rgba(250, 204, 21, 0.16);
+      border-bottom: 1.5px dashed rgba(250, 204, 21, 0.55);
     }
 
     .reader-word.selected-start-word:not(.active-word) {
@@ -216,7 +219,6 @@
       box-shadow: 0 0 12px rgba(249, 115, 22, 0.6);
     }
 
-    /* Анимированный эквалайзер речи */
     .speech-eq {
       display: inline-flex;
       align-items: center;
@@ -236,7 +238,6 @@
     .speech-eq.speaking span:nth-child(3) { animation: eqBarBounce 0.65s ease-in-out infinite 0.32s; }
     .speech-eq.speaking span:nth-child(4) { animation: eqBarBounce 0.65s ease-in-out infinite 0.12s; }
 
-    /* Custom range sliders for touch devices */
     input[type="range"] {
       -webkit-appearance: none;
       appearance: none;
@@ -270,7 +271,6 @@
       box-shadow: 0 0 10px rgba(245, 158, 11, 0.6);
     }
 
-    /* Smooth scrollbar */
     ::-webkit-scrollbar {
       width: 8px;
       height: 8px;
@@ -305,7 +305,6 @@
       </div>
 
       <div class="flex items-center gap-2">
-        <!-- Скрытый input выбора файла -->
         <input id="pdfFileInput" type="file" accept="application/pdf,.pdf" class="hidden" />
         <button id="selectPdfBtn" type="button" class="btn-glow-sky inline-flex items-center gap-2 px-4 py-2 rounded-xl text-slate-950 font-semibold text-sm transition cursor-pointer">
           <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
@@ -314,7 +313,7 @@
           <span>Выбрать PDF</span>
         </button>
 
-        <button id="loadDemoBtn" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs sm:text-sm font-medium transition" title="Загрузить демонстрационный документ для проверки озвучивания">
+        <button id="loadDemoBtn" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs sm:text-sm font-medium transition" title="Загрузить демонстрационный учебный документ для проверки озвучивания">
           <span>Демо-текст</span>
         </button>
 
@@ -375,25 +374,35 @@
       </div>
     </div>
 
-    <!-- Панель настроек голоса, скорости, шрифта и режимов -->
+    <!-- Панель настроек голоса, пресета подачи, скорости, высоты голоса и шрифта -->
     <section class="surface-card rounded-2xl p-3.5 sm:p-4 space-y-3.5 shadow-lg">
-      <!-- Выбор голоса и кнопка Послушать голос -->
       <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+        <!-- Реальный системный/браузерный голос -->
         <div class="md:col-span-5 flex flex-col gap-1.5">
           <div class="flex items-center justify-between text-xs text-slate-400">
-            <label for="voiceSelect" class="font-medium text-slate-300">Голос (открытые профили и системные RU):</label>
+            <label for="voiceSelect" class="font-medium text-slate-300">Системный голос браузера (RU первыми):</label>
             <span id="voiceCountBadge" class="text-[11px] text-sky-400">Загрузка голосов...</span>
           </div>
           <div class="flex items-center gap-2">
             <select id="voiceSelect" class="flex-1 min-w-0 px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-100 text-sm focus:outline-none focus:border-sky-400">
               <option value="">Загрузка доступных голосов...</option>
             </select>
-            <button id="testVoiceBtn" type="button" class="shrink-0 inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 border border-sky-500/30 text-xs sm:text-sm font-medium transition" title="Короткое тестовое воспроизведение выбранного голоса">
+            <button id="testVoiceBtn" type="button" class="shrink-0 inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 border border-sky-500/30 text-xs sm:text-sm font-medium transition" title="Прослушать одинаковую проверочную фразу выбранным голосом">
               <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
               </svg>
               <span>Послушать голос</span>
             </button>
+          </div>
+          <div class="flex items-center gap-2 pt-0.5">
+            <label for="readingPresetSelect" class="text-[11px] text-slate-400 shrink-0">Пресет настроек:</label>
+            <select id="readingPresetSelect" class="flex-1 min-w-0 px-2.5 py-1 rounded-lg bg-slate-900/80 border border-slate-800 text-slate-300 text-xs focus:outline-none focus:border-sky-400">
+              <option value="neutral">Нейтральный (выбранные скорость и высота)</option>
+              <option value="soft">Мягкий (скорость 0.95x, высота 0.95)</option>
+              <option value="study">Учебный размеренный (скорость 0.9x, высота 1.0)</option>
+              <option value="slow">Медленный (скорость 0.8x, высота 0.95)</option>
+              <option value="fast">Ускоренный обзор (скорость 1.25x, высота 1.0)</option>
+            </select>
           </div>
         </div>
 
@@ -410,16 +419,16 @@
           </div>
         </div>
 
-        <!-- Регулировка тембра (Pitch) -->
+        <!-- Регулировка высоты голоса (Pitch) -->
         <div class="md:col-span-2 flex flex-col justify-between gap-1.5 bg-slate-900/50 p-2.5 rounded-xl border border-slate-800/80">
           <div class="flex items-center justify-between text-xs">
-            <label for="pitchRange" class="text-slate-300 font-medium">Тембр:</label>
-            <span id="pitchValueLabel" class="font-bold text-emerald-400">1.0</span>
+            <label for="pitchRange" class="text-slate-300 font-medium">Высота голоса:</label>
+            <span id="pitchValueLabel" class="font-bold text-emerald-400">1.00</span>
           </div>
           <div class="flex items-center gap-1.5">
-            <button id="pitchDecBtn" type="button" class="w-6 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center justify-center" aria-label="Понизить тембр">−</button>
+            <button id="pitchDecBtn" type="button" class="w-6 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center justify-center" aria-label="Понизить высоту голоса">−</button>
             <input id="pitchRange" type="range" min="0.7" max="1.3" step="0.05" value="1.0" class="flex-1" />
-            <button id="pitchIncBtn" type="button" class="w-6 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center justify-center" aria-label="Повысить тембр">+</button>
+            <button id="pitchIncBtn" type="button" class="w-6 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center justify-center" aria-label="Повысить высоту голоса">+</button>
           </div>
         </div>
 
@@ -437,17 +446,17 @@
         </div>
       </div>
 
-      <!-- Переключатели режимов (Плавное чтение, Улучшение произношения, Читать весь документ, Автопрокрутка) -->
+      <!-- Переключатели режимов -->
       <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-800/80 text-xs sm:text-sm">
         <div class="flex flex-wrap items-center gap-3.5">
-          <label class="inline-flex items-center gap-2 cursor-pointer select-none">
+          <label class="inline-flex items-center gap-2 cursor-pointer select-none" title="Озвучивать полными предложениями с учётом русских сокращений и инициалов">
             <input id="smoothReadingToggle" type="checkbox" checked class="w-4 h-4 rounded accent-sky-400" />
-            <span class="text-slate-200 font-medium">Плавный режим чтения (фразами)</span>
+            <span class="text-slate-200 font-medium">Плавное чтение (предложениями)</span>
           </label>
 
-          <label class="inline-flex items-center gap-2 cursor-pointer select-none" title="Автоматическая подстановка буквы ё, ударений, расшифровка сокращений (т.д., г., стр.), римских цифр и IT-терминов">
+          <label class="inline-flex items-center gap-2 cursor-pointer select-none" title="Контекстное раскрытие сокращений (см., рис., табл., г.), согласование чисел с единицами (1 мг, 2 мг, 5 мг) и применение словаря без искажения смысла">
             <input id="smartPronunciationToggle" type="checkbox" checked class="w-4 h-4 rounded accent-emerald-400" />
-            <span class="text-emerald-300 font-medium">Улучшение произношения (словарь RU + ударения)</span>
+            <span class="text-emerald-300 font-medium">Подготовка текста для речи (сокращения, числа, словарь)</span>
           </label>
 
           <label class="inline-flex items-center gap-2 cursor-pointer select-none">
@@ -461,9 +470,12 @@
           </label>
         </div>
 
-        <div class="flex items-center gap-3">
+        <div class="flex flex-wrap items-center gap-2">
           <button id="toggleDictModalBtn" type="button" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 text-xs font-medium transition">
             <span>📖 Словарь произношения</span>
+          </button>
+          <button id="toggleSelfTestBtn" type="button" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-medium transition" title="Показать проверку сегментации и нормализации на 10 контрольных примерах">
+            <span>🔬 Проверка текста</span>
           </button>
           <div class="text-xs text-slate-400">
             Позиция: <span id="readingProgressText" class="text-slate-200 font-medium">слово 0 из 0</span>
@@ -474,22 +486,31 @@
       <!-- Раскрывающаяся панель пользовательского словаря произношения -->
       <div id="pronunciationDictPanel" class="hidden pt-3 border-t border-slate-800/80 space-y-2.5 text-xs">
         <div class="flex flex-wrap items-center justify-between gap-2">
-          <span class="text-slate-300 font-medium">Фонетический словарь и правила замены для синтезатора речи (например: «ВУЗ» → «вуз», «API» → «эй-пи-ай»):</span>
-          <span class="text-slate-400">Встроено 95+ правил RU (буква «ё», сокращения, римские числа, термины)</span>
+          <span class="text-slate-300 font-medium">Пользовательский словарь замен (однословные и многословные выражения; приоритет выше встроенных правил):</span>
+          <span class="text-slate-400">Примечание: браузерный Web Speech API не поддерживает SSML и универсальный знак ударения во всех голосах — проверяйте замены кнопкой «Прослушать замену».</span>
         </div>
         <div class="flex flex-wrap items-center gap-2">
-          <input id="customDictFromInput" type="text" placeholder="Слово в тексте (напр. ИИ)" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-100 focus:outline-none focus:border-sky-400" />
+          <input id="customDictFromInput" type="text" placeholder="Исходное слово или фраза (напр. берет книгу)" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-100 focus:outline-none focus:border-sky-400" />
           <span class="text-slate-400">→</span>
-          <input id="customDictToInput" type="text" placeholder="Как произносить (напр. искусственный интеллект)" class="flex-1 min-w-[200px] px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-100 focus:outline-none focus:border-sky-400" />
+          <input id="customDictToInput" type="text" placeholder="Текст для синтезатора (напр. берёт книгу)" class="flex-1 min-w-[200px] px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-100 focus:outline-none focus:border-sky-400" />
+          <button id="previewDictRuleBtn" type="button" class="px-3 py-1.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/30 font-medium transition">Прослушать замену</button>
           <button id="addCustomDictRuleBtn" type="button" class="px-3.5 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold transition">Добавить правило</button>
         </div>
         <div id="customDictTagsContainer" class="flex flex-wrap items-center gap-1.5 pt-1"></div>
+      </div>
+
+      <!-- Панель самопроверки конвейера подготовки текста и сегментации (10 контрольных примеров) -->
+      <div id="selfTestPanel" class="hidden pt-3 border-t border-slate-800/80 space-y-2.5 text-xs">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <span class="text-slate-200 font-semibold">Контрольные примеры сегментации, нормализации и диапазонов подсветки:</span>
+          <button id="runSelfTestBtn" type="button" class="px-3 py-1 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/30 font-medium">Обновить расчёт примеров</button>
+        </div>
+        <div id="selfTestResultsContainer" class="space-y-2 max-h-64 overflow-y-auto pr-1"></div>
       </div>
     </section>
 
     <!-- Панель навигации по страницам, поиска и экспорта текста -->
     <section class="surface-card rounded-2xl p-3 sm:p-3.5 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
-      <!-- Навигация по страницам -->
       <div class="flex flex-wrap items-center justify-between sm:justify-start gap-2">
         <button id="prevPageBtn" type="button" disabled class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:pointer-events-none text-slate-200 border border-slate-700 text-xs sm:text-sm font-medium transition">
           <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -513,9 +534,7 @@
         </button>
       </div>
 
-      <!-- Поиск по тексту страницы и кнопки копирования/скачивания -->
       <div class="flex flex-wrap items-center justify-between gap-2">
-        <!-- Поиск по странице -->
         <div class="flex items-center gap-1.5 flex-1 sm:flex-initial min-w-[220px] bg-slate-900 border border-slate-700 rounded-xl px-2.5 py-1.5">
           <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -527,16 +546,15 @@
           <button id="searchClearBtn" type="button" class="p-1 rounded hover:bg-slate-800 text-slate-400 text-xs" title="Очистить поиск" aria-label="Очистить поиск">✕</button>
         </div>
 
-        <!-- Действия с текстом страницы -->
         <div class="flex items-center gap-2">
-          <button id="copyPageTextBtn" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-medium transition" title="Скопировать текст текущей страницы в буфер обмена">
+          <button id="copyPageTextBtn" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-medium transition" title="Скопировать исходный текст текущей страницы в буфер обмена">
             <svg class="w-4 h-4 text-sky-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
             </svg>
             <span>Скопировать текст страницы</span>
           </button>
 
-          <button id="downloadPageTextBtn" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-medium transition" title="Скачать текст текущей страницы в формате .txt">
+          <button id="downloadPageTextBtn" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-medium transition" title="Скачать исходный текст текущей страницы в формате .txt">
             <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
@@ -597,13 +615,11 @@
 
     <!-- Область чтения текста -->
     <section class="reader-surface rounded-2xl p-4 sm:p-7 shadow-xl min-h-[380px] max-h-[68vh] overflow-y-auto relative" id="readerScrollContainer">
-      <!-- Подсказка управления -->
       <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-slate-800/80 text-xs text-slate-400">
-        <span>💡 Нажмите на любое слово в тексте, чтобы мгновенно начать озвучивание с него.</span>
+        <span>💡 Нажмите на любое слово в тексте, чтобы начать озвучивание с него. Многоколоночные таблицы и сканы без текстового слоя (OCR) имеют ограничения.</span>
         <span id="pageMetaBadge" class="text-slate-400">Страница не загружена</span>
       </div>
 
-      <!-- Контейнер со словами или пустым состоянием -->
       <div id="readerTextContainer" class="font-serif leading-relaxed select-text" style="font-size: 20px;">
         <div id="emptyStateBox" class="py-12 px-4 text-center space-y-4 font-sans">
           <div class="w-16 h-16 rounded-2xl bg-sky-500/10 border border-sky-400/20 flex items-center justify-center mx-auto text-sky-400">
@@ -640,38 +656,934 @@
     (function () {
       'use strict';
 
-      // Настройка воркера PDF.js
-      if (window.pdfjsLib) {
+      if (typeof window !== 'undefined' && window.pdfjsLib) {
         window.pdfjsLib.GlobalWorkerOptions.workerSrc =
           'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
       }
 
-      // Ключи localStorage
-      const STORAGE_GLOBAL_KEY = 'pdf_reader_tts_global_settings_v1';
+      const STORAGE_GLOBAL_KEY = 'pdf_reader_tts_global_settings_v2';
+      const STORAGE_LEGACY_KEY = 'pdf_reader_tts_global_settings_v1';
       const STORAGE_DOC_PREFIX = 'pdf_reader_tts_doc_v1_';
 
-      // Демонстрационный многостраничный документ для быстрой проверки
+      // Одинаковый проверочный текст для честного сравнения любых голосов
+      const UNIFORM_VOICE_TEST_TEXT =
+        'Проверка голоса: А. С. Пушкин родился в тысяча семьсот девяносто девятом году, а дозировка составила пять миллиграммов.';
+
+      // Настройки пресетов чтения (отделены от реальных голосов браузера)
+      const READING_STYLE_PRESETS = {
+        neutral: { label: 'Нейтральный', rate: null, pitch: null },
+        soft: { label: 'Мягкий', rate: 0.95, pitch: 0.95 },
+        study: { label: 'Учебный размеренный', rate: 0.9, pitch: 1.0 },
+        slow: { label: 'Медленный', rate: 0.8, pitch: 0.95 },
+        fast: { label: 'Ускоренный обзор', rate: 1.25, pitch: 1.0 }
+      };
+
+      // Демонстрационный учебный документ, включающий проверочные случаи
       const DEMO_PAGES = [
         [
-          'Добро пожаловать в приложение «Читатель PDF» для комфортного чтения и голосового озвучивания документов.',
-          'Вы можете загрузить любой PDF-файл со своего телефона, планшета или компьютера с помощью кнопки «Выбрать PDF» в верхней панели.',
-          'Нажмите на любое слово в этом тексте, чтобы синтезатор речи сразу же начал чтение именно с выбранного места. Во время чтения текущее слово подсвечивается ярким жёлтым цветом, а страница плавно прокручивается следом за голосом.',
-          'Включённый по умолчанию «Плавный режим чтения» разбивает страницу на осмысленные предложения и фразы, чтобы интонация звучала максимально естественно как в Safari на iPhone, так и в настольных браузерах.'
+          'См. рис. 2. Далее описана структура органа и приведены клинические данные исследования.',
+          'А. С. Пушкин родился в 1799 г. В главе IV описаны ключевые изменения, а в IV главе приведена сводная таблица результатов.',
+          'Пациент получил 1 мг, затем 2 мг и 5 мг препарата. Значение показателя составило 3,5%. Диапазон дозировки — 5–10 мг.',
+          'Это длинное предложение более чем из двадцати четырёх слов специально составлено для проверки того, что алгоритм сегментации не обрывает фразу на двенадцатом слове после запятой или на двадцать четвёртом слове без смысловой точки.'
         ].join('\n\n'),
         [
-          'Страница 2. Управление скоростью, голосом и навигацией.',
-          'Используйте ползунок скорости от 0.5x до 2.0x, чтобы подобрать комфортный темп восприятия информации. Русскоязычные голоса автоматически поднимаются в начало списка доступных голосов вашего устройства.',
-          'Если включена опция «Читать весь документ», после завершения озвучивания текущей страницы приложение автоматически перелистнёт документ на следующую страницу с текстом и продолжит чтение без остановки.',
-          'Ваша текущая страница, номер слова, выбранный голос и размер шрифта автоматически сохраняются в памяти браузера.'
+          'Страница 2. Контекст и омографы в русском учебном тексте.',
+          'Он носит берет. Он берет книгу со стола. Завтра он узнает результат лабораторного анализа. Она узнает его по голосу.',
+          'Температура кипения — см. табл. 1 — зависит от внешнего атмосферного давления и чистоты раствора.',
+          'При чтении PDF-документов важно корректно обрабатывать сокращения вроде т. е., и т. д., стр. 15 и не терять синхронизацию подсветки слов.'
         ].join('\n\n'),
         [
-          'Страница 3. Поиск по странице и экспорт текста.',
-          'Воспользуйтесь строкой поиска над областью чтения, чтобы мгновенно найти нужный термин или фразу на странице и перейти к совпадению.',
-          'При необходимости вы можете скопировать извлечённый текст текущей страницы в буфер обмена одной кнопкой или сохранить его в отдельный текстовый файл формата TXT.'
+          'Страница 3. Поиск по странице, словарь произношения и экспорт.',
+          'Воспользуйтесь строкой поиска над областью чтения, чтобы найти нужный термин на странице и перейти к совпадению без остановки озвучивания.',
+          'В панели «Словарь произношения» вы можете добавить собственные однословные или многословные правила замены и предварительно прослушать их.'
         ].join('\n\n')
       ];
 
-      // Состояние приложения
+      // =========================================================================
+      // МОДУЛЬ 1. ПОДГОТОВКА РУССКОГО ТЕКСТА И ЧИСЛОВЫЕ ПРАВИЛА (TextNormalizer)
+      // =========================================================================
+      const TextNormalizer = (function () {
+        // Однозначные слова с буквой «ё» (без омографов вроде берет/берёт, узнает/узнаёт, все/всё)
+        const UNAMBIGUOUS_YO_WORDS = {
+          'еще': 'ещё',
+          'объем': 'объём',
+          'объема': 'объёма',
+          'объему': 'объёму',
+          'объемом': 'объёмом',
+          'объеме': 'объёме',
+          'объемы': 'объёмы',
+          'объемов': 'объёмов',
+          'расчет': 'расчёт',
+          'расчета': 'расчёта',
+          'расчету': 'расчёту',
+          'расчетом': 'расчётом',
+          'расчете': 'расчёте',
+          'расчеты': 'расчёты',
+          'расчетов': 'расчётов',
+          'отчет': 'отчёт',
+          'отчета': 'отчёта',
+          'отчеты': 'отчёты',
+          'учет': 'учёт',
+          'учета': 'учёта',
+          'включен': 'включён',
+          'включенный': 'включённый',
+          'защищен': 'защищён',
+          'защищенный': 'защищённый',
+          'сохранен': 'сохранён',
+          'сохраненной': 'сохранённой',
+          'сохраненную': 'сохранённую',
+          'извлечен': 'извлечён',
+          'извлеченный': 'извлечённый',
+          'переведен': 'переведён',
+          'проведен': 'проведён',
+          'приведен': 'приведён',
+          'разделен': 'разделён',
+          'определен': 'определён',
+          'темный': 'тёмный',
+          'темная': 'тёмная',
+          'темное': 'тёмное',
+          'темном': 'тёмном',
+          'теплый': 'тёплый',
+          'теплая': 'тёплая',
+          'теплое': 'тёплое',
+          'желтый': 'жёлтый',
+          'желтая': 'жёлтая',
+          'желтым': 'жёлтым',
+          'четкий': 'чёткий',
+          'четкая': 'чёткая',
+          'четкое': 'чёткое',
+          'трех': 'трёх',
+          'четырех': 'четырёх'
+        };
+
+        // Безопасные однословные сокращения и аббревиатуры
+        const SINGLE_ABBREVIATIONS = {
+          'см.': 'смотри',
+          'рис.': 'рисунок',
+          'табл.': 'таблица',
+          'стр.': 'страница',
+          'гл.': 'глава',
+          'разд.': 'раздел',
+          'п.': 'пункт',
+          'пп.': 'пункты',
+          'др.': 'другие',
+          'пр.': 'прочее',
+          'руб.': 'рублей',
+          'тыс.': 'тысяч',
+          'млн': 'миллионов',
+          'млн.': 'миллионов',
+          'млрд': 'миллиардов',
+          'млрд.': 'миллиардов',
+          'т.е.': 'то есть',
+          'т.д.': 'так далее',
+          'т.п.': 'тому подобное',
+          'т.к.': 'так как',
+          'т.н.': 'так называемый',
+          'pdf': 'пэ-дэ-эф',
+          'pdf-файл': 'пэ-дэ-эф файл',
+          'pdf-файла': 'пэ-дэ-эф файла',
+          'pdf-файлы': 'пэ-дэ-эф файлы',
+          'pdf-документ': 'пэ-дэ-эф документ',
+          'pdf-документов': 'пэ-дэ-эф документов',
+          'pdf.js': 'пэ-дэ-эф джей-эс',
+          'txt': 'тэ-икс-тэ',
+          'html': 'аш-ти-эм-эль',
+          'html5': 'аш-ти-эм-эль пять',
+          'css': 'си-эс-эс',
+          'css3': 'си-эс-эс три',
+          'api': 'эй-пи-ай',
+          'ios': 'ай-о-эс',
+          'iphone': 'айфон',
+          'ipad': 'айпад',
+          'safari': 'сафари',
+          'wi-fi': 'вай-фай',
+          'usb': 'ю-эс-би',
+          'url': 'ю-эр-эл'
+        };
+
+        // Многословные встроенные сокращения
+        const BUILTIN_MULTIWORD_RULES = [
+          { tokens: ['и', 'т.', 'д.'], replacement: 'и так далее' },
+          { tokens: ['и', 'т.', 'п.'], replacement: 'и тому подобное' },
+          { tokens: ['т.', 'е.'], replacement: 'то есть' },
+          { tokens: ['т.', 'д.'], replacement: 'так далее' },
+          { tokens: ['т.', 'п.'], replacement: 'тому подобное' },
+          { tokens: ['т.', 'к.'], replacement: 'так как' },
+          { tokens: ['т.', 'н.'], replacement: 'так называемый' },
+          { tokens: ['в', 'т.', 'ч.'], replacement: 'в том числе' },
+          { tokens: ['н.', 'э.'], replacement: 'нашей эры' },
+          { tokens: ['до', 'н.', 'э.'], replacement: 'до нашей эры' },
+          { tokens: ['и', 'др.'], replacement: 'и другие' },
+          { tokens: ['и', 'пр.'], replacement: 'и прочее' }
+        ];
+
+        // Единицы измерения с грамматическим родом и тремя формами: [им. ед., род. ед., род. мн.]
+        const UNITS_DECLENSION = {
+          'мг': { gender: 'm', forms: ['миллиграмм', 'миллиграмма', 'миллиграммов'] },
+          'г': { gender: 'm', forms: ['грамм', 'грамма', 'граммов'] },
+          'кг': { gender: 'm', forms: ['килограмм', 'килограмма', 'килограммов'] },
+          'мкг': { gender: 'm', forms: ['микрограмм', 'микрограмма', 'микрограммов'] },
+          'мл': { gender: 'm', forms: ['миллилитр', 'миллилитра', 'миллилитров'] },
+          'л': { gender: 'm', forms: ['литр', 'литра', 'литров'] },
+          'мм': { gender: 'm', forms: ['миллиметр', 'миллиметра', 'миллиметров'] },
+          'см': { gender: 'm', forms: ['сантиметр', 'сантиметра', 'сантиметров'] },
+          'м': { gender: 'm', forms: ['метр', 'метра', 'метров'] },
+          'км': { gender: 'm', forms: ['километр', 'километра', 'километров'] },
+          'с': { gender: 'f', forms: ['секунда', 'секунды', 'секунд'] },
+          'сек': { gender: 'f', forms: ['секунда', 'секунды', 'секунд'] },
+          'сек.': { gender: 'f', forms: ['секунда', 'секунды', 'секунд'] },
+          'мин': { gender: 'f', forms: ['минута', 'минуты', 'минут'] },
+          'мин.': { gender: 'f', forms: ['минута', 'минуты', 'минут'] },
+          'ч': { gender: 'm', forms: ['час', 'часа', 'часов'] },
+          'ч.': { gender: 'm', forms: ['час', 'часа', 'часов'] },
+          'гц': { gender: 'm', forms: ['герц', 'герца', 'герц'] },
+          'кгц': { gender: 'm', forms: ['килогерц', 'килогерца', 'килогерц'] },
+          'мгц': { gender: 'm', forms: ['мегагерц', 'мегагерца', 'мегагерц'] },
+          'кб': { gender: 'm', forms: ['килобайт', 'килобайта', 'килобайт'] },
+          'мб': { gender: 'm', forms: ['мегабайт', 'мегабайта', 'мегабайт'] },
+          'гб': { gender: 'm', forms: ['гигабайт', 'гигабайта', 'гигабайт'] },
+          'руб': { gender: 'm', forms: ['рубль', 'рубля', 'рублей'] },
+          'руб.': { gender: 'm', forms: ['рубль', 'рубля', 'рублей'] },
+          '%': { gender: 'm', forms: ['процент', 'процента', 'процентов'] }
+        };
+
+        // Римские числа для контекстного согласования (главы, разделы, века)
+        const ROMAN_MAP = {
+          'I': { cardinal: 'один', ordinalPrepFem: 'первой', ordinalNomMasc: 'первый', ordinalPrepMasc: 'первом' },
+          'II': { cardinal: 'два', ordinalPrepFem: 'второй', ordinalNomMasc: 'второй', ordinalPrepMasc: 'втором' },
+          'III': { cardinal: 'три', ordinalPrepFem: 'третьей', ordinalNomMasc: 'третий', ordinalPrepMasc: 'третьем' },
+          'IV': { cardinal: 'четыре', ordinalPrepFem: 'четвёртой', ordinalNomMasc: 'четвёртый', ordinalPrepMasc: 'четвёртом' },
+          'V': { cardinal: 'пять', ordinalPrepFem: 'пятой', ordinalNomMasc: 'пятый', ordinalPrepMasc: 'пятом' },
+          'VI': { cardinal: 'шесть', ordinalPrepFem: 'шестой', ordinalNomMasc: 'шестой', ordinalPrepMasc: 'шестом' },
+          'VII': { cardinal: 'семь', ordinalPrepFem: 'седьмой', ordinalNomMasc: 'седьмой', ordinalPrepMasc: 'седьмом' },
+          'VIII': { cardinal: 'восемь', ordinalPrepFem: 'восьмой', ordinalNomMasc: 'восьмой', ordinalPrepMasc: 'восьмом' },
+          'IX': { cardinal: 'девять', ordinalPrepFem: 'девятой', ordinalNomMasc: 'девятый', ordinalPrepMasc: 'девятом' },
+          'X': { cardinal: 'десять', ordinalPrepFem: 'десятой', ordinalNomMasc: 'десятый', ordinalPrepMasc: 'десятом' },
+          'XI': { cardinal: 'одиннадцать', ordinalPrepFem: 'одиннадцатой', ordinalNomMasc: 'одиннадцатый', ordinalPrepMasc: 'одиннадцатом' },
+          'XII': { cardinal: 'двенадцать', ordinalPrepFem: 'двенадцатой', ordinalNomMasc: 'двенадцатый', ordinalPrepMasc: 'двенадцатом' },
+          'XIII': { cardinal: 'тринадцать', ordinalPrepFem: 'тринадцатой', ordinalNomMasc: 'тринадцатый', ordinalPrepMasc: 'тринадцатом' },
+          'XIV': { cardinal: 'четырнадцать', ordinalPrepFem: 'четырнадцатой', ordinalNomMasc: 'четырнадцатый', ordinalPrepMasc: 'четырнадцатом' },
+          'XV': { cardinal: 'пятнадцать', ordinalPrepFem: 'пятнадцатой', ordinalNomMasc: 'пятнадцатый', ordinalPrepMasc: 'пятнадцатом' },
+          'XVI': { cardinal: 'шестнадцать', ordinalPrepFem: 'шестнадцатой', ordinalNomMasc: 'шестнадцатый', ordinalPrepMasc: 'шестнадцатом' },
+          'XVII': { cardinal: 'семнадцать', ordinalPrepFem: 'семнадцатой', ordinalNomMasc: 'семнадцатый', ordinalPrepMasc: 'семнадцатом' },
+          'XVIII': { cardinal: 'восемнадцать', ordinalPrepFem: 'восемнадцатой', ordinalNomMasc: 'восемнадцатый', ordinalPrepMasc: 'восемнадцатом' },
+          'XIX': { cardinal: 'девятнадцать', ordinalPrepFem: 'девятнадцатой', ordinalNomMasc: 'девятнадцатый', ordinalPrepMasc: 'девятнадцатом' },
+          'XX': { cardinal: 'двадцать', ordinalPrepFem: 'двадцатой', ordinalNomMasc: 'двадцатый', ordinalPrepMasc: 'двадцатом' },
+          'XXI': { cardinal: 'двадцать один', ordinalPrepFem: 'двадцать первой', ordinalNomMasc: 'двадцать первый', ordinalPrepMasc: 'двадцать первом' }
+        };
+
+        // Словесная запись малых целых чисел для согласования с родом единицы измерения
+        function integerToRussianWords(num, gender) {
+          const n = parseInt(num, 10);
+          if (isNaN(n) || n < 0 || n > 999) return String(num);
+          if (n === 0) return 'ноль';
+
+          const hundreds = ['', 'сто', 'двести', 'триста', 'четыреста', 'пятьсот', 'шестьсот', 'семьсот', 'восемьсот', 'девятьсот'];
+          const tens = ['', '', 'двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто'];
+          const teens = ['десять', 'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать', 'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать'];
+          const unitsMasc = ['', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'];
+          const unitsFem = ['', 'одна', 'две', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'];
+
+          const parts = [];
+          const h = Math.floor(n / 100);
+          const rem = n % 100;
+          if (h > 0) parts.push(hundreds[h]);
+
+          if (rem >= 10 && rem <= 19) {
+            parts.push(teens[rem - 10]);
+          } else {
+            const t = Math.floor(rem / 10);
+            const u = rem % 10;
+            if (t > 0) parts.push(tens[t]);
+            if (u > 0) {
+              parts.push(gender === 'f' ? unitsFem[u] : unitsMasc[u]);
+            }
+          }
+          return parts.join(' ');
+        }
+
+        // Выбор формы существительного по целому числу (с учётом исключений 11–14)
+        function selectPluralForm(intVal, forms) {
+          const n = Math.abs(parseInt(intVal, 10));
+          const mod100 = n % 100;
+          const mod10 = n % 10;
+          if (mod100 >= 11 && mod100 <= 14) return forms[2];
+          if (mod10 === 1) return forms[0];
+          if (mod10 >= 2 && mod10 <= 4) return forms[1];
+          return forms[2];
+        }
+
+        // Отделение внешней пунктуации от ядра токена
+        function splitTokenPunctuation(rawToken) {
+          const m = String(rawToken || '').match(/^([«"(\[{]*)(.*?)([»")\]}.,!?;:…]*)$/);
+          if (!m) return { prefix: '', core: String(rawToken || ''), suffix: '' };
+          return {
+            prefix: m[1] || '',
+            core: m[2] || '',
+            suffix: m[3] || ''
+          };
+        }
+
+        // Осторожная склейка разорванных переносами слов на границах строк PDF
+        // Не удаляет смысловые дефисы (физико-математический, по-русски, Санкт-Петербург, 5-10)
+        const KEEP_HYPHEN_PREFIXES = new Set([
+          'по', 'во', 'в', 'ко', 'из', 'под', 'над', 'за', 'то', 'либо', 'нибудь', 'кое', 'кой',
+          'санкт', 'нью', 'лос', 'риу', 'аль', 'экс', 'вице', 'лейб', 'унтер', 'штаб', 'гамма', 'альфа', 'бета'
+        ]);
+
+        function mergeLineHyphenation(lineA, lineB) {
+          const a = (lineA || '').replace(/\u00AD/g, '').trimEnd();
+          const b = (lineB || '').replace(/\u00AD/g, '').trimStart();
+          if (!a || !b) return a + (a && b ? ' ' : '') + b;
+
+          // Проверяем, заканчивается ли строка A на буквенный фрагмент с одиночным дефисом
+          const matchA = a.match(/^(.*?\s)?([А-ЯЁа-яёA-Za-z]{2,})-$/) || a.match(/^()([А-ЯЁа-яёA-Za-z]{2,})-$/);
+          const matchB = b.match(/^([а-яёa-z]{2,})(\s.*|$)/);
+          if (!matchA || !matchB) {
+            return a + ' ' + b;
+          }
+
+          const headPart = matchA[2];
+          const tailPart = matchB[1];
+          const headLower = headPart.toLowerCase();
+
+          // Не склеиваем, если первая часть — известная приставка через дефис или разные алфавиты
+          const isCyrA = /[а-яё]/i.test(headPart);
+          const isCyrB = /[а-яё]/i.test(tailPart);
+          if (isCyrA !== isCyrB || KEEP_HYPHEN_PREFIXES.has(headLower)) {
+            return a + b; // сохраняем дефис без пробела
+          }
+          // Не склеиваем составные прилагательные на -о/-е (например, физико-математический, научно-исследовательский)
+          if (/(?:ико|еко|чно|вно|льно|нно|ско|цко|ево|ово)$/i.test(headLower) && tailPart.length >= 5) {
+            return a + b;
+          }
+
+          return (matchA[1] || '') + headPart + tailPart + (matchB[2] || '');
+        }
+
+        // Компиляция пользовательских и встроенных многословных правил (сначала самые длинные)
+        function buildOrderedMultiwordRules(customDict) {
+          const rules = [];
+          if (customDict && typeof customDict === 'object') {
+            Object.entries(customDict).forEach(([key, val]) => {
+              const cleanKey = (key || '').trim().toLowerCase();
+              const cleanVal = (val || '').trim();
+              if (!cleanKey || !cleanVal) return;
+              const parts = cleanKey.split(/\s+/);
+              rules.push({
+                tokens: parts,
+                replacement: cleanVal,
+                isUser: true
+              });
+            });
+          }
+          BUILTIN_MULTIWORD_RULES.forEach((r) => {
+            rules.push({
+              tokens: r.tokens,
+              replacement: r.replacement,
+              isUser: false
+            });
+          });
+          rules.sort((a, b) => {
+            if (b.tokens.length !== a.tokens.length) return b.tokens.length - a.tokens.length;
+            if (a.isUser !== b.isUser) return a.isUser ? -1 : 1;
+            return 0;
+          });
+          return rules;
+        }
+
+        // Конвейер подготовки сегмента для синтезатора с точной картой диапазонов исходных токенов
+        // Принимает срез токенов [{ text, index }] и возвращает { utteranceText, charMap }
+        function buildSpokenSegmentWithMap(segmentTokens, options) {
+          const smartEnabled = options && options.smartPronunciation !== false;
+          const customDict = (options && options.customDict) || {};
+          const multiRules = smartEnabled ? buildOrderedMultiwordRules(customDict) : [];
+
+          const emittedPieces = []; // [{ spoken, tokenStartIdx, tokenEndIdx }]
+          const n = segmentTokens.length;
+          let i = 0;
+
+          while (i < n) {
+            const tok = segmentTokens[i];
+            const parts = splitTokenPunctuation(tok.text);
+            const coreWithDot = (parts.core + (parts.suffix.startsWith('.') ? '.' : '')).toLowerCase();
+            const coreLower = parts.core.toLowerCase();
+
+            if (!smartEnabled) {
+              emittedPieces.push({
+                spoken: tok.text,
+                tokenStartIdx: tok.index,
+                tokenEndIdx: tok.index
+              });
+              i++;
+              continue;
+            }
+
+            // 1. Проверка многословных и однословных правил (сначала длинные, пользовательские приоритетнее)
+            let matchedRule = null;
+            for (let r = 0; r < multiRules.length; r++) {
+              const rule = multiRules[r];
+              const len = rule.tokens.length;
+              if (i + len > n) continue;
+
+              let allMatch = true;
+              for (let k = 0; k < len; k++) {
+                const cand = splitTokenPunctuation(segmentTokens[i + k].text);
+                const candWithDot = (cand.core + (cand.suffix.startsWith('.') ? '.' : '')).toLowerCase();
+                const candLower = cand.core.toLowerCase();
+                const target = rule.tokens[k];
+                if (target.endsWith('.')) {
+                  if (candWithDot !== target && candLower !== target) {
+                    allMatch = false;
+                    break;
+                  }
+                } else {
+                  if (candLower !== target) {
+                    allMatch = false;
+                    break;
+                  }
+                }
+              }
+
+              if (allMatch) {
+                matchedRule = rule;
+                break;
+              }
+            }
+
+            if (matchedRule) {
+              const len = matchedRule.tokens.length;
+              const firstParts = splitTokenPunctuation(segmentTokens[i].text);
+              const lastParts = splitTokenPunctuation(segmentTokens[i + len - 1].text);
+              const lastRuleTok = matchedRule.tokens[len - 1];
+              const remainingSuffix = (lastRuleTok.endsWith('.') && lastParts.suffix.startsWith('.'))
+                ? lastParts.suffix.slice(1)
+                : lastParts.suffix;
+
+              emittedPieces.push({
+                spoken: firstParts.prefix + matchedRule.replacement + remainingSuffix,
+                tokenStartIdx: segmentTokens[i].index,
+                tokenEndIdx: segmentTokens[i + len - 1].index
+              });
+              i += len;
+              continue;
+            }
+
+            // 2. Контекстные конструкции с римскими цифрами:
+            // «В главе IV» / «глава IV» / «в IV главе» / «в XXI в.» / «XXI век»
+            if (i + 1 < n) {
+              const nextParts = splitTokenPunctuation(segmentTokens[i + 1].text);
+              const nextCoreLower = nextParts.core.toLowerCase();
+              const nextWithDot = (nextParts.core + (nextParts.suffix.startsWith('.') ? '.' : '')).toLowerCase();
+
+              // Случай A: «глава IV», «главе IV», «раздел IV», «таблица IV»
+              if (/^(глав[аеыуой]|раздел[аеу]?|параграф[аеу]?|част[ьи])$/i.test(parts.core) && ROMAN_MAP[nextParts.core]) {
+                const roman = ROMAN_MAP[nextParts.core];
+                emittedPieces.push({
+                  spoken: parts.prefix + parts.core + ' ' + roman.cardinal + nextParts.suffix,
+                  tokenStartIdx: tok.index,
+                  tokenEndIdx: segmentTokens[i + 1].index
+                });
+                i += 2;
+                continue;
+              }
+
+              // Случай B: «IV главе» -> «четвёртой главе»
+              if (ROMAN_MAP[parts.core] && /^глав[еыуой]$/i.test(nextCoreLower)) {
+                const roman = ROMAN_MAP[parts.core];
+                emittedPieces.push({
+                  spoken: parts.prefix + roman.ordinalPrepFem + ' ' + nextParts.core + nextParts.suffix,
+                  tokenStartIdx: tok.index,
+                  tokenEndIdx: segmentTokens[i + 1].index
+                });
+                i += 2;
+                continue;
+              }
+
+              // Случай C: «XXI в.» / «XXI веке» / «XXI век»
+              if (ROMAN_MAP[parts.core] && (nextWithDot === 'в.' || /^век[аеу]?$/i.test(nextCoreLower))) {
+                const roman = ROMAN_MAP[parts.core];
+                const prevTok = i > 0 ? splitTokenPunctuation(segmentTokens[i - 1].text).core.toLowerCase() : '';
+                const isPrep = prevTok === 'в' || prevTok === 'о' || prevTok === 'об' || nextCoreLower === 'веке';
+                const remSuf = nextWithDot === 'в.' ? nextParts.suffix.slice(1) : nextParts.suffix;
+                const centuryWord = isPrep ? (roman.ordinalPrepMasc + ' веке') : (roman.ordinalNomMasc + ' век');
+                emittedPieces.push({
+                  spoken: parts.prefix + centuryWord + remSuf,
+                  tokenStartIdx: tok.index,
+                  tokenEndIdx: segmentTokens[i + 1].index
+                });
+                i += 2;
+                continue;
+              }
+
+              // Случай D: Год + «г.» / «гг.» (например: «в 1799 г.», «1799 г.», «1990–2000 гг.»)
+              if (/^\d{3,4}$/.test(parts.core) && (nextWithDot === 'г.' || nextWithDot === 'гг.')) {
+                const prevTok = i > 0 ? splitTokenPunctuation(segmentTokens[i - 1].text).core.toLowerCase() : '';
+                const remSuf = nextParts.suffix.startsWith('.') ? nextParts.suffix.slice(1) : nextParts.suffix;
+                const yearWord = nextWithDot === 'гг.' ? 'годы' : (prevTok === 'в' ? 'году' : 'год');
+                emittedPieces.push({
+                  spoken: parts.prefix + parts.core + ' ' + yearWord + remSuf,
+                  tokenStartIdx: tok.index,
+                  tokenEndIdx: segmentTokens[i + 1].index
+                });
+                i += 2;
+                continue;
+              }
+
+              // Случай E: «рис. 2», «табл. 1», «стр. 15», «гл. 3»
+              if ((coreWithDot === 'рис.' || coreWithDot === 'табл.' || coreWithDot === 'стр.' || coreWithDot === 'гл.') && /^\d+$/.test(nextParts.core)) {
+                let expandedHead = SINGLE_ABBREVIATIONS[coreWithDot];
+                if (/^[А-ЯЁ]/.test(parts.core)) {
+                  expandedHead = expandedHead.charAt(0).toUpperCase() + expandedHead.slice(1);
+                }
+                const numWords = integerToRussianWords(nextParts.core, 'm');
+                emittedPieces.push({
+                  spoken: parts.prefix + expandedHead + ' ' + numWords + nextParts.suffix,
+                  tokenStartIdx: tok.index,
+                  tokenEndIdx: segmentTokens[i + 1].index
+                });
+                i += 2;
+                continue;
+              }
+
+              // Случай F: Диапазон чисел + единица измерения (например: «5–10 мг», «5-10 мг»)
+              const rangeMatch = parts.core.match(/^(\d{1,3})[–—-](\d{1,3})$/);
+              const unitInfoForRange = UNITS_DECLENSION[nextWithDot] || UNITS_DECLENSION[nextCoreLower];
+              if (rangeMatch && unitInfoForRange) {
+                const n1 = rangeMatch[1];
+                const n2 = rangeMatch[2];
+                const remSuf = (UNITS_DECLENSION[nextWithDot] && nextParts.suffix.startsWith('.'))
+                  ? nextParts.suffix.slice(1)
+                  : nextParts.suffix;
+                emittedPieces.push({
+                  spoken: parts.prefix + 'от ' + n1 + ' до ' + n2 + ' ' + unitInfoForRange.forms[2] + remSuf,
+                  tokenStartIdx: tok.index,
+                  tokenEndIdx: segmentTokens[i + 1].index
+                });
+                i += 2;
+                continue;
+              }
+
+              // Случай G: Целое или десятичное число + единица измерения (например: «1 мг», «2 мг», «5 мг», «3,5 мг»)
+              const unitInfo = UNITS_DECLENSION[nextWithDot] || UNITS_DECLENSION[nextCoreLower];
+              if (unitInfo) {
+                const remSuf = (UNITS_DECLENSION[nextWithDot] && nextParts.suffix.startsWith('.'))
+                  ? nextParts.suffix.slice(1)
+                  : nextParts.suffix;
+
+                if (/^\d{1,3}$/.test(parts.core)) {
+                  const numSpoken = integerToRussianWords(parts.core, unitInfo.gender);
+                  const unitForm = selectPluralForm(parts.core, unitInfo.forms);
+                  emittedPieces.push({
+                    spoken: parts.prefix + numSpoken + ' ' + unitForm + remSuf,
+                    tokenStartIdx: tok.index,
+                    tokenEndIdx: segmentTokens[i + 1].index
+                  });
+                  i += 2;
+                  continue;
+                }
+
+                // Десятичная дробь + единица измерения (всегда родительный падеж единственного числа: «3,5 миллиграмма»)
+                if (/^\d+[,.]\d+$/.test(parts.core)) {
+                  const decNormalized = parts.core.replace('.', ',');
+                  emittedPieces.push({
+                    spoken: parts.prefix + decNormalized + ' ' + unitInfo.forms[1] + remSuf,
+                    tokenStartIdx: tok.index,
+                    tokenEndIdx: segmentTokens[i + 1].index
+                  });
+                  i += 2;
+                  continue;
+                }
+              }
+            }
+
+            // 3. Однотокенные числа с процентами или кратностью (например: «3,5%», «5%», «10–15%», «1.5x»)
+            const decPctMatch = parts.core.match(/^(\d+)[,.](\d+)%$/);
+            if (decPctMatch) {
+              emittedPieces.push({
+                spoken: parts.prefix + decPctMatch[1] + ',' + decPctMatch[2] + ' процента' + parts.suffix,
+                tokenStartIdx: tok.index,
+                tokenEndIdx: tok.index
+              });
+              i++;
+              continue;
+            }
+
+            const rangePctMatch = parts.core.match(/^(\d{1,3})[–—-](\d{1,3})%$/);
+            if (rangePctMatch) {
+              emittedPieces.push({
+                spoken: parts.prefix + 'от ' + rangePctMatch[1] + ' до ' + rangePctMatch[2] + ' процентов' + parts.suffix,
+                tokenStartIdx: tok.index,
+                tokenEndIdx: tok.index
+              });
+              i++;
+              continue;
+            }
+
+            const intPctMatch = parts.core.match(/^(\d{1,3})%$/);
+            if (intPctMatch) {
+              const pctWords = integerToRussianWords(intPctMatch[1], 'm');
+              const pctForm = selectPluralForm(intPctMatch[1], UNITS_DECLENSION['%'].forms);
+              emittedPieces.push({
+                spoken: parts.prefix + pctWords + ' ' + pctForm + parts.suffix,
+                tokenStartIdx: tok.index,
+                tokenEndIdx: tok.index
+              });
+              i++;
+              continue;
+            }
+
+            // 4. Спецсимволы и однозначные слова с «ё» или сокращения с точкой
+            if (parts.core === '№') {
+              emittedPieces.push({ spoken: 'номер', tokenStartIdx: tok.index, tokenEndIdx: tok.index });
+              i++;
+              continue;
+            }
+            if (parts.core === '§') {
+              emittedPieces.push({ spoken: 'параграф', tokenStartIdx: tok.index, tokenEndIdx: tok.index });
+              i++;
+              continue;
+            }
+
+            if (parts.suffix.startsWith('.') && SINGLE_ABBREVIATIONS[coreWithDot]) {
+              let expAbbr = SINGLE_ABBREVIATIONS[coreWithDot];
+              if (/^[А-ЯЁ]/.test(parts.core) && expAbbr.length > 1) {
+                expAbbr = expAbbr.charAt(0).toUpperCase() + expAbbr.slice(1);
+              }
+              emittedPieces.push({
+                spoken: parts.prefix + expAbbr + parts.suffix.slice(1),
+                tokenStartIdx: tok.index,
+                tokenEndIdx: tok.index
+              });
+              i++;
+              continue;
+            }
+
+            if (SINGLE_ABBREVIATIONS[coreLower]) {
+              emittedPieces.push({
+                spoken: parts.prefix + SINGLE_ABBREVIATIONS[coreLower] + parts.suffix,
+                tokenStartIdx: tok.index,
+                tokenEndIdx: tok.index
+              });
+              i++;
+              continue;
+            }
+
+            if (UNAMBIGUOUS_YO_WORDS[coreLower]) {
+              let yoWord = UNAMBIGUOUS_YO_WORDS[coreLower];
+              if (/^[А-ЯЁ]/.test(parts.core)) {
+                yoWord = yoWord.charAt(0).toUpperCase() + yoWord.slice(1);
+              }
+              emittedPieces.push({
+                spoken: parts.prefix + yoWord + parts.suffix,
+                tokenStartIdx: tok.index,
+                tokenEndIdx: tok.index
+              });
+              i++;
+              continue;
+            }
+
+            // По умолчанию сохраняем оригинальный токен без искажения смысла
+            emittedPieces.push({
+              spoken: tok.text,
+              tokenStartIdx: tok.index,
+              tokenEndIdx: tok.index
+            });
+            i++;
+          }
+
+          // Собираем окончательный текст для Utterance и строим точную посимвольную карту
+          const charMap = [];
+          const spokenChunks = [];
+          let cursor = 0;
+
+          for (let p = 0; p < emittedPieces.length; p++) {
+            const piece = emittedPieces[p];
+            const pieceStr = piece.spoken;
+            const start = cursor;
+            const end = start + pieceStr.length;
+            charMap.push({
+              charStart: start,
+              charEnd: end,
+              tokenStartIdx: piece.tokenStartIdx,
+              tokenEndIdx: piece.tokenEndIdx,
+              spoken: pieceStr
+            });
+            spokenChunks.push(pieceStr);
+            cursor = end + 1; // +1 за пробел между кусками
+          }
+
+          return {
+            utteranceText: spokenChunks.join(' '),
+            charMap: charMap
+          };
+        }
+
+        return {
+          mergeLineHyphenation: mergeLineHyphenation,
+          splitTokenPunctuation: splitTokenPunctuation,
+          buildSpokenSegmentWithMap: buildSpokenSegmentWithMap
+        };
+      })();
+
+      // =========================================================================
+      // МОДУЛЬ 2. СЕГМЕНТАЦИЯ ПРЕДЛОЖЕНИЙ С УЧЁТОМ СОКРАЩЕНИЙ (SentenceSegmenter)
+      // =========================================================================
+      const SentenceSegmenter = (function () {
+        // Сокращения, после которых точка НЕ завершает предложение
+        const NON_TERMINAL_ABBR = new Set([
+          'см.', 'рис.', 'табл.', 'стр.', 'с.', 'гл.', 'разд.', 'п.', 'пп.',
+          'им.', 'акад.', 'проф.', 'доц.', 'канд.', 'ул.', 'пр-т.', 'обл.',
+          'р-н.', 'корп.', 'кв.', 'тел.', 'руб.', 'коп.', 'тыс.', 'млн.', 'млрд.',
+          'т.', 'т.е.', 'т.к.', 'т.н.', 'в.', 'вв.'
+        ]);
+
+        // Сокращения, которые могут стоять как в середине, так и в конце предложения («г.», «гг.», «и т. д.», «и др.»)
+        const CONTEXTUAL_END_ABBR = new Set([
+          'г.', 'гг.', 'д.', 'п.', 'др.', 'пр.', 'э.', 'ч.'
+        ]);
+
+        function isSentenceBoundaryAfterToken(tokens, idx) {
+          const curr = tokens[idx];
+          if (!curr) return false;
+          const raw = curr.text;
+
+          // Завершающие знаки ? ! … всегда закрывают предложение
+          if (/[!?…]+["»)\]]*$/.test(raw)) {
+            return true;
+          }
+
+          // Проверяем наличие точки на конце токена
+          if (!/\.+["»)\]]*$/.test(raw)) {
+            return false;
+          }
+
+          const cleanLower = raw.replace(/["»)\]]+$/g, '').toLowerCase();
+          const nextTok = idx + 1 < tokens.length ? tokens[idx + 1] : null;
+          if (!nextTok) return true;
+
+          // Если следующее слово начинается со строчной буквы или цифры/тире, точка внутри предложения
+          const nextClean = nextTok.text.replace(/^[«"(\[{]+/, '');
+          if (/^[а-яёa-z0-9—–-]/.test(nextClean)) {
+            return false;
+          }
+
+          // Безусловные нетерминальные сокращения (см., рис., табл., им., проф. и т.д.)
+          if (NON_TERMINAL_ABBR.has(cleanLower)) {
+            return false;
+          }
+
+          // Инициалы: одиночная заглавная буква с точкой («А.», «С.») перед другим инициалом или фамилией
+          if (/^[А-ЯЁA-Z]\.$/.test(raw.replace(/^[«"(\[{]+/, ''))) {
+            if (/^[А-ЯЁA-Z]\.$/.test(nextClean) || /^[А-ЯЁA-Z][а-яёa-z]+/.test(nextClean)) {
+              return false;
+            }
+          }
+
+          // Составные сокращения «т. е.», «т. д.», «т. п.», «н. э.»
+          if (cleanLower === 'т.' || cleanLower === 'н.') {
+            return false;
+          }
+
+          // Если «г.» / «гг.» стоит после числа года, а следующее слово начинается с заглавной буквы — это конец предложения
+          if (CONTEXTUAL_END_ABBR.has(cleanLower)) {
+            return /^[А-ЯЁA-Z]/.test(nextClean);
+          }
+
+          return true;
+        }
+
+        // Разбиение длинного предложения (> maxWords) только по безопасной синтаксической границе (; — : ,)
+        function splitLongSentenceSafely(sentenceTokens, maxWords) {
+          const limit = maxWords || 55;
+          if (sentenceTokens.length <= limit) {
+            return [sentenceTokens];
+          }
+
+          const result = [];
+          let start = 0;
+
+          while (start < sentenceTokens.length) {
+            const remaining = sentenceTokens.length - start;
+            if (remaining <= limit) {
+              result.push(sentenceTokens.slice(start));
+              break;
+            }
+
+            const idealEnd = start + limit;
+            const searchMin = start + Math.floor(limit * 0.45);
+            const searchMax = Math.min(sentenceTokens.length - 2, start + limit + 10);
+
+            let bestSplit = -1;
+            let bestPriority = 0; // 3: [;:], 2: перед тире, 1: запятая
+
+            for (let k = searchMin; k <= searchMax; k++) {
+              const t = sentenceTokens[k].text;
+              const nextT = sentenceTokens[k + 1] ? sentenceTokens[k + 1].text : '';
+              let priority = 0;
+              if (/[;:]$/.test(t)) {
+                priority = 3;
+              } else if (/^[—–]$/.test(nextT)) {
+                priority = 2;
+              } else if (/,$/.test(t)) {
+                priority = 1;
+              }
+
+              if (priority > bestPriority || (priority === bestPriority && priority > 0 && Math.abs(k - idealEnd) < Math.abs(bestSplit - idealEnd))) {
+                bestPriority = priority;
+                bestSplit = k;
+              }
+            }
+
+            if (bestSplit === -1) {
+              bestSplit = start + limit - 1;
+            }
+
+            result.push(sentenceTokens.slice(start, bestSplit + 1));
+            start = bestSplit + 1;
+          }
+
+          return result;
+        }
+
+        // Сегментация массива токенов одного абзаца на предложения
+        function segmentParagraphTokens(paragraphTokens, maxSentenceWords) {
+          const sentences = [];
+          let current = [];
+
+          for (let i = 0; i < paragraphTokens.length; i++) {
+            const tok = paragraphTokens[i];
+            current.push(tok);
+            if (isSentenceBoundaryAfterToken(paragraphTokens, i)) {
+              const safeChunks = splitLongSentenceSafely(current, maxSentenceWords || 55);
+              safeChunks.forEach((ch) => sentences.push(ch));
+              current = [];
+            }
+          }
+
+          if (current.length > 0) {
+            const safeChunks = splitLongSentenceSafely(current, maxSentenceWords || 55);
+            safeChunks.forEach((ch) => sentences.push(ch));
+          }
+
+          return sentences;
+        }
+
+        return {
+          segmentParagraphTokens: segmentParagraphTokens,
+          isSentenceBoundaryAfterToken: isSentenceBoundaryAfterToken
+        };
+      })();
+
+      // =========================================================================
+      // МОДУЛЬ 3. ВОССТАНОВЛЕНИЕ СТРУКТУРЫ ТЕКСТА ИЗ PDF.JS (PdfStructureExtractor)
+      // =========================================================================
+      const PdfStructureExtractor = (function () {
+        function reconstructParagraphsFromItems(items) {
+          if (!items || items.length === 0) return [];
+
+          // Преобразуем элементы PDF.js с учётом координат X, Y и высоты шрифта
+          const fragments = [];
+          for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            const str = (item.str || '').replace(/\u00AD/g, '');
+            if (!str.trim() && !item.hasEOL) continue;
+            const tr = item.transform || [12, 0, 0, 12, 0, 0];
+            const x = tr[4] || 0;
+            const y = tr[5] || 0;
+            const fontH = Math.hypot(tr[2] || 0, tr[3] || 12) || 12;
+            const width = item.width || (str.length * fontH * 0.5);
+            fragments.push({ str, x, y, fontH, width, hasEOL: !!item.hasEOL });
+          }
+
+          if (fragments.length === 0) return [];
+
+          // Собираем строки по близкой координате Y, не сливая далёкие колонки
+          const lines = [];
+          let currLine = null;
+
+          for (let i = 0; i < fragments.length; i++) {
+            const f = fragments[i];
+            if (!currLine) {
+              currLine = {
+                text: f.str,
+                y: f.y,
+                startX: f.x,
+                endX: f.x + f.width,
+                fontH: f.fontH
+              };
+              continue;
+            }
+
+            const yDiff = Math.abs(f.y - currLine.y);
+            const sameLineY = yDiff <= Math.max(4, currLine.fontH * 0.45);
+            const xGap = f.x - currLine.endX;
+            // Большой горизонтальный разрыв (> 6 высот шрифта) указывает на соседнюю колонку или ячейку таблицы
+            const isSeparateColumn = sameLineY && (xGap > currLine.fontH * 6 || f.x < currLine.startX - currLine.fontH * 2);
+
+            if (sameLineY && !isSeparateColumn) {
+              const needSpace = currLine.text && !currLine.text.endsWith(' ') && !f.str.startsWith(' ') && xGap > currLine.fontH * 0.12;
+              currLine.text += (needSpace ? ' ' : '') + f.str;
+              currLine.endX = Math.max(currLine.endX, f.x + f.width);
+            } else {
+              if (currLine.text.trim()) {
+                lines.push(currLine);
+              }
+              currLine = {
+                text: f.str,
+                y: f.y,
+                startX: f.x,
+                endX: f.x + f.width,
+                fontH: f.fontH
+              };
+            }
+          }
+          if (currLine && currLine.text.trim()) {
+            lines.push(currLine);
+          }
+
+          if (lines.length === 0) return [];
+
+          // Группируем строки в смысловые абзацы
+          const paragraphs = [];
+          let currParaText = lines[0].text.trim();
+
+          for (let i = 1; i < lines.length; i++) {
+            const prev = lines[i - 1];
+            const curr = lines[i];
+            const avgH = (prev.fontH + curr.fontH) / 2 || 12;
+            const verticalGap = Math.abs(prev.y - curr.y);
+            const indentShift = curr.startX - prev.startX;
+
+            const isLargeVerticalGap = verticalGap > avgH * 1.65;
+            const isIndentedNewPara = indentShift > avgH * 1.4 && /[.!?;:…»"]$/.test(prev.text.trim());
+            const isHeadingLine = prev.text.trim().length < 55 && !/[.,;:-]$/.test(prev.text.trim()) && verticalGap > avgH * 1.3;
+
+            if (isLargeVerticalGap || isIndentedNewPara || isHeadingLine) {
+              if (currParaText.trim()) {
+                paragraphs.push(currParaText.trim());
+              }
+              currParaText = curr.text.trim();
+            } else {
+              currParaText = TextNormalizer.mergeLineHyphenation(currParaText, curr.text.trim());
+            }
+          }
+
+          if (currParaText.trim()) {
+            paragraphs.push(currParaText.trim());
+          }
+
+          return paragraphs;
+        }
+
+        return {
+          reconstructParagraphsFromItems: reconstructParagraphsFromItems
+        };
+      })();
+
+      // =========================================================================
+      // СОСТОЯНИЕ И DOM-ССЫЛКИ ПРИЛОЖЕНИЯ
+      // =========================================================================
       const state = {
         pdfDoc: null,
         isDemoDoc: false,
@@ -680,31 +1592,40 @@
         currentPage: 1,
         totalPages: 0,
         pageRawText: '',
-        words: [], // [{ text, index, el, phraseIdx, charStartInPhrase, charEndInPhrase }]
-        phrases: [], // [{ text, startWordIdx, endWordIdx, wordOffsets: [{wordIdx, start, end}] }]
+        paragraphs: [], // массив строк абзацев
+        words: [], // [{ text, index, el, phraseIdx, paragraphIdx }]
+        phrases: [], // [{ tokens, startWordIdx, endWordIdx, paragraphIdx }]
         currentWordIndex: 0,
+        activeHighlightRange: null, // { startIdx, endIdx, isFallbackPhrase }
+        selectedStartIndex: null,
         isSpeaking: false,
         isPaused: false,
+        usingApproxHighlight: false,
         smoothReading: true,
         smartPronunciation: true,
         continuousReading: true,
         autoScroll: false,
+        readingPreset: 'neutral',
         rate: 1.0,
         pitch: 1.0,
         fontSize: 20,
         nightComfort: false,
-        selectedVoiceURI: 'open_preset_alena_ru',
+        selectedVoiceURI: '',
         voices: [],
+        hasRussianVoice: false,
         customDict: {},
         searchMatches: [],
         searchCurrentPos: -1,
         activeUtterance: null,
         fallbackTimer: null,
         speechSessionId: 0,
-        pendingFileBuffer: null
+        pageLoadRequestId: 0,
+        pendingFileBuffer: null,
+        saveProgressTimer: null,
+        lastSavedProgressAt: 0,
+        sliderRestartDebounceTimer: null
       };
 
-      // Ссылки на DOM-элементы
       const els = {
         pdfFileInput: document.getElementById('pdfFileInput'),
         selectPdfBtn: document.getElementById('selectPdfBtn'),
@@ -736,6 +1657,7 @@
         readingProgressBarFill: document.getElementById('readingProgressBarFill'),
         speechStateLabel: document.getElementById('speechStateLabel'),
         voiceSelect: document.getElementById('voiceSelect'),
+        readingPresetSelect: document.getElementById('readingPresetSelect'),
         voiceCountBadge: document.getElementById('voiceCountBadge'),
         testVoiceBtn: document.getElementById('testVoiceBtn'),
         rateRange: document.getElementById('rateRange'),
@@ -751,8 +1673,13 @@
         pronunciationDictPanel: document.getElementById('pronunciationDictPanel'),
         customDictFromInput: document.getElementById('customDictFromInput'),
         customDictToInput: document.getElementById('customDictToInput'),
+        previewDictRuleBtn: document.getElementById('previewDictRuleBtn'),
         addCustomDictRuleBtn: document.getElementById('addCustomDictRuleBtn'),
         customDictTagsContainer: document.getElementById('customDictTagsContainer'),
+        toggleSelfTestBtn: document.getElementById('toggleSelfTestBtn'),
+        selfTestPanel: document.getElementById('selfTestPanel'),
+        runSelfTestBtn: document.getElementById('runSelfTestBtn'),
+        selfTestResultsContainer: document.getElementById('selfTestResultsContainer'),
         fontSizeRange: document.getElementById('fontSizeRange'),
         fontSizeValueLabel: document.getElementById('fontSizeValueLabel'),
         fontDecBtn: document.getElementById('fontDecBtn'),
@@ -782,7 +1709,9 @@
 
       const synthSupported = typeof window !== 'undefined' && 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
 
-      // Безопасная работа с localStorage
+      // =========================================================================
+      // МОДУЛЬ 4. ХРАНИЛИЩЕ И СОХРАНЕНИЕ ПОЗИЦИИ С THROTTLING
+      // =========================================================================
       function safeGetStorage(key) {
         try {
           const raw = window.localStorage.getItem(key);
@@ -796,13 +1725,13 @@
         try {
           window.localStorage.setItem(key, JSON.stringify(value));
         } catch (err) {
-          // Игнорируем переполнение или блокировку в приватном режиме
+          // Игнорируем блокировку в приватном режиме
         }
       }
 
-      // Всплывающее сообщение
       let toastTimeout = null;
       function showToast(message) {
+        if (!els.toastMessage || !els.toastNotification) return;
         els.toastMessage.textContent = message;
         els.toastNotification.classList.remove('hidden');
         if (toastTimeout) clearTimeout(toastTimeout);
@@ -811,12 +1740,12 @@
         }, 2800);
       }
 
-      // Показ уведомлений и ошибок
-      function showAlert(message, type = 'error') {
+      function showAlert(message, type) {
+        const kind = type || 'error';
         els.statusAlert.classList.remove('hidden', 'bg-rose-950/85', 'border-rose-500/50', 'text-rose-100', 'bg-amber-950/85', 'border-amber-500/50', 'text-amber-100', 'bg-sky-950/85', 'border-sky-500/50', 'text-sky-100');
-        if (type === 'error') {
+        if (kind === 'error') {
           els.statusAlert.classList.add('bg-rose-950/85', 'border-rose-500/50', 'text-rose-100');
-        } else if (type === 'warning') {
+        } else if (kind === 'warning') {
           els.statusAlert.classList.add('bg-amber-950/85', 'border-amber-500/50', 'text-amber-100');
         } else {
           els.statusAlert.classList.add('bg-sky-950/85', 'border-sky-500/50', 'text-sky-100');
@@ -828,299 +1757,8 @@
         els.statusAlert.classList.add('hidden');
       }
 
-      // Открытые голосовые профили (Open TTS Acoustic Presets на базе спецификаций Silero / Piper / RHVoice)
-      const OPEN_VOICE_PRESETS = [
-        {
-          voiceURI: 'open_preset_alena_ru',
-          name: 'Алёна — Мягкий нейро-профиль (Open Silero Style)',
-          lang: 'ru-RU',
-          pitchMod: 1.07,
-          rateMod: 1.0,
-          preferredGender: 'female',
-          badge: 'Открытый профиль RU'
-        },
-        {
-          voiceURI: 'open_preset_dmitry_ru',
-          name: 'Дмитрий — Глубокий дикторский баритон (Open Audiobook)',
-          lang: 'ru-RU',
-          pitchMod: 0.84,
-          rateMod: 0.96,
-          preferredGender: 'male',
-          badge: 'Открытый профиль RU'
-        },
-        {
-          voiceURI: 'open_preset_ksenia_ru',
-          name: 'Ксения — Чёткая академическая дикция (Open Piper Style)',
-          lang: 'ru-RU',
-          pitchMod: 1.13,
-          rateMod: 1.02,
-          preferredGender: 'female',
-          badge: 'Открытый профиль RU'
-        },
-        {
-          voiceURI: 'open_preset_alexander_ru',
-          name: 'Александр — Динамичный лектор (Open RHVoice Style)',
-          lang: 'ru-RU',
-          pitchMod: 0.91,
-          rateMod: 1.03,
-          preferredGender: 'male',
-          badge: 'Открытый профиль RU'
-        },
-        {
-          voiceURI: 'open_preset_elena_ru',
-          name: 'Елена — Тёплый художественный рассказчик (Open Storyteller)',
-          lang: 'ru-RU',
-          pitchMod: 1.02,
-          rateMod: 0.95,
-          preferredGender: 'female',
-          badge: 'Открытый профиль RU'
-        }
-      ];
-
-      // Встроенный словарь восстановления буквы «ё», ударений, сокращений и англоязычных терминов
-      const BUILTIN_PRONUNCIATION_MAP = {
-        // Сокращения в документах и книгах
-        'т.е.': 'то есть',
-        'т.д.': 'так далее',
-        'т.п.': 'тому подобное',
-        'и т.д.': 'и так далее',
-        'и т.п.': 'и тому подобное',
-        'др.': 'другие',
-        'пр.': 'прочее',
-        'см.': 'смотри',
-        'рис.': 'рисунок',
-        'табл.': 'таблица',
-        'стр.': 'страница',
-        'гл.': 'глава',
-        'разд.': 'раздел',
-        'п.': 'пункт',
-        'пп.': 'пункты',
-        'г.': 'год',
-        'гг.': 'годы',
-        'в.': 'век',
-        'вв.': 'века',
-        'руб.': 'рублей',
-        'тыс.': 'тысяч',
-        'млн': 'миллионов',
-        'млрд': 'миллиардов',
-        'км': 'километров',
-        'кг': 'килограммов',
-        'мг': 'миллиграммов',
-        'гц': 'герц',
-        'кгц': 'килогерц',
-        'мгц': 'мегагерц',
-        'гб': 'гигабайт',
-        'мб': 'мегабайт',
-        'кб': 'килобайт',
-        // IT, форматы и английские термины
-        'pdf': 'пэ-дэ-эф',
-        'pdf-файл': 'пэ-дэ-эф файл',
-        'pdf-файла': 'пэ-дэ-эф файла',
-        'pdf-файлы': 'пэ-дэ-эф файлы',
-        'pdf-документ': 'пэ-дэ-эф документ',
-        'pdf-документов': 'пэ-дэ-эф документов',
-        'pdf.js': 'пэ-дэ-эф джей-эс',
-        'txt': 'тэ-икс-тэ',
-        'html': 'аш-ти-эм-эль',
-        'html5': 'аш-ти-эм-эль пять',
-        'css': 'си-эс-эс',
-        'css3': 'си-эс-эс три',
-        'js': 'джей-эс',
-        'javascript': 'джаваскрипт',
-        'api': 'эй-пи-ай',
-        'web': 'веб',
-        'ios': 'ай-о-эс',
-        'iphone': 'айфон',
-        'ipad': 'айпад',
-        'macos': 'мак-о-эс',
-        'safari': 'сафари',
-        'chrome': 'хром',
-        'firefox': 'файрфокс',
-        'android': 'андроид',
-        'windows': 'виндовс',
-        'github': 'гитхаб',
-        'pages': 'пейджес',
-        'localstorage': 'локал сторидж',
-        'speechsynthesis': 'спич синтезис',
-        'wi-fi': 'вай-фай',
-        'wifi': 'вай-фай',
-        'usb': 'ю-эс-би',
-        'url': 'ю-эр-эл',
-        'vpn': 'вэ-пэ-эн',
-        'gps': 'джи-пи-эс',
-        'qr': 'кью-ар',
-        'ai': 'и-и',
-        'it': 'ай-ти',
-        // Римские цифры (часто встречаются в главах и веках)
-        'i': 'первый',
-        'ii': 'второй',
-        'iii': 'третий',
-        'iv': 'четвёртый',
-        'v': 'пятый',
-        'vi': 'шестой',
-        'vii': 'седьмой',
-        'viii': 'восьмой',
-        'ix': 'девятый',
-        'x': 'десятый',
-        'xi': 'одиннадцатый',
-        'xii': 'двенадцатый',
-        'xiii': 'тринадцатый',
-        'xiv': 'четырнадцатый',
-        'xv': 'пятнадцатый',
-        'xvi': 'шестнадцатый',
-        'xvii': 'семнадцатый',
-        'xviii': 'восемнадцатый',
-        'xix': 'девятнадцатый',
-        'xx': 'двадцатый',
-        'xxi': 'двадцать первый',
-        // Восстановление буквы «ё» для естественного русского произношения
-        'еще': 'ещё',
-        'ее': 'её',
-        'объем': 'объём',
-        'объема': 'объёма',
-        'объеме': 'объёме',
-        'прием': 'приём',
-        'приема': 'приёма',
-        'счет': 'счёт',
-        'расчет': 'расчёт',
-        'отчет': 'отчёт',
-        'включен': 'включён',
-        'включена': 'включена',
-        'включенный': 'включённый',
-        'защищен': 'защищён',
-        'защищенных': 'защищённых',
-        'сохранен': 'сохранён',
-        'сохраненной': 'сохранённой',
-        'сохраненную': 'сохранённую',
-        'извлечен': 'извлечён',
-        'извлеченный': 'извлечённый',
-        'переведен': 'переведён',
-        'найдет': 'найдёт',
-        'идет': 'идёт',
-        'придет': 'придёт',
-        'ведет': 'ведёт',
-        'берет': 'берёт',
-        'дает': 'даёт',
-        'создает': 'создаёт',
-        'узнает': 'узнаёт',
-        'поет': 'поёт',
-        'живет': 'живёт',
-        'начнет': 'начнёт',
-        'перелистнет': 'перелистнёт',
-        'темный': 'тёмный',
-        'темная': 'тёмная',
-        'темном': 'тёмном',
-        'теплый': 'тёплый',
-        'тепis': 'тёплый',
-        'желтый': 'жёлтый',
-        'желтым': 'жёлтым',
-        'четкий': 'чёткий',
-        'четкая': 'чёткая',
-        'трех': 'трёх',
-        'четырех': 'четырёх',
-        'звезд': 'звёзд',
-        'звезды': 'звёзды',
-        'всех': 'всех',
-        'впрочем': 'впрочем'
-      };
-
-      // Склейка разорванных переносами слов из PDF
-      function dehyphenateText(text) {
-        if (!text) return '';
-        return text
-          .replace(/­/g, '') // удаляем мягкие переносы
-          .replace(/([а-яёa-z])-\s*\n\s*([а-яёa-z])/gi, '$1$2');
-      }
-
-      // Фонетическая нормализация отдельного слова перед отправкой в синтезатор речи
-      function normalizeWordForSpeech(rawWord) {
-        if (!rawWord || !state.smartPronunciation) return rawWord;
-
-        // Отделяем ведущую и завершающую пунктуацию, сохраняя интонационные знаки
-        const match = rawWord.match(/^([«"(\[{]*)(.*?)([»")\]}.,!?;:…]*)$/);
-        if (!match) return rawWord;
-
-        const prefixPunct = match[1] || '';
-        const core = match[2] || '';
-        const suffixPunct = match[3] || '';
-
-        if (!core) return rawWord;
-
-        // Символы №, §, %
-        if (core === '№') return 'номер';
-        if (core === '§') return 'параграф';
-        if (/^\d+%$/.test(core)) {
-          return prefixPunct + core.replace('%', ' процентов') + suffixPunct;
-        }
-        if (/^\d+(\.\d+)?x$/i.test(core)) {
-          return prefixPunct + core.slice(0, -1).replace('.', ' и ') + ' икс' + suffixPunct;
-        }
-
-        const lowerCore = core.toLowerCase();
-        const lowerWithDot = (core + (suffixPunct.startsWith('.') ? '.' : '')).toLowerCase();
-
-        // 1. Проверяем пользовательский словарь
-        if (state.customDict && state.customDict[lowerCore]) {
-          return prefixPunct + state.customDict[lowerCore] + suffixPunct;
-        }
-        if (state.customDict && state.customDict[lowerWithDot]) {
-          return prefixPunct + state.customDict[lowerWithDot] + suffixPunct.slice(1);
-        }
-
-        // 2. Проверяем сокращения с точкой (например, «стр.», «т.е.», «г.»)
-        if (suffixPunct.startsWith('.') && BUILTIN_PRONUNCIATION_MAP[lowerWithDot]) {
-          return prefixPunct + BUILTIN_PRONUNCIATION_MAP[lowerWithDot] + suffixPunct.slice(1);
-        }
-
-        // 3. Для римских цифр проверяем, что в оригинале все буквы были ЗАГЛАВНЫМИ (например XXI, IV)
-        const isRomanUpper = /^[IVXLCDM]+$/.test(core);
-        if (isRomanUpper && BUILTIN_PRONUNCIATION_MAP[lowerCore]) {
-          return prefixPunct + BUILTIN_PRONUNCIATION_MAP[lowerCore] + suffixPunct;
-        }
-
-        // 4. Проверяем основную карту произношения (кроме римских в нижнем регистре)
-        if (!/^[ivxlcdm]+$/.test(lowerCore) || isRomanUpper) {
-          if (BUILTIN_PRONUNCIATION_MAP[lowerCore]) {
-            return prefixPunct + BUILTIN_PRONUNCIATION_MAP[lowerCore] + suffixPunct;
-          }
-        }
-
-        return rawWord;
-      }
-
-      function renderCustomDictTags() {
-        if (!els.customDictTagsContainer) return;
-        els.customDictTagsContainer.innerHTML = '';
-        const entries = Object.entries(state.customDict || {});
-        if (entries.length === 0) {
-          const hint = document.createElement('span');
-          hint.className = 'text-slate-500 italic';
-          hint.textContent = 'Пользовательских правил пока нет (активны 95+ встроенных правил произношения RU).';
-          els.customDictTagsContainer.appendChild(hint);
-          return;
-        }
-        entries.forEach(([fromKey, toVal]) => {
-          const badge = document.createElement('span');
-          badge.className = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-slate-200';
-          badge.innerHTML = `<strong class="text-sky-400">${fromKey}</strong> → <span class="text-emerald-300">${toVal}</span>`;
-          const delBtn = document.createElement('button');
-          delBtn.type = 'button';
-          delBtn.className = 'ml-1 text-slate-400 hover:text-rose-400';
-          delBtn.textContent = '✕';
-          delBtn.addEventListener('click', () => {
-            delete state.customDict[fromKey];
-            saveGlobalSettings();
-            renderCustomDictTags();
-            showToast(`Правило «${fromKey}» удалено`);
-          });
-          badge.appendChild(delBtn);
-          els.customDictTagsContainer.appendChild(badge);
-        });
-      }
-
-      // Загрузка глобальных настроек
       function loadGlobalSettings() {
-        const saved = safeGetStorage(STORAGE_GLOBAL_KEY);
+        const saved = safeGetStorage(STORAGE_GLOBAL_KEY) || safeGetStorage(STORAGE_LEGACY_KEY);
         if (saved) {
           if (typeof saved.rate === 'number' && saved.rate >= 0.5 && saved.rate <= 2.0) {
             state.rate = saved.rate;
@@ -1149,7 +1787,11 @@
           if (typeof saved.nightComfort === 'boolean') {
             state.nightComfort = saved.nightComfort;
           }
-          if (typeof saved.selectedVoiceURI === 'string') {
+          if (typeof saved.readingPreset === 'string' && READING_STYLE_PRESETS[saved.readingPreset]) {
+            state.readingPreset = saved.readingPreset;
+          }
+          // Не сохраняем старые фиктивные URI вида open_preset_*
+          if (typeof saved.selectedVoiceURI === 'string' && !saved.selectedVoiceURI.startsWith('open_preset_')) {
             state.selectedVoiceURI = saved.selectedVoiceURI;
           }
         }
@@ -1166,19 +1808,40 @@
           continuousReading: state.continuousReading,
           autoScrollV2: state.autoScroll,
           nightComfort: state.nightComfort,
+          readingPreset: state.readingPreset,
           selectedVoiceURI: state.selectedVoiceURI,
           customDict: state.customDict
         });
       }
 
-      function saveDocumentProgress() {
+      // Немедленное или троттлинг-сохранение прогресса чтения
+      function saveDocumentProgress(immediate) {
         if (!state.fileKey) return;
-        safeSetStorage(STORAGE_DOC_PREFIX + state.fileKey, {
-          fileName: state.fileName,
-          page: state.currentPage,
-          wordIndex: state.currentWordIndex,
-          updatedAt: Date.now()
-        });
+        const writeNow = () => {
+          state.lastSavedProgressAt = Date.now();
+          if (state.saveProgressTimer) {
+            clearTimeout(state.saveProgressTimer);
+            state.saveProgressTimer = null;
+          }
+          safeSetStorage(STORAGE_DOC_PREFIX + state.fileKey, {
+            fileName: state.fileName,
+            page: state.currentPage,
+            wordIndex: state.currentWordIndex,
+            updatedAt: state.lastSavedProgressAt
+          });
+        };
+
+        if (immediate) {
+          writeNow();
+          return;
+        }
+
+        const elapsed = Date.now() - state.lastSavedProgressAt;
+        if (elapsed >= 2500) {
+          writeNow();
+        } else if (!state.saveProgressTimer) {
+          state.saveProgressTimer = setTimeout(writeNow, 2500 - elapsed);
+        }
       }
 
       function getSavedDocumentProgress(fileKey) {
@@ -1186,11 +1849,59 @@
         return safeGetStorage(STORAGE_DOC_PREFIX + fileKey);
       }
 
+      // Безопасная отрисовка пользовательского словаря через DOM API (без innerHTML для пользовательских данных)
+      function renderCustomDictTags() {
+        if (!els.customDictTagsContainer) return;
+        els.customDictTagsContainer.textContent = '';
+        const entries = Object.entries(state.customDict || {});
+        if (entries.length === 0) {
+          const hint = document.createElement('span');
+          hint.className = 'text-slate-500 italic';
+          hint.textContent = 'Пользовательских правил пока нет. Добавьте свои сокращения или сложные термины выше.';
+          els.customDictTagsContainer.appendChild(hint);
+          return;
+        }
+
+        entries.forEach(([fromKey, toVal]) => {
+          const badge = document.createElement('span');
+          badge.className = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-slate-200';
+
+          const fromStrong = document.createElement('strong');
+          fromStrong.className = 'text-sky-400';
+          fromStrong.textContent = fromKey;
+
+          const arrow = document.createTextNode(' → ');
+
+          const toSpan = document.createElement('span');
+          toSpan.className = 'text-emerald-300';
+          toSpan.textContent = toVal;
+
+          const delBtn = document.createElement('button');
+          delBtn.type = 'button';
+          delBtn.className = 'ml-1 text-slate-400 hover:text-rose-400';
+          delBtn.textContent = '✕';
+          delBtn.setAttribute('aria-label', 'Удалить правило ' + fromKey);
+          delBtn.addEventListener('click', () => {
+            delete state.customDict[fromKey];
+            saveGlobalSettings();
+            renderCustomDictTags();
+            showToast('Правило «' + fromKey + '» удалено');
+          });
+
+          badge.appendChild(fromStrong);
+          badge.appendChild(arrow);
+          badge.appendChild(toSpan);
+          badge.appendChild(delBtn);
+          els.customDictTagsContainer.appendChild(badge);
+        });
+      }
+
       function applySettingsToUI() {
         els.rateRange.value = state.rate.toFixed(1);
         els.rateValueLabel.textContent = state.rate.toFixed(1) + 'x';
         if (els.pitchRange) els.pitchRange.value = state.pitch.toFixed(2);
         if (els.pitchValueLabel) els.pitchValueLabel.textContent = state.pitch.toFixed(2);
+        if (els.readingPresetSelect) els.readingPresetSelect.value = state.readingPreset;
         els.fontSizeRange.value = String(state.fontSize);
         els.fontSizeValueLabel.textContent = state.fontSize + 'px';
         els.readerTextContainer.style.fontSize = state.fontSize + 'px';
@@ -1207,64 +1918,67 @@
         }
       }
 
-      // Определение русских голосов
+      // =========================================================================
+      // МОДУЛЬ 5. ЧЕСТНОЕ УПРАВЛЕНИЕ СИСТЕМНЫМИ ГОЛОСАМИ БРАУЗЕРА
+      // =========================================================================
       function isRussianVoice(v) {
-        const lang = (v.lang || '').toLowerCase();
-        const name = (v.name || '').toLowerCase();
-        return lang.startsWith('ru') || name.includes('russian') || name.includes('русск') || name.includes('milena') || name.includes('yuri') || name.includes('katya') || name.includes('irina') || name.includes('pavel') || name.includes('maxim') || name.includes('tatyana') || name.includes('siberian');
+        const lang = ((v && v.lang) || '').toLowerCase();
+        return lang === 'ru' || lang.startsWith('ru-') || lang.startsWith('ru_');
       }
 
-      // Инициализация открытых голосовых профилей + системных голосов браузера (русские первыми)
+      let missingVoiceNotified = false;
+
       function populateVoices() {
         if (!synthSupported) {
-          els.voiceSelect.innerHTML = '<option value="">Синтез речи не поддерживается браузером</option>';
+          els.voiceSelect.textContent = '';
+          const opt = document.createElement('option');
+          opt.value = '';
+          opt.textContent = 'Синтез речи не поддерживается браузером';
+          els.voiceSelect.appendChild(opt);
           els.voiceCountBadge.textContent = 'Не поддерживается';
           showAlert('Ваш браузер не поддерживает Web Speech API (speechSynthesis). Чтение текста глазами и экспорт доступны, но озвучивание недоступно.', 'warning');
           return;
         }
 
         const rawVoices = window.speechSynthesis.getVoices() || [];
+        if (rawVoices.length === 0) {
+          els.voiceSelect.textContent = '';
+          const opt = document.createElement('option');
+          opt.value = '';
+          opt.textContent = 'Ожидание загрузки системных голосов...';
+          els.voiceSelect.appendChild(opt);
+          els.voiceCountBadge.textContent = 'Голосов: 0';
+          return;
+        }
+
         const sorted = [...rawVoices].sort((a, b) => {
           const aRu = isRussianVoice(a);
           const bRu = isRussianVoice(b);
           if (aRu && !bRu) return -1;
           if (!aRu && bRu) return 1;
-          // Предпочитаем Natural / Online / Premium голоса выше стандартных
-          const aHigh = /natural|online|premium|enhanced|google|microsoft|siri/i.test(a.name || '');
-          const bHigh = /natural|online|premium|enhanced|google|microsoft|siri/i.test(b.name || '');
-          if (aHigh && !bHigh) return -1;
-          if (!aHigh && bHigh) return 1;
+          if (a.default && !b.default) return -1;
+          if (!a.default && b.default) return 1;
           return (a.name || '').localeCompare(b.name || '', 'ru');
         });
 
         state.voices = sorted;
-        els.voiceSelect.innerHTML = '';
+        els.voiceSelect.textContent = '';
 
-        // 1. Группа открытых студийных профилей (Open TTS Acoustic Presets RU)
-        const openGroup = document.createElement('optgroup');
-        openGroup.label = '🎙️ Открытые голосовые профили (Open TTS RU + Фонетика)';
-        OPEN_VOICE_PRESETS.forEach((preset) => {
-          const opt = document.createElement('option');
-          opt.value = preset.voiceURI;
-          opt.textContent = `✨ ${preset.name}`;
-          openGroup.appendChild(opt);
-        });
-        els.voiceSelect.appendChild(openGroup);
-
-        // 2. Группа русскоязычных голосов браузера и ОС
-        let ruCount = 0;
         const ruGroup = document.createElement('optgroup');
-        ruGroup.label = '🇷🇺 Русскоязычные голоса устройства / браузера';
+        ruGroup.label = 'Русскоязычные голоса (ru)';
         const otherGroup = document.createElement('optgroup');
-        otherGroup.label = '🌍 Другие доступные голоса системы';
+        otherGroup.label = 'Другие языки системы';
 
+        let ruCount = 0;
         sorted.forEach((voice) => {
           const ru = isRussianVoice(voice);
           if (ru) ruCount++;
           const option = document.createElement('option');
           option.value = voice.voiceURI;
-          const qualityTag = /natural|online|premium|enhanced/i.test(voice.name || '') ? ' • HD' : (voice.localService ? ' • локальный' : '');
-          option.textContent = `${ru ? '🇷🇺 ' : ''}${voice.name} (${voice.lang}${qualityTag})`;
+          const tags = [voice.lang || 'unknown'];
+          if (voice.localService) tags.push('локальный');
+          if (voice.default) tags.push('по умолчанию');
+          option.textContent = (voice.name || voice.voiceURI) + ' (' + tags.join(', ') + ')';
           if (ru) {
             ruGroup.appendChild(option);
           } else {
@@ -1272,69 +1986,154 @@
           }
         });
 
-        if (ruGroup.children.length > 0) {
+        state.hasRussianVoice = ruCount > 0;
+
+        if (ruCount > 0) {
           els.voiceSelect.appendChild(ruGroup);
         }
         if (otherGroup.children.length > 0) {
           els.voiceSelect.appendChild(otherGroup);
         }
 
-        const totalAvailable = OPEN_VOICE_PRESETS.length + sorted.length;
-        els.voiceCountBadge.textContent = `Профилей RU: ${OPEN_VOICE_PRESETS.length} • Системных: ${sorted.length} (RU: ${ruCount})`;
+        els.voiceCountBadge.textContent = 'Доступно голосов: ' + sorted.length + ' (русских: ' + ruCount + ')';
 
-        // Восстановление выбранного голоса или выбор открытого профиля Алёна RU
-        const isPresetSaved = OPEN_VOICE_PRESETS.some((p) => p.voiceURI === state.selectedVoiceURI);
-        const isSystemSaved = sorted.some((v) => v.voiceURI === state.selectedVoiceURI);
-        if (isPresetSaved || isSystemSaved) {
-          els.voiceSelect.value = state.selectedVoiceURI;
+        if (ruCount === 0) {
+          showAlert('В вашем браузере не обнаружено русскоязычных голосов (ru). Иностранный голос не сможет корректно читать русский текст. Установите русский голосовой пакет в настройках вашей ОС.', 'warning');
+        }
+
+        // Сохраняем текущий выбор пользователя или восстанавливаем сохранённый voiceURI
+        const desiredURI = state.selectedVoiceURI;
+        const foundSaved = desiredURI ? sorted.find((v) => v.voiceURI === desiredURI) : null;
+
+        if (foundSaved) {
+          els.voiceSelect.value = foundSaved.voiceURI;
         } else {
-          state.selectedVoiceURI = OPEN_VOICE_PRESETS[0].voiceURI;
-          els.voiceSelect.value = state.selectedVoiceURI;
-          saveGlobalSettings();
+          const fallbackVoice = sorted.find(isRussianVoice) || sorted.find((v) => v.default) || sorted[0];
+          if (desiredURI && !missingVoiceNotified && fallbackVoice) {
+            missingVoiceNotified = true;
+            showToast('Сохранённый ранее голос недоступен на этом устройстве. Выбран: ' + fallbackVoice.name);
+          }
+          if (fallbackVoice) {
+            state.selectedVoiceURI = fallbackVoice.voiceURI;
+            els.voiceSelect.value = fallbackVoice.voiceURI;
+            saveGlobalSettings();
+          }
         }
       }
 
-      // Получение базового голоса и акустических модификаторов (для открытых профилей и системных голосов)
       function getSelectedVoiceConfig() {
-        const preset = OPEN_VOICE_PRESETS.find((p) => p.voiceURI === state.selectedVoiceURI);
-        const ruVoices = state.voices.filter(isRussianVoice);
-
-        if (preset) {
-          let matchedVoice = null;
-          if (ruVoices.length > 0) {
-            if (preset.preferredGender === 'male') {
-              matchedVoice = ruVoices.find((v) => /yuri|pavel|maxim|dmitry|male|муж/i.test(v.name || '')) || ruVoices[ruVoices.length - 1];
-            } else {
-              matchedVoice = ruVoices.find((v) => /milena|katya|irina|tatyana|svetlana|alena|elena|female|жен|google/i.test(v.name || '')) || ruVoices[0];
-            }
-          } else if (state.voices.length > 0) {
-            matchedVoice = state.voices[0];
-          }
-          return {
-            voice: matchedVoice,
-            lang: preset.lang,
-            pitch: Math.max(0.5, Math.min(1.6, +(state.pitch * preset.pitchMod).toFixed(2))),
-            rate: Math.max(0.5, Math.min(2.0, +(state.rate * preset.rateMod).toFixed(2))),
-            presetName: preset.name
-          };
-        }
-
-        const sysVoice = state.voices.find((v) => v.voiceURI === state.selectedVoiceURI) || ruVoices[0] || state.voices[0] || null;
+        const selectedVoice = state.voices.find((v) => v.voiceURI === state.selectedVoiceURI) || null;
         return {
-          voice: sysVoice,
-          lang: (sysVoice && sysVoice.lang) ? sysVoice.lang : 'ru-RU',
+          voice: selectedVoice,
+          lang: (selectedVoice && selectedVoice.lang) ? selectedVoice.lang : 'ru-RU',
           pitch: state.pitch,
           rate: state.rate,
-          presetName: sysVoice ? sysVoice.name : 'Системный'
+          voiceName: selectedVoice ? selectedVoice.name : 'Системный голос по умолчанию'
         };
       }
 
-      // Обновление индикатора состояния чтения
+      // =========================================================================
+      // МОДУЛЬ 6. ПОДСВЕТКА ТОКЕНОВ И ДИАПАЗОНОВ (O(1) БЕЗ ПОЛНОГО ОБХОДА DOM)
+      // =========================================================================
+      function clearWordHighlights() {
+        if (state.activeHighlightRange) {
+          const { startIdx, endIdx } = state.activeHighlightRange;
+          for (let i = startIdx; i <= endIdx; i++) {
+            const w = state.words[i];
+            if (w && w.el) {
+              w.el.classList.remove('active-word', 'active-phrase-fallback', 'selected-start-word');
+            }
+          }
+          state.activeHighlightRange = null;
+        }
+        if (state.selectedStartIndex !== null) {
+          const sw = state.words[state.selectedStartIndex];
+          if (sw && sw.el) {
+            sw.el.classList.remove('selected-start-word', 'active-word');
+          }
+          state.selectedStartIndex = null;
+        }
+      }
+
+      // Подсветка диапазона исходных токенов [startIdx..endIdx] за O(k) без обхода всех слов страницы
+      function highlightTokenRange(startIdx, endIdx, options) {
+        if (state.words.length === 0) return;
+        const opts = options || {};
+        const shouldScroll = opts.scroll !== false;
+        const isFallbackPhrase = !!opts.isFallbackPhrase;
+
+        const safeStart = Math.max(0, Math.min(startIdx, state.words.length - 1));
+        const safeEnd = Math.max(safeStart, Math.min(endIdx !== undefined ? endIdx : safeStart, state.words.length - 1));
+
+        // Снимаем классы только с предыдущего активного диапазона
+        if (state.activeHighlightRange) {
+          const prev = state.activeHighlightRange;
+          for (let i = prev.startIdx; i <= prev.endIdx; i++) {
+            const w = state.words[i];
+            if (w && w.el) {
+              w.el.classList.remove('active-word', 'active-phrase-fallback', 'selected-start-word');
+            }
+          }
+        }
+        if (state.selectedStartIndex !== null) {
+          const sw = state.words[state.selectedStartIndex];
+          if (sw && sw.el) {
+            sw.el.classList.remove('selected-start-word');
+          }
+        }
+
+        state.currentWordIndex = safeStart;
+
+        if (state.isSpeaking) {
+          for (let i = safeStart; i <= safeEnd; i++) {
+            const w = state.words[i];
+            if (!w || !w.el) continue;
+            if (isFallbackPhrase && safeEnd > safeStart) {
+              w.el.classList.add('active-phrase-fallback');
+            } else {
+              w.el.classList.add('active-word');
+            }
+          }
+          state.activeHighlightRange = { startIdx: safeStart, endIdx: safeEnd, isFallbackPhrase: isFallbackPhrase };
+        } else {
+          const w = state.words[safeStart];
+          if (w && w.el) {
+            w.el.classList.add('selected-start-word');
+          }
+          state.selectedStartIndex = safeStart;
+          state.activeHighlightRange = { startIdx: safeStart, endIdx: safeStart, isFallbackPhrase: false };
+        }
+
+        const targetEl = state.words[safeStart] && state.words[safeStart].el;
+        if (shouldScroll && state.autoScroll && targetEl && els.readerScrollContainer) {
+          const container = els.readerScrollContainer;
+          const containerRect = container.getBoundingClientRect();
+          const wordRect = targetEl.getBoundingClientRect();
+          const isAbove = wordRect.top < containerRect.top + 36;
+          const isBelow = wordRect.bottom > containerRect.bottom - 36;
+          if (isAbove || isBelow) {
+            const offsetInside = (wordRect.top - containerRect.top) + container.scrollTop;
+            const targetScrollTop = Math.max(0, offsetInside - container.clientHeight / 2);
+            container.scrollTo({
+              top: targetScrollTop,
+              behavior: 'smooth'
+            });
+          }
+        }
+
+        updateSpeechStatusUI();
+        saveDocumentProgress(false);
+      }
+
+      function highlightWord(wordIndex, scroll) {
+        highlightTokenRange(wordIndex, wordIndex, { scroll: scroll });
+      }
+
       function updateSpeechStatusUI() {
         const hasWords = state.words.length > 0;
         const currentWordNum = hasWords ? Math.min(state.currentWordIndex + 1, state.words.length) : 0;
         els.readingProgressText.textContent = hasWords
-          ? `слово ${currentWordNum} из ${state.words.length}`
+          ? 'слово ' + currentWordNum + ' из ' + state.words.length
           : 'слово 0 из 0';
 
         if (els.readingProgressBarFill) {
@@ -1345,7 +2144,9 @@
         if (state.isSpeaking && !state.isPaused) {
           els.speechStateDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
           if (els.speechEqualizer) els.speechEqualizer.className = 'speech-eq speaking text-emerald-400';
-          els.speechStateLabel.textContent = 'Идёт озвучивание...';
+          els.speechStateLabel.textContent = state.usingApproxHighlight
+            ? 'Читает (приблиз. подсветка)'
+            : 'Идёт озвучивание...';
           els.pauseResumeBtn.disabled = false;
           els.pauseResumeBtnText.textContent = 'Пауза';
           els.stopBtn.disabled = false;
@@ -1369,159 +2170,80 @@
         }
       }
 
-      // Подсветка активного слова и плавная прокрутка
-      function highlightWord(wordIndex, scroll = true) {
-        if (state.words.length === 0) return;
-        const boundedIdx = Math.max(0, Math.min(wordIndex, state.words.length - 1));
-        state.currentWordIndex = boundedIdx;
-
-        for (let i = 0; i < state.words.length; i++) {
-          const el = state.words[i].el;
-          if (!el) continue;
-          if (i === boundedIdx) {
-            if (state.isSpeaking) {
-              el.classList.add('active-word');
-              el.classList.remove('selected-start-word');
-            } else {
-              el.classList.remove('active-word');
-              el.classList.add('selected-start-word');
-            }
-          } else {
-            el.classList.remove('active-word', 'selected-start-word');
-          }
-        }
-
-        const targetEl = state.words[boundedIdx] && state.words[boundedIdx].el;
-        if (scroll && state.autoScroll && targetEl && els.readerScrollContainer) {
-          // Прокручиваем только внутренний контейнер текста, никогда не дёргая всю страницу браузера
-          const container = els.readerScrollContainer;
-          const containerRect = container.getBoundingClientRect();
-          const wordRect = targetEl.getBoundingClientRect();
-          const isAbove = wordRect.top < containerRect.top + 36;
-          const isBelow = wordRect.bottom > containerRect.bottom - 36;
-          if (isAbove || isBelow) {
-            const offsetInside = (wordRect.top - containerRect.top) + container.scrollTop;
-            const targetScrollTop = Math.max(0, offsetInside - container.clientHeight / 2);
-            container.scrollTo({
-              top: targetScrollTop,
-              behavior: 'smooth'
-            });
-          }
-        }
-
-        updateSpeechStatusUI();
-        saveDocumentProgress();
-      }
-
-      function clearWordHighlights() {
-        for (let i = 0; i < state.words.length; i++) {
-          const el = state.words[i].el;
-          if (el) {
-            el.classList.remove('active-word', 'selected-start-word');
-          }
-        }
-      }
-
-      // Остановка синтеза речи
-      function stopSpeech(resetHighlightToSelected = true) {
-        state.speechSessionId++;
-        if (state.fallbackTimer) {
-          clearInterval(state.fallbackTimer);
-          state.fallbackTimer = null;
-        }
-        if (synthSupported) {
-          try {
-            window.speechSynthesis.cancel();
-          } catch (e) {}
-        }
-        state.activeUtterance = null;
-        state.isSpeaking = false;
-        state.isPaused = false;
-
-        if (resetHighlightToSelected && state.words.length > 0) {
-          highlightWord(state.currentWordIndex, false);
-        } else {
-          clearWordHighlights();
-        }
-        updateSpeechStatusUI();
-      }
-
-      // Разбиение текста страницы на абзацы, слова и осмысленные фразы для плавного чтения
-      function renderPageTextToDOM(rawText) {
-        state.pageRawText = rawText || '';
+      // =========================================================================
+      // МОДУЛЬ 7. ОТРИСОВКА ТЕКСТА СТРАНИЦЫ И ПОСТРОЕНИЕ СЕГМЕНТОВ
+      // =========================================================================
+      function renderPageParagraphsToDOM(paragraphsArray, rawPageText) {
+        state.pageRawText = rawPageText || (paragraphsArray || []).join('\n\n');
+        state.paragraphs = paragraphsArray || [];
         state.words = [];
         state.phrases = [];
+        state.activeHighlightRange = null;
+        state.selectedStartIndex = null;
         state.searchMatches = [];
         state.searchCurrentPos = -1;
         els.searchCountLabel.textContent = '0/0';
-        els.readerTextContainer.innerHTML = '';
+        els.readerTextContainer.textContent = '';
         els.readerTextContainer.classList.remove('page-fade-anim');
         void els.readerTextContainer.offsetWidth;
         els.readerTextContainer.classList.add('page-fade-anim');
 
-        const trimmed = state.pageRawText.trim();
-        if (!trimmed) {
+        const nonEmptyParas = state.paragraphs.map((p) => p.replace(/\s+/g, ' ').trim()).filter(Boolean);
+        if (nonEmptyParas.length === 0) {
           const emptyMsg = document.createElement('div');
           emptyMsg.className = 'py-12 px-4 text-center space-y-2 font-sans text-amber-300';
-          emptyMsg.innerHTML = `
-            <p class="text-base font-semibold">На этой странице не обнаружено извлекаемого текста.</p>
-            <p class="text-xs text-slate-400 max-w-md mx-auto">Возможно, эта страница состоит только из отсканированных изображений или графики. Перейдите на другую страницу документа.</p>
-          `;
+          const titleP = document.createElement('p');
+          titleP.className = 'text-base font-semibold';
+          titleP.textContent = 'На этой странице не обнаружено извлекаемого текстового слоя.';
+          const subP = document.createElement('p');
+          subP.className = 'text-xs text-slate-400 max-w-md mx-auto';
+          subP.textContent = 'Страница может быть отсканированным изображением. Оптическое распознавание (OCR) в браузерной версии без сервера не используется.';
+          emptyMsg.appendChild(titleP);
+          emptyMsg.appendChild(subP);
           els.readerTextContainer.appendChild(emptyMsg);
-          els.pageMetaBadge.textContent = `Страница ${state.currentPage} • 0 слов`;
+          els.pageMetaBadge.textContent = 'Страница ' + state.currentPage + ' • 0 слов';
           updateSpeechStatusUI();
           return;
         }
 
-        // Разделяем на абзацы
-        const paragraphs = trimmed.split(/\n\s*\n+|\r\n\s*\r\n+/);
         let globalWordIndex = 0;
 
-        paragraphs.forEach((paraText) => {
-          const cleanPara = paraText.replace(/\s+/g, ' ').trim();
-          if (!cleanPara) return;
-
+        nonEmptyParas.forEach((cleanPara, pIdx) => {
           const pEl = document.createElement('p');
           pEl.className = 'mb-4 last:mb-0';
 
-          const tokens = cleanPara.split(' ');
-          tokens.forEach((token, idx) => {
-            if (!token) return;
+          const rawTokens = cleanPara.split(' ').filter(Boolean);
+          rawTokens.forEach((tokenStr, idx) => {
             const span = document.createElement('span');
             span.className = 'reader-word';
-            span.textContent = token;
+            span.textContent = tokenStr;
             const wordIdx = globalWordIndex++;
             span.dataset.index = String(wordIdx);
 
-            span.addEventListener('click', () => {
-              onWordClicked(wordIdx);
-            });
-
             pEl.appendChild(span);
-            if (idx < tokens.length - 1) {
+            if (idx < rawTokens.length - 1) {
               pEl.appendChild(document.createTextNode(' '));
             }
 
             state.words.push({
-              text: token,
+              text: tokenStr,
               index: wordIdx,
               el: span,
               phraseIdx: 0,
-              charStartInPhrase: 0,
-              charEndInPhrase: token.length
+              paragraphIdx: pIdx
             });
           });
 
           els.readerTextContainer.appendChild(pEl);
         });
 
-        // Группируем слова в осмысленные фразы (до ~22 слов или до знака конца предложения)
         buildPhrasesFromWords();
 
-        els.pageMetaBadge.textContent = `Страница ${state.currentPage} из ${state.totalPages} • Слов: ${state.words.length}`;
+        els.pageMetaBadge.textContent =
+          'Страница ' + state.currentPage + ' из ' + state.totalPages +
+          ' • Предложений: ' + state.phrases.length + ' • Слов: ' + state.words.length;
         updateSpeechStatusUI();
 
-        // Если в поле поиска уже введён запрос, обновим подсветку
         if (els.searchInput.value.trim()) {
           performSearchOnPage(els.searchInput.value.trim(), false);
         }
@@ -1531,51 +2253,72 @@
         state.phrases = [];
         if (state.words.length === 0) return;
 
-        let currentWords = [];
-        const flushPhrase = () => {
-          if (currentWords.length === 0) return;
-          const phraseIdx = state.phrases.length;
-          let charCursor = 0;
-          const wordOffsets = [];
-          const parts = [];
-
-          currentWords.forEach((w, i) => {
-            const start = charCursor;
-            const end = start + w.text.length;
-            w.phraseIdx = phraseIdx;
-            w.charStartInPhrase = start;
-            w.charEndInPhrase = end;
-            wordOffsets.push({
-              wordIdx: w.index,
-              start,
-              end
-            });
-            parts.push(w.text);
-            charCursor = end + 1; // +1 за пробел
-          });
-
-          state.phrases.push({
-            text: parts.join(' '),
-            startWordIdx: currentWords[0].index,
-            endWordIdx: currentWords[currentWords.length - 1].index,
-            wordOffsets
-          });
-          currentWords = [];
-        };
-
+        // Группируем токены по абзацам, чтобы сегментация никогда не склеивала разные абзацы
+        const byParagraph = new Map();
         for (let i = 0; i < state.words.length; i++) {
           const w = state.words[i];
-          currentWords.push(w);
-          const endsSentence = /[.!?;:…]+["»)]*$/.test(w.text);
-          const endsClause = /[,—–]+$/.test(w.text) && currentWords.length >= 12;
-          if (endsSentence || endsClause || currentWords.length >= 24) {
-            flushPhrase();
+          if (!byParagraph.has(w.paragraphIdx)) {
+            byParagraph.set(w.paragraphIdx, []);
           }
+          byParagraph.get(w.paragraphIdx).push(w);
         }
-        flushPhrase();
+
+        byParagraph.forEach((paraTokens, pIdx) => {
+          const sentenceArrays = SentenceSegmenter.segmentParagraphTokens(paraTokens, 55);
+          sentenceArrays.forEach((sentTokens) => {
+            if (!sentTokens || sentTokens.length === 0) return;
+            const phraseIdx = state.phrases.length;
+            sentTokens.forEach((w) => {
+              w.phraseIdx = phraseIdx;
+            });
+            state.phrases.push({
+              tokens: sentTokens,
+              startWordIdx: sentTokens[0].index,
+              endWordIdx: sentTokens[sentTokens.length - 1].index,
+              paragraphIdx: pIdx
+            });
+          });
+        });
       }
 
-      // Обработчик клика по любому слову
+      // =========================================================================
+      // МОДУЛЬ 8. УПРАВЛЕНИЕ СЕССИЕЙ СИНТЕЗА И СИНХРОНИЗАЦИЕЙ ПОДСВЕТКИ
+      // =========================================================================
+      function stopSpeech(resetHighlightToSelected) {
+        state.speechSessionId++;
+        if (state.sliderRestartDebounceTimer) {
+          clearTimeout(state.sliderRestartDebounceTimer);
+          state.sliderRestartDebounceTimer = null;
+        }
+        if (state.fallbackTimer) {
+          clearInterval(state.fallbackTimer);
+          state.fallbackTimer = null;
+        }
+        if (synthSupported) {
+          try {
+            window.speechSynthesis.cancel();
+          } catch (e) {}
+        }
+        if (state.activeUtterance) {
+          state.activeUtterance.onstart = null;
+          state.activeUtterance.onboundary = null;
+          state.activeUtterance.onend = null;
+          state.activeUtterance.onerror = null;
+          state.activeUtterance = null;
+        }
+        state.isSpeaking = false;
+        state.isPaused = false;
+        state.usingApproxHighlight = false;
+
+        if (resetHighlightToSelected && state.words.length > 0) {
+          highlightWord(state.currentWordIndex, false);
+        } else {
+          clearWordHighlights();
+        }
+        saveDocumentProgress(true);
+        updateSpeechStatusUI();
+      }
+
       function onWordClicked(wordIdx) {
         hideAlert();
         els.resumeBanner.classList.add('hidden');
@@ -1584,7 +2327,6 @@
         startReadingFromIndex(wordIdx);
       }
 
-      // Запуск чтения с указанного индекса слова
       function startReadingFromIndex(startIndex) {
         if (!synthSupported) {
           showAlert('Синтез речи (speechSynthesis) не поддерживается в этом браузере.', 'error');
@@ -1602,6 +2344,7 @@
         state.currentWordIndex = safeIdx;
         state.isSpeaking = true;
         state.isPaused = false;
+        state.usingApproxHighlight = false;
         const sessionId = ++state.speechSessionId;
 
         highlightWord(safeIdx, true);
@@ -1613,7 +2356,6 @@
         }
       }
 
-      // Плавный режим: озвучивание осмысленными фразами с отслеживанием каждого слова
       function speakPhraseStartingAtWord(wordIdx, sessionId) {
         if (sessionId !== state.speechSessionId || !state.isSpeaking) return;
         if (wordIdx >= state.words.length) {
@@ -1628,23 +2370,26 @@
           return;
         }
 
-        // Формируем подфразу начиная с выбранного слова до конца текущей фразы с фонетической нормализацией
+        // Берём токены от выбранного слова до конца текущего предложения
         const sliceWords = state.words.slice(wordIdx, phrase.endWordIdx + 1);
-        let cursor = 0;
-        const offsets = [];
-        const textParts = [];
-
-        sliceWords.forEach((w) => {
-          const spokenToken = normalizeWordForSpeech(w.text);
-          const start = cursor;
-          const end = start + spokenToken.length;
-          offsets.push({ wordIdx: w.index, start, end, length: spokenToken.length });
-          textParts.push(spokenToken);
-          cursor = end + 1;
+        const prepared = TextNormalizer.buildSpokenSegmentWithMap(sliceWords, {
+          smartPronunciation: state.smartPronunciation,
+          customDict: state.customDict
         });
 
-        // Сглаживаем тире для естественной интонационной паузы
-        const utteranceText = textParts.join(' ').replace(/\s+[—–-]\s+/g, ', ');
+        const utteranceText = prepared.utteranceText;
+        const charMap = prepared.charMap;
+
+        if (!utteranceText.trim() || charMap.length === 0) {
+          const nextIdx = phrase.endWordIdx + 1;
+          if (nextIdx < state.words.length) {
+            speakPhraseStartingAtWord(nextIdx, sessionId);
+          } else {
+            onPageReadingFinished(sessionId);
+          }
+          return;
+        }
+
         const utterance = new SpeechSynthesisUtterance(utteranceText);
         const voiceCfg = getSelectedVoiceConfig();
         if (voiceCfg.voice) {
@@ -1655,15 +2400,15 @@
         utterance.pitch = voiceCfg.pitch;
         state.activeUtterance = utterance;
 
-        let boundaryFired = false;
-        let currentOffsetIdx = 0;
+        let lastBoundaryAt = 0;
+        let boundaryEventsCount = 0;
 
-        // Резервный таймер подсветки слов для iOS Safari и голосов без событий onboundary
+        // Резервный трекер подсветки (помечается как приблизительный; автоматически перехватывает, если boundary перестали приходить)
         const startFallbackWordTracker = () => {
           if (state.fallbackTimer) clearInterval(state.fallbackTimer);
           const totalChars = Math.max(1, utteranceText.length);
-          // Средняя скорость чтения ~ 13.5 символов в секунду при 1.0x
-          const charsPerSec = 13.5 * state.rate;
+          const effectiveRate = voiceCfg.rate || state.rate || 1.0;
+          const charsPerSec = 13.2 * effectiveRate;
           const startedAt = performance.now();
           let pausedAccumMs = 0;
           let lastPauseStart = null;
@@ -1671,6 +2416,7 @@
           state.fallbackTimer = setInterval(() => {
             if (sessionId !== state.speechSessionId || !state.isSpeaking) {
               clearInterval(state.fallbackTimer);
+              state.fallbackTimer = null;
               return;
             }
             if (state.isPaused) {
@@ -1681,39 +2427,61 @@
               lastPauseStart = null;
             }
 
-            if (boundaryFired) return; // Если браузер сам шлёт точные onboundary, таймер не мешает
+            const now = performance.now();
+            // Если реальные события onboundary приходили недавно (< 1300 мс назад) и их больше одного, доверяем им
+            const hasActiveBoundaryStream = boundaryEventsCount >= 2 && (now - lastBoundaryAt) < 1300;
+            if (hasActiveBoundaryStream) {
+              if (state.usingApproxHighlight) {
+                state.usingApproxHighlight = false;
+                updateSpeechStatusUI();
+              }
+              return;
+            }
 
-            const elapsedSec = (performance.now() - startedAt - pausedAccumMs) / 1000;
+            // Включаем приблизительную подсветку по скорости речи
+            if (!state.usingApproxHighlight) {
+              state.usingApproxHighlight = true;
+              updateSpeechStatusUI();
+            }
+
+            const elapsedSec = (now - startedAt - pausedAccumMs) / 1000;
             const estimatedChar = Math.min(totalChars - 1, Math.floor(elapsedSec * charsPerSec));
 
-            for (let i = offsets.length - 1; i >= 0; i--) {
-              if (estimatedChar >= offsets[i].start) {
-                if (state.currentWordIndex !== offsets[i].wordIdx) {
-                  highlightWord(offsets[i].wordIdx, true);
-                }
+            for (let i = charMap.length - 1; i >= 0; i--) {
+              if (estimatedChar >= charMap[i].charStart) {
+                const entry = charMap[i];
+                highlightTokenRange(entry.tokenStartIdx, entry.tokenEndIdx, { scroll: true });
                 break;
               }
             }
-          }, 110);
+          }, 120);
         };
 
         utterance.onstart = () => {
           if (sessionId !== state.speechSessionId) return;
-          highlightWord(wordIdx, true);
+          const firstEntry = charMap[0];
+          highlightTokenRange(firstEntry.tokenStartIdx, firstEntry.tokenEndIdx, { scroll: true });
           startFallbackWordTracker();
         };
 
         utterance.onboundary = (event) => {
           if (sessionId !== state.speechSessionId || !state.isSpeaking) return;
-          if (typeof event.charIndex === 'number') {
-            boundaryFired = true;
-            const cIdx = event.charIndex;
-            for (let i = offsets.length - 1; i >= 0; i--) {
-              if (cIdx >= offsets[i].start) {
-                currentOffsetIdx = i;
-                highlightWord(offsets[i].wordIdx, true);
-                break;
-              }
+          // Игнорируем не-словные события, если указан иной name и нет валидного charIndex
+          if (event.name && event.name !== 'word' && event.name !== 'sentence') return;
+          if (typeof event.charIndex !== 'number' || event.charIndex < 0) return;
+
+          lastBoundaryAt = performance.now();
+          boundaryEventsCount++;
+          if (state.usingApproxHighlight) {
+            state.usingApproxHighlight = false;
+          }
+
+          const cIdx = Math.min(event.charIndex, utteranceText.length - 1);
+          for (let i = charMap.length - 1; i >= 0; i--) {
+            if (cIdx >= charMap[i].charStart) {
+              const entry = charMap[i];
+              highlightTokenRange(entry.tokenStartIdx, entry.tokenEndIdx, { scroll: true });
+              break;
             }
           }
         };
@@ -1740,14 +2508,14 @@
             clearInterval(state.fallbackTimer);
             state.fallbackTimer = null;
           }
-          // Игнорируем ошибку отмены при переключении слова или паузе
-          if (event.error === 'canceled' || event.error === 'interrupted') {
+          if (!event || event.error === 'canceled' || event.error === 'interrupted') {
             return;
           }
           state.isSpeaking = false;
           state.isPaused = false;
+          state.usingApproxHighlight = false;
           updateSpeechStatusUI();
-          showAlert('Произошла ошибка синтеза речи (' + (event.error || 'неизвестно') + '). Попробуйте выбрать другой голос.', 'warning');
+          showAlert('Ошибка синтеза речи (' + (event.error || 'неизвестно') + '). Попробуйте выбрать другой системный голос.', 'warning');
         };
 
         try {
@@ -1758,7 +2526,7 @@
         }
       }
 
-      // Пословный режим чтения (если плавный режим выключен)
+      // Пословный режим чтения (когда плавный режим отключён)
       function speakSingleWordLoop(wordIdx, sessionId) {
         if (sessionId !== state.speechSessionId || !state.isSpeaking) return;
         if (wordIdx >= state.words.length) {
@@ -1767,8 +2535,11 @@
         }
 
         const wordObj = state.words[wordIdx];
-        const normalizedWord = normalizeWordForSpeech(wordObj.text);
-        const cleanWord = normalizedWord.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, '') || normalizedWord;
+        const prepared = TextNormalizer.buildSpokenSegmentWithMap([wordObj], {
+          smartPronunciation: state.smartPronunciation,
+          customDict: state.customDict
+        });
+        const cleanWord = prepared.utteranceText.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, '') || wordObj.text;
 
         const utterance = new SpeechSynthesisUtterance(cleanWord);
         const voiceCfg = getSelectedVoiceConfig();
@@ -1780,7 +2551,7 @@
         utterance.pitch = voiceCfg.pitch;
         state.activeUtterance = utterance;
 
-        highlightWord(wordIdx, true);
+        highlightTokenRange(wordIdx, wordIdx, { scroll: true });
 
         utterance.onend = () => {
           if (sessionId !== state.speechSessionId || !state.isSpeaking || state.isPaused) return;
@@ -1794,7 +2565,7 @@
 
         utterance.onerror = (event) => {
           if (sessionId !== state.speechSessionId) return;
-          if (event.error === 'canceled' || event.error === 'interrupted') return;
+          if (!event || event.error === 'canceled' || event.error === 'interrupted') return;
           state.isSpeaking = false;
           updateSpeechStatusUI();
         };
@@ -1802,20 +2573,19 @@
         window.speechSynthesis.speak(utterance);
       }
 
-      // Обработка окончания чтения страницы и автоматический переход к следующей
       async function onPageReadingFinished(sessionId) {
         if (sessionId !== state.speechSessionId) return;
         stopSpeech(false);
         state.currentWordIndex = 0;
-        saveDocumentProgress();
+        saveDocumentProgress(true);
 
         if (state.continuousReading && state.currentPage < state.totalPages) {
-          // Ищем следующую страницу с извлекаемым текстом
           let nextPage = state.currentPage + 1;
           while (nextPage <= state.totalPages) {
-            await goToPage(nextPage, false);
+            const loadedOk = await goToPage(nextPage, false);
+            if (!loadedOk) return;
             if (state.words.length > 0) {
-              showToast(`Переход на страницу ${nextPage}`);
+              showToast('Переход на страницу ' + nextPage);
               startReadingFromIndex(0);
               return;
             }
@@ -1830,7 +2600,6 @@
         }
       }
 
-      // Пауза и продолжение чтения (с учётом особенностей iOS Safari)
       function togglePauseResume() {
         if (!state.isSpeaking) return;
         if (!state.isPaused) {
@@ -1840,16 +2609,15 @@
               window.speechSynthesis.pause();
             } catch (e) {}
           }
-          saveDocumentProgress();
+          saveDocumentProgress(true);
           updateSpeechStatusUI();
         } else {
-          // Продолжаем с сохранённого текущего слова для 100% надёжности на iOS Safari и Android
           const resumeIdx = state.currentWordIndex;
           startReadingFromIndex(resumeIdx);
         }
       }
 
-      // Короткое тестовое прослушивание выбранного голоса
+      // Честное тестирование выбранного голоса на одинаковой проверочной фразе
       function testSelectedVoice() {
         if (!synthSupported) {
           showAlert('Ваш браузер не поддерживает озвучивание текста.', 'error');
@@ -1857,12 +2625,7 @@
         }
         stopSpeech(true);
         const voiceCfg = getSelectedVoiceConfig();
-        const isRu = (voiceCfg.lang || '').toLowerCase().startsWith('ru');
-        const sampleText = isRu
-          ? 'Здравствуйте! Вы слушаете профиль «' + voiceCfg.presetName.split('—')[0].trim() + '». Улучшение произношения, ударений и чтение пэ-дэ-эф документов настроены.'
-          : 'Hello! This is a voice preview in PDF Reader at speed ' + state.rate.toFixed(1) + '.';
-
-        const utterance = new SpeechSynthesisUtterance(sampleText);
+        const utterance = new SpeechSynthesisUtterance(UNIFORM_VOICE_TEST_TEXT);
         if (voiceCfg.voice) {
           utterance.voice = voiceCfg.voice;
         }
@@ -1870,10 +2633,27 @@
         utterance.rate = voiceCfg.rate;
         utterance.pitch = voiceCfg.pitch;
         window.speechSynthesis.speak(utterance);
-        showToast('Прослушивание: ' + voiceCfg.presetName.split('—')[0].trim());
+        showToast('Тест голоса: ' + voiceCfg.voiceName);
       }
 
-      // Загрузка PDF-файла с устройства
+      // Отложенный перезапуск синтеза при изменении скорости, высоты или голоса во время чтения
+      function scheduleSpeechRestartIfSpeaking() {
+        if (!state.isSpeaking || state.isPaused) return;
+        if (state.sliderRestartDebounceTimer) {
+          clearTimeout(state.sliderRestartDebounceTimer);
+        }
+        const resumeIdx = state.currentWordIndex;
+        state.sliderRestartDebounceTimer = setTimeout(() => {
+          state.sliderRestartDebounceTimer = null;
+          if (state.isSpeaking && !state.isPaused) {
+            startReadingFromIndex(resumeIdx);
+          }
+        }, 280);
+      }
+
+      // =========================================================================
+      // МОДУЛЬ 9. ЗАГРУЗКА PDF И НАВИГАЦИЯ С ЗАЩИТОЙ ОТ АСИНХРОННЫХ ГОНОК
+      // =========================================================================
       async function handleFileSelected(file) {
         if (!file) {
           showAlert('Файл не выбран. Пожалуйста, выберите документ в формате PDF.', 'warning');
@@ -1894,7 +2674,7 @@
           const arrayBuffer = await file.arrayBuffer();
           state.pendingFileBuffer = arrayBuffer.slice(0);
           state.fileName = file.name;
-          state.fileKey = `${file.name}_${file.size}`;
+          state.fileKey = file.name + '_' + file.size;
           state.isDemoDoc = false;
           await openPdfFromBuffer(arrayBuffer, '');
         } catch (err) {
@@ -1927,7 +2707,6 @@
           els.pageNumberInput.disabled = false;
           els.goToPageBtn.disabled = false;
 
-          // Проверяем сохранённую позицию в localStorage
           const savedProgress = getSavedDocumentProgress(state.fileKey);
           if (
             savedProgress &&
@@ -1941,7 +2720,8 @@
             state.currentWordIndex = savedWord;
             highlightWord(savedWord, true);
 
-            els.resumeBannerText.textContent = `Вы уже читали «${state.fileName}». Остановились на стр. ${savedProgress.page}, слово ${savedWord + 1}. Продолжить?`;
+            els.resumeBannerText.textContent =
+              'Вы уже читали «' + state.fileName + '». Остановились на стр. ' + savedProgress.page + ', слово ' + (savedWord + 1) + '. Продолжить?';
             els.resumeBanner.classList.remove('hidden');
           } else {
             await goToPage(1, false);
@@ -1959,7 +2739,6 @@
         }
       }
 
-      // Загрузка встроенного демо-документа
       async function loadDemoDocument() {
         stopSpeech(false);
         hideAlert();
@@ -1968,8 +2747,8 @@
 
         state.pdfDoc = null;
         state.isDemoDoc = true;
-        state.fileName = 'Демо-документ «Руководство Читателя PDF».pdf';
-        state.fileKey = 'builtin_demo_document_v1';
+        state.fileName = 'Демо-документ «Учебный практикум и проверка речи».pdf';
+        state.fileKey = 'builtin_demo_document_v2';
         state.totalPages = DEMO_PAGES.length;
 
         els.fileNameDisplay.textContent = state.fileName;
@@ -1985,7 +2764,8 @@
           const savedWord = Math.min(savedProgress.wordIndex || 0, Math.max(0, state.words.length - 1));
           state.currentWordIndex = savedWord;
           highlightWord(savedWord, true);
-          els.resumeBannerText.textContent = `Найдена сохранённая позиция (стр. ${savedProgress.page}, слово ${savedWord + 1}). Продолжить озвучивание?`;
+          els.resumeBannerText.textContent =
+            'Найдена сохранённая позиция (стр. ' + savedProgress.page + ', слово ' + (savedWord + 1) + '). Продолжить озвучивание?';
           els.resumeBanner.classList.remove('hidden');
         } else {
           await goToPage(1, false);
@@ -1993,14 +2773,15 @@
         showToast('Демо-документ открыт');
       }
 
-      // Переход на указанную страницу и извлечение текста
-      async function goToPage(pageNum, resetSavedWord = true) {
-        if (state.totalPages === 0) return;
+      // Переход на страницу с защитой от гонок при быстром переключении
+      async function goToPage(pageNum, resetSavedWord) {
+        if (state.totalPages === 0) return false;
         const targetPage = Math.max(1, Math.min(pageNum, state.totalPages));
+        const requestId = ++state.pageLoadRequestId;
 
         stopSpeech(false);
         state.currentPage = targetPage;
-        if (resetSavedWord) {
+        if (resetSavedWord !== false) {
           state.currentWordIndex = 0;
         }
 
@@ -2010,65 +2791,49 @@
 
         if (state.isDemoDoc) {
           const demoText = DEMO_PAGES[targetPage - 1] || '';
-          renderPageTextToDOM(demoText);
+          const demoParas = demoText.split(/\n\s*\n+/).map((p) => p.trim()).filter(Boolean);
+          renderPageParagraphsToDOM(demoParas, demoText);
           if (state.words.length > 0) {
             highlightWord(state.currentWordIndex, false);
           }
-          saveDocumentProgress();
-          return;
+          saveDocumentProgress(true);
+          return true;
         }
 
-        if (!state.pdfDoc) return;
+        if (!state.pdfDoc) return false;
 
         try {
           const page = await state.pdfDoc.getPage(targetPage);
+          if (requestId !== state.pageLoadRequestId) return false;
+
           const textContent = await page.getTextContent();
+          if (requestId !== state.pageLoadRequestId) return false;
+
           const items = textContent.items || [];
+          const paragraphs = PdfStructureExtractor.reconstructParagraphsFromItems(items);
+          const fullPageText = paragraphs.join('\n\n');
 
-          let extractedLines = [];
-          let currentLine = '';
-          let lastY = null;
-
-          items.forEach((item) => {
-            const str = item.str || '';
-            const y = item.transform ? item.transform[5] : null;
-            if (lastY !== null && y !== null && Math.abs(y - lastY) > 6) {
-              if (currentLine.trim()) {
-                extractedLines.push(currentLine.trim());
-              }
-              currentLine = str;
-            } else {
-              if (currentLine && !currentLine.endsWith(' ') && !str.startsWith(' ')) {
-                currentLine += ' ';
-              }
-              currentLine += str;
-            }
-            if (y !== null) lastY = y;
-          });
-
-          if (currentLine.trim()) {
-            extractedLines.push(currentLine.trim());
-          }
-
-          // Склеиваем строки и убираем разрывы переносов слов на границах строк PDF
-          const fullPageText = dehyphenateText(extractedLines.join('\n'));
-          renderPageTextToDOM(fullPageText);
+          renderPageParagraphsToDOM(paragraphs, fullPageText);
 
           if (state.words.length === 0) {
-            showAlert(`На странице ${targetPage} нет извлекаемого текстового слоя (возможно, это скан или изображение).`, 'warning');
+            showAlert('На странице ' + targetPage + ' не обнаружено текстового слоя (возможно, это скан или изображение без OCR).', 'warning');
           } else {
             hideAlert();
             highlightWord(state.currentWordIndex, false);
           }
-          saveDocumentProgress();
+          saveDocumentProgress(true);
+          return true;
         } catch (err) {
-          showAlert(`Не удалось извлечь текст со страницы ${targetPage}.`, 'error');
+          if (requestId !== state.pageLoadRequestId) return false;
+          showAlert('Не удалось извлечь текст со страницы ' + targetPage + '.', 'error');
+          return false;
         }
       }
 
-      // Поиск по тексту текущей страницы
-      function performSearchOnPage(query, jumpToFirst = true) {
-        // Очищаем предыдущие отметки поиска
+      // =========================================================================
+      // МОДУЛЬ 10. ПОИСК, ЭКСПОРТ И КОНТРОЛЬНАЯ ПРОВЕРКА 10 ПРИМЕРОВ
+      // =========================================================================
+      function performSearchOnPage(query, jumpToFirst) {
         state.words.forEach((w) => {
           if (w.el) {
             w.el.classList.remove('search-match', 'search-current');
@@ -2096,10 +2861,10 @@
         }
 
         state.searchCurrentPos = 0;
-        updateActiveSearchMatch(jumpToFirst);
+        updateActiveSearchMatch(jumpToFirst !== false);
       }
 
-      function updateActiveSearchMatch(scroll = true) {
+      function updateActiveSearchMatch(scroll) {
         state.words.forEach((w) => {
           if (w.el) w.el.classList.remove('search-current');
         });
@@ -2112,14 +2877,20 @@
         const wordObj = state.words[targetWordIdx];
         if (wordObj && wordObj.el) {
           wordObj.el.classList.add('search-current');
-          if (scroll) {
-            wordObj.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          if (scroll && els.readerScrollContainer) {
+            const container = els.readerScrollContainer;
+            const cRect = container.getBoundingClientRect();
+            const wRect = wordObj.el.getBoundingClientRect();
+            const offsetInside = (wRect.top - cRect.top) + container.scrollTop;
+            container.scrollTo({
+              top: Math.max(0, offsetInside - container.clientHeight / 2),
+              behavior: 'smooth'
+            });
           }
         }
-        els.searchCountLabel.textContent = `${state.searchCurrentPos + 1}/${state.searchMatches.length}`;
+        els.searchCountLabel.textContent = (state.searchCurrentPos + 1) + '/' + state.searchMatches.length;
       }
 
-      // Копирование текста страницы
       async function copyCurrentPageText() {
         if (!state.pageRawText.trim()) {
           showAlert('На текущей странице нет текста для копирования.', 'warning');
@@ -2131,7 +2902,7 @@
           } else {
             throw new Error('Fallback copy');
           }
-          showToast('Текст страницы скопирован в буфер обмена');
+          showToast('Исходный текст страницы скопирован в буфер обмена');
         } catch (err) {
           const textarea = document.createElement('textarea');
           textarea.value = state.pageRawText;
@@ -2141,7 +2912,7 @@
           textarea.select();
           try {
             document.execCommand('copy');
-            showToast('Текст страницы скопирован');
+            showToast('Исходный текст страницы скопирован');
           } catch (e) {
             showAlert('Не удалось скопировать текст автоматически.', 'error');
           }
@@ -2149,14 +2920,13 @@
         }
       }
 
-      // Скачивание текста страницы в формате .txt
       function downloadCurrentPageText() {
         if (!state.pageRawText.trim()) {
           showAlert('На текущей странице нет текста для скачивания.', 'warning');
           return;
         }
         const baseName = (state.fileName || 'document').replace(/\.pdf$/i, '');
-        const downloadName = `${baseName}_стр_${state.currentPage}.txt`;
+        const downloadName = baseName + '_стр_' + state.currentPage + '.txt';
         const blob = new Blob([state.pageRawText], { type: 'text/plain;charset=utf-8' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -2166,12 +2936,101 @@
         a.click();
         document.body.removeChild(a);
         setTimeout(() => URL.revokeObjectURL(url), 1500);
-        showToast(`Файл ${downloadName} сохранён`);
+        showToast('Файл ' + downloadName + ' сохранён');
       }
 
-      // Привязка всех обработчиков событий интерфейса
+      // Автоматическая проверка 10 контрольных примеров из ТЗ
+      function runVerificationSuite() {
+        const testDict = Object.assign({ 'берет книгу': 'берёт книгу', 'ч. т. д.': 'что и требовалось доказать' }, state.customDict);
+        const examples = [
+          { id: 1, title: 'Сокращения в начале и середине', text: 'См. рис. 2. Далее описана структура органа.' },
+          { id: 2, title: 'Инициалы и год', text: 'А. С. Пушкин родился в 1799 г.' },
+          { id: 3, title: 'Числа с единицами измерения', text: 'Пациент получил 1 мг, затем 2 мг и 5 мг препарата.' },
+          { id: 4, title: 'Десятичная дробь и диапазон', text: 'Значение составило 3,5%. Диапазон — 5–10 мг.' },
+          { id: 5, title: 'Омографы «берет» (сохранение/словарь)', text: 'Он носит берет. Он берет книгу.' },
+          { id: 6, title: 'Омограф «узнает» (без ложной замены)', text: 'Завтра он узнает результат. Она узнает его по голосу.' },
+          { id: 7, title: 'Римские цифры в контексте главы', text: 'В главе IV описаны изменения. В IV главе приведена таблица.' },
+          { id: 8, title: 'Длинное предложение (>24 слов без разрыва)', text: 'Это длинное предложение более чем из двадцати четырёх слов специально составлено для проверки того, что алгоритм сегментации не разрезает фразу принудительно на двенадцатом или двадцать четвёртом слове.' },
+          { id: 9, title: 'Многословное пользовательское правило', text: 'Теорема полностью доказана, ч. т. д.' },
+          { id: 10, title: 'Тире и раскрытое сокращение (диапазоны)', text: 'Температура кипения — см. табл. 1 — зависит от давления.' }
+        ];
+
+        const results = examples.map((ex) => {
+          const rawTokens = ex.text.split(/\s+/).filter(Boolean).map((t, idx) => ({ text: t, index: idx }));
+          const segments = SentenceSegmenter.segmentParagraphTokens(rawTokens, 55);
+          const segmentDetails = segments.map((seg) => {
+            const built = TextNormalizer.buildSpokenSegmentWithMap(seg, {
+              smartPronunciation: true,
+              customDict: testDict
+            });
+            const mappingSummary = built.charMap.map((m) =>
+              '[' + m.tokenStartIdx + (m.tokenEndIdx > m.tokenStartIdx ? '..' + m.tokenEndIdx : '') + ']:«' + m.spoken + '»(@' + m.charStart + '-' + m.charEnd + ')'
+            ).join(' ');
+            return {
+              original: seg.map((t) => t.text).join(' '),
+              spoken: built.utteranceText,
+              mappingSummary: mappingSummary
+            };
+          });
+          return {
+            id: ex.id,
+            title: ex.title,
+            input: ex.text,
+            segmentCount: segments.length,
+            segments: segmentDetails
+          };
+        });
+
+        if (els.selfTestResultsContainer) {
+          els.selfTestResultsContainer.textContent = '';
+          results.forEach((res) => {
+            const card = document.createElement('div');
+            card.className = 'p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1';
+
+            const head = document.createElement('div');
+            head.className = 'font-semibold text-sky-300';
+            head.textContent = res.id + '. ' + res.title + ' (сегментов: ' + res.segmentCount + ')';
+            card.appendChild(head);
+
+            res.segments.forEach((seg, sIdx) => {
+              const lineOrig = document.createElement('div');
+              lineOrig.className = 'text-slate-300';
+              lineOrig.textContent = 'Сегмент ' + (sIdx + 1) + ' [исх.]: ' + seg.original;
+
+              const lineSpoken = document.createElement('div');
+              lineSpoken.className = 'text-emerald-300';
+              lineSpoken.textContent = 'Сегмент ' + (sIdx + 1) + ' [речь]: ' + seg.spoken;
+
+              const lineMap = document.createElement('div');
+              lineMap.className = 'text-[11px] text-slate-400 font-mono break-all';
+              lineMap.textContent = 'Карта токенов: ' + seg.mappingSummary;
+
+              card.appendChild(lineOrig);
+              card.appendChild(lineSpoken);
+              card.appendChild(lineMap);
+            });
+
+            els.selfTestResultsContainer.appendChild(card);
+          });
+        }
+
+        return results;
+      }
+
+      // Экспортируем для автоматического тестирования в Node/консоли
+      if (typeof window !== 'undefined') {
+        window.__PDFReaderTestAPI = {
+          TextNormalizer: TextNormalizer,
+          SentenceSegmenter: SentenceSegmenter,
+          PdfStructureExtractor: PdfStructureExtractor,
+          runVerificationSuite: runVerificationSuite
+        };
+      }
+
+      // =========================================================================
+      // ПРИВЯЗКА ОБРАБОТЧИКОВ СОБЫТИЙ
+      // =========================================================================
       function bindEvents() {
-        // Выбор PDF-файла
         const triggerFileDialog = () => els.pdfFileInput.click();
         els.selectPdfBtn.addEventListener('click', triggerFileDialog);
         els.emptyStateSelectBtn.addEventListener('click', triggerFileDialog);
@@ -2184,14 +3043,20 @@
           els.pdfFileInput.value = '';
         });
 
-        // Демо-документ
         els.loadDemoBtn.addEventListener('click', loadDemoDocument);
         els.emptyStateDemoBtn.addEventListener('click', loadDemoDocument);
-
-        // Закрытие уведомления
         els.closeAlertBtn.addEventListener('click', hideAlert);
 
-        // Баннер продолжения чтения с сохранённой позиции
+        // Делегирование клика по словам в контейнере чтения
+        els.readerTextContainer.addEventListener('click', (e) => {
+          const target = e.target && e.target.closest ? e.target.closest('.reader-word') : null;
+          if (!target) return;
+          const idx = parseInt(target.dataset.index, 10);
+          if (!isNaN(idx)) {
+            onWordClicked(idx);
+          }
+        });
+
         els.confirmResumeBtn.addEventListener('click', () => {
           els.resumeBanner.classList.add('hidden');
           startReadingFromIndex(state.currentWordIndex);
@@ -2203,7 +3068,6 @@
           showToast('Чтение с начала документа');
         });
 
-        // Модальное окно пароля PDF
         els.submitPasswordBtn.addEventListener('click', () => {
           const pwd = els.pdfPasswordInput.value;
           if (state.pendingFileBuffer) {
@@ -2222,7 +3086,6 @@
           els.pdfPasswordInput.value = '';
         });
 
-        // Кнопки озвучивания
         els.playCurrentBtn.addEventListener('click', () => {
           els.resumeBanner.classList.add('hidden');
           if (state.isSpeaking && state.isPaused) {
@@ -2246,104 +3109,82 @@
 
         els.testVoiceBtn.addEventListener('click', testSelectedVoice);
 
-        // Смена голоса
+        // Смена системного голоса
         els.voiceSelect.addEventListener('change', () => {
-          const wasSpeaking = state.isSpeaking && !state.isPaused;
-          const resumeIdx = state.currentWordIndex;
           state.selectedVoiceURI = els.voiceSelect.value;
           saveGlobalSettings();
-          if (state.isSpeaking) {
-            stopSpeech(true);
-            if (wasSpeaking) {
-              startReadingFromIndex(resumeIdx);
-            }
-          }
+          scheduleSpeechRestartIfSpeaking();
         });
 
-        // Изменение скорости речи
-        const updateRate = (newRate) => {
+        // Смена пресета чтения (меняет только скорость и высоту голоса, не подменяя сам голос)
+        if (els.readingPresetSelect) {
+          els.readingPresetSelect.addEventListener('change', () => {
+            const presetKey = els.readingPresetSelect.value;
+            const preset = READING_STYLE_PRESETS[presetKey];
+            if (!preset) return;
+            state.readingPreset = presetKey;
+            if ( typeof preset.rate === 'number') state.rate = preset.rate;
+            if ( typeof preset.pitch === 'number') state.pitch = preset.pitch;
+            applySettingsToUI();
+            saveGlobalSettings();
+            scheduleSpeechRestartIfSpeaking();
+          });
+        }
+
+        // Скорость речи: плавное обновление подписи на input, перезапуск с debounce
+        const setRateValue = (newRate, triggerRestart) => {
           const clamped = Math.round(Math.max(0.5, Math.min(2.0, newRate)) * 10) / 10;
-          const wasSpeaking = state.isSpeaking && !state.isPaused;
-          const resumeIdx = state.currentWordIndex;
           state.rate = clamped;
+          state.readingPreset = 'neutral';
           applySettingsToUI();
           saveGlobalSettings();
-          if (state.isSpeaking) {
-            stopSpeech(true);
-            if (wasSpeaking) {
-              startReadingFromIndex(resumeIdx);
-            }
+          if (triggerRestart) {
+            scheduleSpeechRestartIfSpeaking();
           }
         };
 
         els.rateRange.addEventListener('input', () => {
-          updateRate(parseFloat(els.rateRange.value));
+          const val = parseFloat(els.rateRange.value);
+          if (!isNaN(val)) {
+            els.rateValueLabel.textContent = val.toFixed(1) + 'x';
+          }
         });
-        els.rateDecBtn.addEventListener('click', () => updateRate(state.rate - 0.1));
-        els.rateIncBtn.addEventListener('click', () => updateRate(state.rate + 0.1));
+        els.rateRange.addEventListener('change', () => {
+          setRateValue(parseFloat(els.rateRange.value), true);
+        });
+        els.rateDecBtn.addEventListener('click', () => setRateValue(state.rate - 0.1, true));
+        els.rateIncBtn.addEventListener('click', () => setRateValue(state.rate + 0.1, true));
 
-        // Изменение тембра (высоты голоса)
-        const updatePitch = (newPitch) => {
+        // Высота голоса (pitch): обновление на change или с debounce
+        const setPitchValue = (newPitch, triggerRestart) => {
           const clamped = Math.round(Math.max(0.7, Math.min(1.3, newPitch)) * 20) / 20;
-          const wasSpeaking = state.isSpeaking && !state.isPaused;
-          const resumeIdx = state.currentWordIndex;
           state.pitch = clamped;
+          state.readingPreset = 'neutral';
           applySettingsToUI();
           saveGlobalSettings();
-          if (state.isSpeaking) {
-            stopSpeech(true);
-            if (wasSpeaking) {
-              startReadingFromIndex(resumeIdx);
-            }
+          if (triggerRestart) {
+            scheduleSpeechRestartIfSpeaking();
           }
         };
 
         els.pitchRange.addEventListener('input', () => {
-          updatePitch(parseFloat(els.pitchRange.value));
-        });
-        els.pitchDecBtn.addEventListener('click', () => updatePitch(state.pitch - 0.05));
-        els.pitchIncBtn.addEventListener('click', () => updatePitch(state.pitch + 0.05));
-
-        // Переключатель улучшения произношения и панель словаря
-        els.smartPronunciationToggle.addEventListener('change', () => {
-          state.smartPronunciation = els.smartPronunciationToggle.checked;
-          saveGlobalSettings();
-          showToast(state.smartPronunciation ? 'Фонетический словарь и ударения включены' : 'Фонетический словарь отключён');
-        });
-
-        els.toggleDictModalBtn.addEventListener('click', () => {
-          els.pronunciationDictPanel.classList.toggle('hidden');
-        });
-
-        els.addCustomDictRuleBtn.addEventListener('click', () => {
-          const fromWord = (els.customDictFromInput.value || '').trim().toLowerCase();
-          const toSpoken = (els.customDictToInput.value || '').trim();
-          if (!fromWord || !toSpoken) {
-            showAlert('Укажите исходное слово и вариант его произношения.', 'warning');
-            return;
+          const val = parseFloat(els.pitchRange.value);
+          if (!isNaN(val)) {
+            els.pitchValueLabel.textContent = val.toFixed(2);
           }
-          state.customDict[fromWord] = toSpoken;
-          els.customDictFromInput.value = '';
-          els.customDictToInput.value = '';
-          saveGlobalSettings();
-          renderCustomDictTags();
-          showToast(`Добавлено правило: «${fromWord}» → «${toSpoken}»`);
         });
+        els.pitchRange.addEventListener('change', () => {
+          setPitchValue(parseFloat(els.pitchRange.value), true);
+        });
+        els.pitchDecBtn.addEventListener('click', () => setPitchValue(state.pitch - 0.05, true));
+        els.pitchIncBtn.addEventListener('click', () => setPitchValue(state.pitch + 0.05, true));
 
-        // Изменение размера шрифта
+        // Размер шрифта: НЕ перезапускает и НЕ прерывает синтез речи
         const updateFontSize = (newSize) => {
           const clamped = Math.max(14, Math.min(34, Math.round(newSize)));
-          const wasSpeaking = state.isSpeaking && !state.isPaused;
-          const resumeIdx = state.currentWordIndex;
           state.fontSize = clamped;
           applySettingsToUI();
           saveGlobalSettings();
-          if (state.isSpeaking) {
-            stopSpeech(true);
-            if (wasSpeaking) {
-              startReadingFromIndex(resumeIdx);
-            }
-          }
         };
 
         els.fontSizeRange.addEventListener('input', () => {
@@ -2354,16 +3195,16 @@
 
         // Переключатели режимов
         els.smoothReadingToggle.addEventListener('change', () => {
-          const wasSpeaking = state.isSpeaking && !state.isPaused;
-          const resumeIdx = state.currentWordIndex;
           state.smoothReading = els.smoothReadingToggle.checked;
           saveGlobalSettings();
-          if (state.isSpeaking) {
-            stopSpeech(true);
-            if (wasSpeaking) {
-              startReadingFromIndex(resumeIdx);
-            }
-          }
+          scheduleSpeechRestartIfSpeaking();
+        });
+
+        els.smartPronunciationToggle.addEventListener('change', () => {
+          state.smartPronunciation = els.smartPronunciationToggle.checked;
+          saveGlobalSettings();
+          scheduleSpeechRestartIfSpeaking();
+          showToast(state.smartPronunciation ? 'Подготовка текста для речи включена' : 'Подготовка текста для речи отключена');
         });
 
         els.continuousReadingToggle.addEventListener('change', () => {
@@ -2371,18 +3212,75 @@
           saveGlobalSettings();
         });
 
+        // Автопрокрутка НЕ перезапускает синтез
         els.autoScrollToggle.addEventListener('change', () => {
           state.autoScroll = els.autoScrollToggle.checked;
           saveGlobalSettings();
         });
 
-        // Ночной комфортный режим
+        // Ночной режим НЕ перезапускает синтез
         els.nightModeBtn.addEventListener('click', () => {
           state.nightComfort = !state.nightComfort;
           applySettingsToUI();
           saveGlobalSettings();
           showToast(state.nightComfort ? 'Включён тёплый ночной режим' : 'Включён стандартный тёмный режим');
         });
+
+        // Пользовательский словарь и предпрослушивание правила
+        els.toggleDictModalBtn.addEventListener('click', () => {
+          els.pronunciationDictPanel.classList.toggle('hidden');
+        });
+
+        if (els.previewDictRuleBtn) {
+          els.previewDictRuleBtn.addEventListener('click', () => {
+            if (!synthSupported) return;
+            const toSpoken = (els.customDictToInput.value || els.customDictFromInput.value || '').trim();
+            if (!toSpoken) {
+              showAlert('Введите вариант произношения в поле «Текст для синтезатора» для прослушивания.', 'warning');
+              return;
+            }
+            stopSpeech(true);
+            const voiceCfg = getSelectedVoiceConfig();
+            const u = new SpeechSynthesisUtterance(toSpoken);
+            if (voiceCfg.voice) u.voice = voiceCfg.voice;
+            u.lang = voiceCfg.lang || 'ru-RU';
+            u.rate = voiceCfg.rate;
+            u.pitch = voiceCfg.pitch;
+            window.speechSynthesis.speak(u);
+            showToast('Прослушивание замены: «' + toSpoken + '»');
+          });
+        }
+
+        els.addCustomDictRuleBtn.addEventListener('click', () => {
+          const fromWord = (els.customDictFromInput.value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+          const toSpoken = (els.customDictToInput.value || '').trim().replace(/\s+/g, ' ');
+          if (!fromWord || !toSpoken) {
+            showAlert('Укажите исходное слово/фразу и вариант произношения.', 'warning');
+            return;
+          }
+          state.customDict[fromWord] = toSpoken;
+          els.customDictFromInput.value = '';
+          els.customDictToInput.value = '';
+          saveGlobalSettings();
+          renderCustomDictTags();
+          showToast('Добавлено правило: «' + fromWord + '» → «' + toSpoken + '»');
+        });
+
+        // Панель проверки 10 контрольных примеров
+        if (els.toggleSelfTestBtn) {
+          els.toggleSelfTestBtn.addEventListener('click', () => {
+            els.selfTestPanel.classList.toggle('hidden');
+            if (!els.selfTestPanel.classList.contains('hidden')) {
+              runVerificationSuite();
+            }
+          });
+        }
+        if (els.runSelfTestBtn) {
+          els.runSelfTestBtn.addEventListener('click', () => {
+            runVerificationSuite();
+            showToast('Контрольные примеры пересчитаны');
+          });
+        }
 
         // Навигация по страницам
         els.prevPageBtn.addEventListener('click', () => {
@@ -2400,7 +3298,7 @@
         const handlePageJump = () => {
           const val = parseInt(els.pageNumberInput.value, 10);
           if (isNaN(val) || val < 1 || val > state.totalPages) {
-            showAlert(`Введите номер страницы от 1 до ${state.totalPages}.`, 'warning');
+            showAlert('Введите номер страницы от 1 до ' + state.totalPages + '.', 'warning');
             els.pageNumberInput.value = String(state.currentPage);
             return;
           }
@@ -2414,7 +3312,7 @@
           }
         });
 
-        // Поиск по тексту страницы
+        // Поиск по тексту страницы (не прерывает синтез речи)
         els.searchInput.addEventListener('input', () => {
           performSearchOnPage(els.searchInput.value, true);
         });
@@ -2436,11 +3334,9 @@
           performSearchOnPage('', false);
         });
 
-        // Копирование и скачивание текста
         els.copyPageTextBtn.addEventListener('click', copyCurrentPageText);
         els.downloadPageTextBtn.addEventListener('click', downloadCurrentPageText);
 
-        // Поддержка Drag-and-Drop PDF на окно
         window.addEventListener('dragover', (e) => {
           e.preventDefault();
         });
@@ -2452,17 +3348,18 @@
           }
         });
 
-        // Остановка речи при закрытии/перезагрузке вкладки
-        window.addEventListener('beforeunload', () => {
+        const flushAndCancelOnLeave = () => {
+          saveDocumentProgress(true);
           if (synthSupported) {
             try {
               window.speechSynthesis.cancel();
             } catch (e) {}
           }
-        });
+        };
+        window.addEventListener('pagehide', flushAndCancelOnLeave);
+        window.addEventListener('beforeunload', flushAndCancelOnLeave);
       }
 
-      // Инициализация приложения
       function init() {
         loadGlobalSettings();
         bindEvents();
@@ -2470,7 +3367,6 @@
         if (synthSupported && 'onvoiceschanged' in window.speechSynthesis) {
           window.speechSynthesis.onvoiceschanged = populateVoices;
         }
-        // Повторная проверка голосов для мобильных браузеров (iOS Safari)
         setTimeout(populateVoices, 400);
         setTimeout(populateVoices, 1200);
       }
