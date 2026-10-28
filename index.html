@@ -24,267 +24,104 @@
   </script>
   <style>
     :root {
-      --bg-primary: #0b0f17;
-      --bg-secondary: rgba(22, 30, 46, 0.78);
-      --bg-reader: rgba(16, 23, 36, 0.88);
-      --text-primary: #ecf2f8;
-      --text-secondary: #94a3b8;
-      --border-color: rgba(56, 189, 248, 0.16);
-      --accent-color: #38bdf8;
-      --word-hover: rgba(56, 189, 248, 0.18);
-      --word-active-bg: #facc15;
-      --word-active-text: #0f172a;
-      --search-match-bg: rgba(56, 189, 248, 0.28);
-      --search-current-bg: #f97316;
-      --search-current-text: #ffffff;
-      --glow-1: rgba(56, 189, 248, 0.14);
-      --glow-2: rgba(16, 185, 129, 0.10);
-      --glow-3: rgba(99, 102, 241, 0.11);
+      --bg-primary: #0b0f17; --bg-secondary: rgba(22, 30, 46, 0.78); --bg-reader: rgba(16, 23, 36, 0.88);
+      --text-primary: #ecf2f8; --text-secondary: #94a3b8; --border-color: rgba(56, 189, 248, 0.16);
+      --accent-color: #38bdf8; --word-hover: rgba(56, 189, 248, 0.18);
+      --word-active-bg: #facc15; --word-active-text: #0f172a;
+      --search-match-bg: rgba(56, 189, 248, 0.28); --search-current-bg: #f97316; --search-current-text: #ffffff;
+      --glow-1: rgba(56, 189, 248, 0.14); --glow-2: rgba(16, 185, 129, 0.10); --glow-3: rgba(99, 102, 241, 0.11);
     }
-
     body.night-comfort {
-      --bg-primary: #080a0f;
-      --bg-secondary: rgba(20, 22, 30, 0.84);
-      --bg-reader: rgba(14, 16, 22, 0.92);
-      --text-primary: #dfd3be;
-      --text-secondary: #968b7c;
-      --border-color: rgba(245, 158, 11, 0.18);
-      --accent-color: #f59e0b;
-      --word-hover: rgba(245, 158, 11, 0.2);
-      --word-active-bg: #fbbf24;
-      --word-active-text: #090b10;
-      --glow-1: rgba(245, 158, 11, 0.12);
-      --glow-2: rgba(217, 119, 6, 0.08);
-      --glow-3: rgba(180, 83, 9, 0.09);
+      --bg-primary: #080a0f; --bg-secondary: rgba(20, 22, 30, 0.84); --bg-reader: rgba(14, 16, 22, 0.92);
+      --text-primary: #dfd3be; --text-secondary: #968b7c; --border-color: rgba(245, 158, 11, 0.18);
+      --accent-color: #f59e0b; --word-hover: rgba(245, 158, 11, 0.2);
+      --word-active-bg: #fbbf24; --word-active-text: #090b10;
+      --glow-1: rgba(245, 158, 11, 0.12); --glow-2: rgba(217, 119, 6, 0.08); --glow-3: rgba(180, 83, 9, 0.09);
     }
-
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     html, body {
-      margin: 0;
-      padding: 0;
-      background-color: var(--bg-primary);
-      color: var(--text-primary);
+      margin: 0; padding: 0; background-color: var(--bg-primary); color: var(--text-primary);
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      overflow-x: hidden;
-      transition: background-color 0.45s ease, color 0.35s ease;
+      overflow-x: hidden; transition: background-color 0.45s ease, color 0.35s ease;
     }
-
     body::before {
-      content: '';
-      position: fixed;
-      inset: -20%;
-      z-index: -1;
+      content: ''; position: fixed; inset: -20%; z-index: -1; pointer-events: none; filter: blur(45px);
       background:
         radial-gradient(circle at 18% 18%, var(--glow-1) 0%, transparent 42%),
         radial-gradient(circle at 82% 26%, var(--glow-2) 0%, transparent 40%),
         radial-gradient(circle at 50% 82%, var(--glow-3) 0%, transparent 48%);
-      filter: blur(45px);
       animation: ambientAurora 18s ease-in-out infinite alternate;
-      pointer-events: none;
     }
-
     @keyframes ambientAurora {
       0% { transform: translate3d(0, 0, 0) scale(1); }
       50% { transform: translate3d(-2%, 2%, 0) scale(1.05); }
       100% { transform: translate3d(2%, -1.5%, 0) scale(0.98); }
     }
-
-    @keyframes cardEntrance {
-      0% { opacity: 0; transform: translateY(14px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes pageContentFade {
-      0% { opacity: 0; transform: translateY(8px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
+    @keyframes cardEntrance { 0% { opacity: 0; transform: translateY(14px); } 100% { opacity: 1; transform: translateY(0); } }
+    @keyframes pageContentFade { 0% { opacity: 0; transform: translateY(8px); } 100% { opacity: 1; transform: translateY(0); } }
     @keyframes activeWordPulse {
-      0% { box-shadow: 0 0 0 2px var(--word-active-bg), 0 0 12px rgba(250, 204, 21, 0.45); }
+      0%, 100% { box-shadow: 0 0 0 2px var(--word-active-bg), 0 0 12px rgba(250, 204, 21, 0.45); }
       50% { box-shadow: 0 0 0 3px var(--word-active-bg), 0 0 20px rgba(250, 204, 21, 0.75); }
-      100% { box-shadow: 0 0 0 2px var(--word-active-bg), 0 0 12px rgba(250, 204, 21, 0.45); }
     }
-
-    @keyframes eqBarBounce {
-      0%, 100% { transform: scaleY(0.3); }
-      50% { transform: scaleY(1); }
-    }
-
+    @keyframes eqBarBounce { 0%, 100% { transform: scaleY(0.3); } 50% { transform: scaleY(1); } }
     .surface-card {
-      background-color: var(--bg-secondary);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background-color: var(--bg-secondary); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
       border: 1px solid var(--border-color);
       box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
       transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.35s ease;
       animation: cardEntrance 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
-
     .surface-card:hover {
       border-color: rgba(56, 189, 248, 0.28);
       box-shadow: 0 14px 36px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.09);
     }
-
-    body.night-comfort .surface-card:hover {
-      border-color: rgba(245, 158, 11, 0.32);
-    }
-
+    body.night-comfort .surface-card:hover { border-color: rgba(245, 158, 11, 0.32); }
     .reader-surface {
-      background-color: var(--bg-reader);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      background-color: var(--bg-reader); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--border-color);
       box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.65), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
       transition: border-color 0.3s ease, background-color 0.35s ease;
       animation: cardEntrance 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
-
-    .page-fade-anim {
-      animation: pageContentFade 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
-
-    button {
-      transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    button:not(:disabled):active {
-      transform: scale(0.96);
-    }
-
-    .btn-glow-sky {
-      background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
-      box-shadow: 0 4px 16px -3px rgba(56, 189, 248, 0.45);
-    }
-    .btn-glow-sky:hover {
-      background: linear-gradient(135deg, #7dd3fc 0%, #38bdf8 100%);
-      box-shadow: 0 6px 22px -2px rgba(56, 189, 248, 0.65);
-      transform: translateY(-1px);
-    }
-
-    .btn-glow-emerald {
-      background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
-      box-shadow: 0 4px 18px -3px rgba(16, 185, 129, 0.45);
-    }
-    .btn-glow-emerald:hover {
-      background: linear-gradient(135deg, #6ee7b7 0%, #34d399 100%);
-      box-shadow: 0 6px 24px -2px rgba(16, 185, 129, 0.65);
-      transform: translateY(-1px);
-    }
-
+    .page-fade-anim { animation: pageContentFade 0.32s cubic-bezier(0.22, 1, 0.36, 1) both; }
+    button { transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1); }
+    button:not(:disabled):active { transform: scale(0.96); }
+    .btn-glow-sky { background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%); box-shadow: 0 4px 16px -3px rgba(56, 189, 248, 0.45); }
+    .btn-glow-sky:hover { background: linear-gradient(135deg, #7dd3fc 0%, #38bdf8 100%); box-shadow: 0 6px 22px -2px rgba(56, 189, 248, 0.65); transform: translateY(-1px); }
+    .btn-glow-emerald { background: linear-gradient(135deg, #34d399 0%, #10b981 100%); box-shadow: 0 4px 18px -3px rgba(16, 185, 129, 0.45); }
+    .btn-glow-emerald:hover { background: linear-gradient(135deg, #6ee7b7 0%, #34d399 100%); box-shadow: 0 6px 24px -2px rgba(16, 185, 129, 0.65); transform: translateY(-1px); }
     .reader-word {
-      display: inline;
-      padding: 2px 4px;
-      margin: 0 -1px;
-      border-radius: 6px;
-      cursor: pointer;
+      display: inline; padding: 2px 4px; margin: 0 -1px; border-radius: 6px; cursor: pointer;
       transition: background-color 0.14s ease, color 0.14s ease, box-shadow 0.14s ease;
-      line-height: 1.8;
-      word-break: break-word;
+      line-height: 1.8; word-break: break-word;
     }
-
-    .reader-word:hover {
-      background-color: var(--word-hover);
-    }
-
+    .reader-word:hover { background-color: var(--word-hover); }
     .reader-word.active-word {
-      background-color: var(--word-active-bg) !important;
-      color: var(--word-active-text) !important;
-      font-weight: 600;
-      animation: activeWordPulse 1.6s ease-in-out infinite;
+      background-color: var(--word-active-bg) !important; color: var(--word-active-text) !important;
+      font-weight: 600; animation: activeWordPulse 1.6s ease-in-out infinite;
     }
-
-    .reader-word.active-phrase-fallback:not(.active-word) {
-      background-color: rgba(250, 204, 21, 0.16);
-      border-bottom: 1.5px dashed rgba(250, 204, 21, 0.55);
-    }
-
-    .reader-word.selected-start-word:not(.active-word) {
-      outline: 1.5px dashed var(--accent-color);
-      background-color: rgba(56, 189, 248, 0.14);
-    }
-
-    .reader-word.search-match {
-      background-color: var(--search-match-bg);
-      border-bottom: 2px solid var(--accent-color);
-    }
-
-    .reader-word.search-current {
-      background-color: var(--search-current-bg) !important;
-      color: var(--search-current-text) !important;
-      font-weight: 600;
-      box-shadow: 0 0 12px rgba(249, 115, 22, 0.6);
-    }
-
-    .speech-eq {
-      display: inline-flex;
-      align-items: center;
-      gap: 2px;
-      height: 13px;
-    }
-    .speech-eq span {
-      width: 2.5px;
-      height: 100%;
-      border-radius: 999px;
-      background-color: currentColor;
-      transform: scaleY(0.3);
-      transition: transform 0.2s ease, background-color 0.2s ease;
-    }
+    .reader-word.active-phrase-fallback:not(.active-word) { background-color: rgba(250, 204, 21, 0.16); border-bottom: 1.5px dashed rgba(250, 204, 21, 0.55); }
+    .reader-word.selected-start-word:not(.active-word) { outline: 1.5px dashed var(--accent-color); background-color: rgba(56, 189, 248, 0.14); }
+    .reader-word.search-match { background-color: var(--search-match-bg); border-bottom: 2px solid var(--accent-color); }
+    .reader-word.search-current { background-color: var(--search-current-bg) !important; color: var(--search-current-text) !important; font-weight: 600; box-shadow: 0 0 12px rgba(249, 115, 22, 0.6); }
+    .speech-eq { display: inline-flex; align-items: center; gap: 2px; height: 13px; }
+    .speech-eq span { width: 2.5px; height: 100%; border-radius: 999px; background-color: currentColor; transform: scaleY(0.3); transition: transform 0.2s ease, background-color 0.2s ease; }
     .speech-eq.speaking span:nth-child(1) { animation: eqBarBounce 0.65s ease-in-out infinite 0s; }
     .speech-eq.speaking span:nth-child(2) { animation: eqBarBounce 0.65s ease-in-out infinite 0.16s; }
     .speech-eq.speaking span:nth-child(3) { animation: eqBarBounce 0.65s ease-in-out infinite 0.32s; }
     .speech-eq.speaking span:nth-child(4) { animation: eqBarBounce 0.65s ease-in-out infinite 0.12s; }
-
-    input[type="range"] {
-      -webkit-appearance: none;
-      appearance: none;
-      height: 7px;
-      background: rgba(38, 50, 68, 0.9);
-      border-radius: 999px;
-      outline: none;
-      transition: background 0.2s ease;
-    }
-
+    input[type="range"] { -webkit-appearance: none; appearance: none; height: 7px; background: rgba(38, 50, 68, 0.9); border-radius: 999px; outline: none; transition: background 0.2s ease; }
     input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: #38bdf8;
-      cursor: pointer;
-      border: 2px solid #0f141c;
-      box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%;
+      background: #38bdf8; cursor: pointer; border: 2px solid #0f141c;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.6); transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
-
-    input[type="range"]::-webkit-slider-thumb:hover {
-      transform: scale(1.15);
-      box-shadow: 0 0 14px rgba(56, 189, 248, 0.85);
-    }
-
-    body.night-comfort input[type="range"]::-webkit-slider-thumb {
-      background: #f59e0b;
-      box-shadow: 0 0 10px rgba(245, 158, 11, 0.6);
-    }
-
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: rgba(15, 20, 28, 0.6);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #334155;
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #475569;
-    }
+    input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); box-shadow: 0 0 14px rgba(56, 189, 248, 0.85); }
+    body.night-comfort input[type="range"]::-webkit-slider-thumb { background: #f59e0b; box-shadow: 0 0 10px rgba(245, 158, 11, 0.6); }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: rgba(15, 20, 28, 0.6); }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-sky-500 selection:text-slate-950">
@@ -705,119 +542,50 @@
       const TextNormalizer = (function () {
         // Однозначные слова с буквой «ё» (без омографов вроде берет/берёт, узнает/узнаёт, все/всё)
         const UNAMBIGUOUS_YO_WORDS = {
-          'еще': 'ещё',
-          'объем': 'объём',
-          'объема': 'объёма',
-          'объему': 'объёму',
-          'объемом': 'объёмом',
-          'объеме': 'объёме',
-          'объемы': 'объёмы',
-          'объемов': 'объёмов',
-          'расчет': 'расчёт',
-          'расчета': 'расчёта',
-          'расчету': 'расчёту',
-          'расчетом': 'расчётом',
-          'расчете': 'расчёте',
-          'расчеты': 'расчёты',
-          'расчетов': 'расчётов',
-          'отчет': 'отчёт',
-          'отчета': 'отчёта',
-          'отчеты': 'отчёты',
-          'учет': 'учёт',
-          'учета': 'учёта',
-          'включен': 'включён',
-          'включенный': 'включённый',
-          'защищен': 'защищён',
-          'защищенный': 'защищённый',
-          'сохранен': 'сохранён',
-          'сохраненной': 'сохранённой',
-          'сохраненную': 'сохранённую',
-          'извлечен': 'извлечён',
-          'извлеченный': 'извлечённый',
-          'переведен': 'переведён',
-          'проведен': 'проведён',
-          'приведен': 'приведён',
-          'разделен': 'разделён',
-          'определен': 'определён',
-          'темный': 'тёмный',
-          'темная': 'тёмная',
-          'темное': 'тёмное',
-          'темном': 'тёмном',
-          'теплый': 'тёплый',
-          'теплая': 'тёплая',
-          'теплое': 'тёплое',
-          'желтый': 'жёлтый',
-          'желтая': 'жёлтая',
-          'желтым': 'жёлтым',
-          'четкий': 'чёткий',
-          'четкая': 'чёткая',
-          'четкое': 'чёткое',
-          'трех': 'трёх',
-          'четырех': 'четырёх'
+          'еще': 'ещё', 'трех': 'трёх', 'четырех': 'четырёх',
+          'объем': 'объём', 'объема': 'объёма', 'объему': 'объёму', 'объемом': 'объёмом', 'объеме': 'объёме', 'объемы': 'объёмы', 'объемов': 'объёмов',
+          'расчет': 'расчёт', 'расчета': 'расчёта', 'расчету': 'расчёту', 'расчетом': 'расчётом', 'расчете': 'расчёте', 'расчеты': 'расчёты', 'расчетов': 'расчётов',
+          'отчет': 'отчёт', 'отчета': 'отчёта', 'отчеты': 'отчёты', 'учет': 'учёт', 'учета': 'учёта',
+          'включен': 'включён', 'включенный': 'включённый', 'защищен': 'защищён', 'защищенный': 'защищённый',
+          'сохранен': 'сохранён', 'сохраненной': 'сохранённой', 'сохраненную': 'сохранённую',
+          'извлечен': 'извлечён', 'извлеченный': 'извлечённый', 'переведен': 'переведён',
+          'проведен': 'проведён', 'приведен': 'приведён', 'разделен': 'разделён', 'определен': 'определён',
+          'темный': 'тёмный', 'темная': 'тёмная', 'темное': 'тёмное', 'темном': 'тёмном',
+          'теплый': 'тёплый', 'теплая': 'тёплая', 'теплое': 'тёплое',
+          'желтый': 'жёлтый', 'желтая': 'жёлтая', 'желтым': 'жёлтым',
+          'четкий': 'чёткий', 'четкая': 'чёткая', 'четкое': 'чёткое'
         };
 
         // Безопасные однословные сокращения и аббревиатуры
         const SINGLE_ABBREVIATIONS = {
-          'см.': 'смотри',
-          'рис.': 'рисунок',
-          'табл.': 'таблица',
-          'стр.': 'страница',
-          'гл.': 'глава',
-          'разд.': 'раздел',
-          'п.': 'пункт',
-          'пп.': 'пункты',
-          'др.': 'другие',
-          'пр.': 'прочее',
-          'руб.': 'рублей',
-          'тыс.': 'тысяч',
-          'млн': 'миллионов',
-          'млн.': 'миллионов',
-          'млрд': 'миллиардов',
-          'млрд.': 'миллиардов',
-          'т.е.': 'то есть',
-          'т.д.': 'так далее',
-          'т.п.': 'тому подобное',
-          'т.к.': 'так как',
-          'т.н.': 'так называемый',
-          'pdf': 'пэ-дэ-эф',
-          'pdf-файл': 'пэ-дэ-эф файл',
-          'pdf-файла': 'пэ-дэ-эф файла',
-          'pdf-файлы': 'пэ-дэ-эф файлы',
-          'pdf-документ': 'пэ-дэ-эф документ',
-          'pdf-документов': 'пэ-дэ-эф документов',
-          'pdf.js': 'пэ-дэ-эф джей-эс',
-          'txt': 'тэ-икс-тэ',
-          'html': 'аш-ти-эм-эль',
-          'html5': 'аш-ти-эм-эль пять',
-          'css': 'си-эс-эс',
-          'css3': 'си-эс-эс три',
-          'api': 'эй-пи-ай',
-          'ios': 'ай-о-эс',
-          'iphone': 'айфон',
-          'ipad': 'айпад',
-          'safari': 'сафари',
-          'wi-fi': 'вай-фай',
-          'usb': 'ю-эс-би',
-          'url': 'ю-эр-эл'
+          'см.': 'смотри', 'рис.': 'рисунок', 'табл.': 'таблица', 'стр.': 'страница', 'гл.': 'глава',
+          'разд.': 'раздел', 'п.': 'пункт', 'пп.': 'пункты', 'др.': 'другие', 'пр.': 'прочее',
+          'руб.': 'рублей', 'тыс.': 'тысяч', 'млн': 'миллионов', 'млн.': 'миллионов', 'млрд': 'миллиардов', 'млрд.': 'миллиардов',
+          'т.е.': 'то есть', 'т.д.': 'так далее', 'т.п.': 'тому подобное', 'т.к.': 'так как', 'т.н.': 'так называемый',
+          'pdf': 'пэ-дэ-эф', 'pdf-файл': 'пэ-дэ-эф файл', 'pdf-файла': 'пэ-дэ-эф файла', 'pdf-файлы': 'пэ-дэ-эф файлы',
+          'pdf-документ': 'пэ-дэ-эф документ', 'pdf-документов': 'пэ-дэ-эф документов', 'pdf.js': 'пэ-дэ-эф джей-эс',
+          'txt': 'тэ-икс-тэ', 'html': 'аш-ти-эм-эль', 'html5': 'аш-ти-эм-эль пять', 'css': 'си-эс-эс', 'css3': 'си-эс-эс три',
+          'api': 'эй-пи-ай', 'ios': 'ай-о-эс', 'iphone': 'айфон', 'ipad': 'айпад', 'safari': 'сафари',
+          'wi-fi': 'вай-фай', 'usb': 'ю-эс-би', 'url': 'ю-эр-эл'
         };
 
         // Многословные встроенные сокращения
         const BUILTIN_MULTIWORD_RULES = [
           { tokens: ['и', 'т.', 'д.'], replacement: 'и так далее' },
           { tokens: ['и', 'т.', 'п.'], replacement: 'и тому подобное' },
+          { tokens: ['в', 'т.', 'ч.'], replacement: 'в том числе' },
+          { tokens: ['до', 'н.', 'э.'], replacement: 'до нашей эры' },
           { tokens: ['т.', 'е.'], replacement: 'то есть' },
           { tokens: ['т.', 'д.'], replacement: 'так далее' },
           { tokens: ['т.', 'п.'], replacement: 'тому подобное' },
           { tokens: ['т.', 'к.'], replacement: 'так как' },
           { tokens: ['т.', 'н.'], replacement: 'так называемый' },
-          { tokens: ['в', 'т.', 'ч.'], replacement: 'в том числе' },
           { tokens: ['н.', 'э.'], replacement: 'нашей эры' },
-          { tokens: ['до', 'н.', 'э.'], replacement: 'до нашей эры' },
           { tokens: ['и', 'др.'], replacement: 'и другие' },
           { tokens: ['и', 'пр.'], replacement: 'и прочее' }
         ];
 
-        // Единицы измерения с грамматическим родом и тремя формами: [им. ед., род. ед., род. мн.]
+        // Единицы измерения: [им. ед., род. ед., род. мн.]
         const UNITS_DECLENSION = {
           'мг': { gender: 'm', forms: ['миллиграмм', 'миллиграмма', 'миллиграммов'] },
           'г': { gender: 'm', forms: ['грамм', 'грамма', 'граммов'] },
@@ -847,7 +615,6 @@
           '%': { gender: 'm', forms: ['процент', 'процента', 'процентов'] }
         };
 
-        // Римские числа для контекстного согласования (главы, разделы, века)
         const ROMAN_MAP = {
           'I': { cardinal: 'один', ordinalPrepFem: 'первой', ordinalNomMasc: 'первый', ordinalPrepMasc: 'первом' },
           'II': { cardinal: 'два', ordinalPrepFem: 'второй', ordinalNomMasc: 'второй', ordinalPrepMasc: 'втором' },
@@ -872,37 +639,30 @@
           'XXI': { cardinal: 'двадцать один', ordinalPrepFem: 'двадцать первой', ordinalNomMasc: 'двадцать первый', ordinalPrepMasc: 'двадцать первом' }
         };
 
-        // Словесная запись малых целых чисел для согласования с родом единицы измерения
         function integerToRussianWords(num, gender) {
           const n = parseInt(num, 10);
           if (isNaN(n) || n < 0 || n > 999) return String(num);
           if (n === 0) return 'ноль';
-
           const hundreds = ['', 'сто', 'двести', 'триста', 'четыреста', 'пятьсот', 'шестьсот', 'семьсот', 'восемьсот', 'девятьсот'];
           const tens = ['', '', 'двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто'];
           const teens = ['десять', 'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать', 'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать'];
           const unitsMasc = ['', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'];
           const unitsFem = ['', 'одна', 'две', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'];
-
           const parts = [];
           const h = Math.floor(n / 100);
           const rem = n % 100;
           if (h > 0) parts.push(hundreds[h]);
-
           if (rem >= 10 && rem <= 19) {
             parts.push(teens[rem - 10]);
           } else {
             const t = Math.floor(rem / 10);
             const u = rem % 10;
             if (t > 0) parts.push(tens[t]);
-            if (u > 0) {
-              parts.push(gender === 'f' ? unitsFem[u] : unitsMasc[u]);
-            }
+            if (u > 0) parts.push(gender === 'f' ? unitsFem[u] : unitsMasc[u]);
           }
           return parts.join(' ');
         }
 
-        // Выбор формы существительного по целому числу (с учётом исключений 11–14)
         function selectPluralForm(intVal, forms) {
           const n = Math.abs(parseInt(intVal, 10));
           const mod100 = n % 100;
@@ -913,19 +673,11 @@
           return forms[2];
         }
 
-        // Отделение внешней пунктуации от ядра токена
         function splitTokenPunctuation(rawToken) {
           const m = String(rawToken || '').match(/^([«"(\[{]*)(.*?)([»")\]}.,!?;:…]*)$/);
-          if (!m) return { prefix: '', core: String(rawToken || ''), suffix: '' };
-          return {
-            prefix: m[1] || '',
-            core: m[2] || '',
-            suffix: m[3] || ''
-          };
+          return m ? { prefix: m[1] || '', core: m[2] || '', suffix: m[3] || '' } : { prefix: '', core: String(rawToken || ''), suffix: '' };
         }
 
-        // Осторожная склейка разорванных переносами слов на границах строк PDF
-        // Не удаляет смысловые дефисы (физико-математический, по-русски, Санкт-Петербург, 5-10)
         const KEEP_HYPHEN_PREFIXES = new Set([
           'по', 'во', 'в', 'ко', 'из', 'под', 'над', 'за', 'то', 'либо', 'нибудь', 'кое', 'кой',
           'санкт', 'нью', 'лос', 'риу', 'аль', 'экс', 'вице', 'лейб', 'унтер', 'штаб', 'гамма', 'альфа', 'бета'
@@ -935,71 +687,38 @@
           const a = (lineA || '').replace(/\u00AD/g, '').trimEnd();
           const b = (lineB || '').replace(/\u00AD/g, '').trimStart();
           if (!a || !b) return a + (a && b ? ' ' : '') + b;
-
-          // Проверяем, заканчивается ли строка A на буквенный фрагмент с одиночным дефисом
           const matchA = a.match(/^(.*?\s)?([А-ЯЁа-яёA-Za-z]{2,})-$/) || a.match(/^()([А-ЯЁа-яёA-Za-z]{2,})-$/);
           const matchB = b.match(/^([а-яёa-z]{2,})(\s.*|$)/);
-          if (!matchA || !matchB) {
-            return a + ' ' + b;
-          }
-
+          if (!matchA || !matchB) return a + ' ' + b;
           const headPart = matchA[2];
           const tailPart = matchB[1];
           const headLower = headPart.toLowerCase();
-
-          // Не склеиваем, если первая часть — известная приставка через дефис или разные алфавиты
-          const isCyrA = /[а-яё]/i.test(headPart);
-          const isCyrB = /[а-яё]/i.test(tailPart);
-          if (isCyrA !== isCyrB || KEEP_HYPHEN_PREFIXES.has(headLower)) {
-            return a + b; // сохраняем дефис без пробела
-          }
-          // Не склеиваем составные прилагательные на -о/-е (например, физико-математический, научно-исследовательский)
-          if (/(?:ико|еко|чно|вно|льно|нно|ско|цко|ево|ово)$/i.test(headLower) && tailPart.length >= 5) {
-            return a + b;
-          }
-
+          if ((/[а-яё]/i.test(headPart) !== /[а-яё]/i.test(tailPart)) || KEEP_HYPHEN_PREFIXES.has(headLower)) return a + b;
+          if (/(?:ико|еко|чно|вно|льно|нно|ско|цко|ево|ово)$/i.test(headLower) && tailPart.length >= 5) return a + b;
           return (matchA[1] || '') + headPart + tailPart + (matchB[2] || '');
         }
 
-        // Компиляция пользовательских и встроенных многословных правил (сначала самые длинные)
         function buildOrderedMultiwordRules(customDict) {
           const rules = [];
           if (customDict && typeof customDict === 'object') {
             Object.entries(customDict).forEach(([key, val]) => {
               const cleanKey = (key || '').trim().toLowerCase();
               const cleanVal = (val || '').trim();
-              if (!cleanKey || !cleanVal) return;
-              const parts = cleanKey.split(/\s+/);
-              rules.push({
-                tokens: parts,
-                replacement: cleanVal,
-                isUser: true
-              });
+              if (cleanKey && cleanVal) rules.push({ tokens: cleanKey.split(/\s+/), replacement: cleanVal, isUser: true });
             });
           }
-          BUILTIN_MULTIWORD_RULES.forEach((r) => {
-            rules.push({
-              tokens: r.tokens,
-              replacement: r.replacement,
-              isUser: false
-            });
-          });
-          rules.sort((a, b) => {
-            if (b.tokens.length !== a.tokens.length) return b.tokens.length - a.tokens.length;
-            if (a.isUser !== b.isUser) return a.isUser ? -1 : 1;
-            return 0;
-          });
-          return rules;
+          BUILTIN_MULTIWORD_RULES.forEach((r) => rules.push({ tokens: r.tokens, replacement: r.replacement, isUser: false }));
+          return rules.sort((a, b) => (b.tokens.length - a.tokens.length) || (a.isUser === b.isUser ? 0 : (a.isUser ? -1 : 1)));
         }
 
-        // Конвейер подготовки сегмента для синтезатора с точной картой диапазонов исходных токенов
-        // Принимает срез токенов [{ text, index }] и возвращает { utteranceText, charMap }
         function buildSpokenSegmentWithMap(segmentTokens, options) {
           const smartEnabled = options && options.smartPronunciation !== false;
           const customDict = (options && options.customDict) || {};
           const multiRules = smartEnabled ? buildOrderedMultiwordRules(customDict) : [];
-
-          const emittedPieces = []; // [{ spoken, tokenStartIdx, tokenEndIdx }]
+          const emittedPieces = [];
+          const emit = (spoken, tokenStartIdx, tokenEndIdx = tokenStartIdx) => {
+            emittedPieces.push({ spoken, tokenStartIdx, tokenEndIdx });
+          };
           const n = segmentTokens.length;
           let i = 0;
 
@@ -1010,41 +729,28 @@
             const coreLower = parts.core.toLowerCase();
 
             if (!smartEnabled) {
-              emittedPieces.push({
-                spoken: tok.text,
-                tokenStartIdx: tok.index,
-                tokenEndIdx: tok.index
-              });
+              emit(tok.text, tok.index);
               i++;
               continue;
             }
 
-            // 1. Проверка многословных и однословных правил (сначала длинные, пользовательские приоритетнее)
+            // 1. Многословные и однословные правила (longest-match-first, приоритет у пользовательских)
             let matchedRule = null;
             for (let r = 0; r < multiRules.length; r++) {
               const rule = multiRules[r];
               const len = rule.tokens.length;
               if (i + len > n) continue;
-
               let allMatch = true;
               for (let k = 0; k < len; k++) {
                 const cand = splitTokenPunctuation(segmentTokens[i + k].text);
                 const candWithDot = (cand.core + (cand.suffix.startsWith('.') ? '.' : '')).toLowerCase();
                 const candLower = cand.core.toLowerCase();
                 const target = rule.tokens[k];
-                if (target.endsWith('.')) {
-                  if (candWithDot !== target && candLower !== target) {
-                    allMatch = false;
-                    break;
-                  }
-                } else {
-                  if (candLower !== target) {
-                    allMatch = false;
-                    break;
-                  }
+                if (target.endsWith('.') ? (candWithDot !== target && candLower !== target) : (candLower !== target)) {
+                  allMatch = false;
+                  break;
                 }
               }
-
               if (allMatch) {
                 matchedRule = rule;
                 break;
@@ -1056,267 +762,138 @@
               const firstParts = splitTokenPunctuation(segmentTokens[i].text);
               const lastParts = splitTokenPunctuation(segmentTokens[i + len - 1].text);
               const lastRuleTok = matchedRule.tokens[len - 1];
-              const remainingSuffix = (lastRuleTok.endsWith('.') && lastParts.suffix.startsWith('.'))
-                ? lastParts.suffix.slice(1)
-                : lastParts.suffix;
-
-              emittedPieces.push({
-                spoken: firstParts.prefix + matchedRule.replacement + remainingSuffix,
-                tokenStartIdx: segmentTokens[i].index,
-                tokenEndIdx: segmentTokens[i + len - 1].index
-              });
+              const remainingSuffix = (lastRuleTok.endsWith('.') && lastParts.suffix.startsWith('.')) ? lastParts.suffix.slice(1) : lastParts.suffix;
+              emit(firstParts.prefix + matchedRule.replacement + remainingSuffix, segmentTokens[i].index, segmentTokens[i + len - 1].index);
               i += len;
               continue;
             }
 
-            // 2. Контекстные конструкции с римскими цифрами:
-            // «В главе IV» / «глава IV» / «в IV главе» / «в XXI в.» / «XXI век»
+            // 2. Двухтокенные контекстные конструкции (римские цифры, годы, ссылки на рис./табл., числа с единицами)
             if (i + 1 < n) {
-              const nextParts = splitTokenPunctuation(segmentTokens[i + 1].text);
+              const nextTok = segmentTokens[i + 1];
+              const nextParts = splitTokenPunctuation(nextTok.text);
               const nextCoreLower = nextParts.core.toLowerCase();
               const nextWithDot = (nextParts.core + (nextParts.suffix.startsWith('.') ? '.' : '')).toLowerCase();
 
-              // Случай A: «глава IV», «главе IV», «раздел IV», «таблица IV»
               if (/^(глав[аеыуой]|раздел[аеу]?|параграф[аеу]?|част[ьи])$/i.test(parts.core) && ROMAN_MAP[nextParts.core]) {
-                const roman = ROMAN_MAP[nextParts.core];
-                emittedPieces.push({
-                  spoken: parts.prefix + parts.core + ' ' + roman.cardinal + nextParts.suffix,
-                  tokenStartIdx: tok.index,
-                  tokenEndIdx: segmentTokens[i + 1].index
-                });
+                emit(parts.prefix + parts.core + ' ' + ROMAN_MAP[nextParts.core].cardinal + nextParts.suffix, tok.index, nextTok.index);
                 i += 2;
                 continue;
               }
-
-              // Случай B: «IV главе» -> «четвёртой главе»
               if (ROMAN_MAP[parts.core] && /^глав[еыуой]$/i.test(nextCoreLower)) {
-                const roman = ROMAN_MAP[parts.core];
-                emittedPieces.push({
-                  spoken: parts.prefix + roman.ordinalPrepFem + ' ' + nextParts.core + nextParts.suffix,
-                  tokenStartIdx: tok.index,
-                  tokenEndIdx: segmentTokens[i + 1].index
-                });
+                emit(parts.prefix + ROMAN_MAP[parts.core].ordinalPrepFem + ' ' + nextParts.core + nextParts.suffix, tok.index, nextTok.index);
                 i += 2;
                 continue;
               }
-
-              // Случай C: «XXI в.» / «XXI веке» / «XXI век»
               if (ROMAN_MAP[parts.core] && (nextWithDot === 'в.' || /^век[аеу]?$/i.test(nextCoreLower))) {
                 const roman = ROMAN_MAP[parts.core];
                 const prevTok = i > 0 ? splitTokenPunctuation(segmentTokens[i - 1].text).core.toLowerCase() : '';
                 const isPrep = prevTok === 'в' || prevTok === 'о' || prevTok === 'об' || nextCoreLower === 'веке';
                 const remSuf = nextWithDot === 'в.' ? nextParts.suffix.slice(1) : nextParts.suffix;
-                const centuryWord = isPrep ? (roman.ordinalPrepMasc + ' веке') : (roman.ordinalNomMasc + ' век');
-                emittedPieces.push({
-                  spoken: parts.prefix + centuryWord + remSuf,
-                  tokenStartIdx: tok.index,
-                  tokenEndIdx: segmentTokens[i + 1].index
-                });
+                emit(parts.prefix + (isPrep ? roman.ordinalPrepMasc + ' веке' : roman.ordinalNomMasc + ' век') + remSuf, tok.index, nextTok.index);
                 i += 2;
                 continue;
               }
-
-              // Случай D: Год + «г.» / «гг.» (например: «в 1799 г.», «1799 г.», «1990–2000 гг.»)
               if (/^\d{3,4}$/.test(parts.core) && (nextWithDot === 'г.' || nextWithDot === 'гг.')) {
                 const prevTok = i > 0 ? splitTokenPunctuation(segmentTokens[i - 1].text).core.toLowerCase() : '';
                 const remSuf = nextParts.suffix.startsWith('.') ? nextParts.suffix.slice(1) : nextParts.suffix;
                 const yearWord = nextWithDot === 'гг.' ? 'годы' : (prevTok === 'в' ? 'году' : 'год');
-                emittedPieces.push({
-                  spoken: parts.prefix + parts.core + ' ' + yearWord + remSuf,
-                  tokenStartIdx: tok.index,
-                  tokenEndIdx: segmentTokens[i + 1].index
-                });
+                emit(parts.prefix + parts.core + ' ' + yearWord + remSuf, tok.index, nextTok.index);
                 i += 2;
                 continue;
               }
-
-              // Случай E: «рис. 2», «табл. 1», «стр. 15», «гл. 3»
               if ((coreWithDot === 'рис.' || coreWithDot === 'табл.' || coreWithDot === 'стр.' || coreWithDot === 'гл.') && /^\d+$/.test(nextParts.core)) {
                 let expandedHead = SINGLE_ABBREVIATIONS[coreWithDot];
-                if (/^[А-ЯЁ]/.test(parts.core)) {
-                  expandedHead = expandedHead.charAt(0).toUpperCase() + expandedHead.slice(1);
-                }
-                const numWords = integerToRussianWords(nextParts.core, 'm');
-                emittedPieces.push({
-                  spoken: parts.prefix + expandedHead + ' ' + numWords + nextParts.suffix,
-                  tokenStartIdx: tok.index,
-                  tokenEndIdx: segmentTokens[i + 1].index
-                });
+                if (/^[А-ЯЁ]/.test(parts.core)) expandedHead = expandedHead.charAt(0).toUpperCase() + expandedHead.slice(1);
+                emit(parts.prefix + expandedHead + ' ' + integerToRussianWords(nextParts.core, 'm') + nextParts.suffix, tok.index, nextTok.index);
                 i += 2;
                 continue;
               }
 
-              // Случай F: Диапазон чисел + единица измерения (например: «5–10 мг», «5-10 мг»)
               const rangeMatch = parts.core.match(/^(\d{1,3})[–—-](\d{1,3})$/);
-              const unitInfoForRange = UNITS_DECLENSION[nextWithDot] || UNITS_DECLENSION[nextCoreLower];
-              if (rangeMatch && unitInfoForRange) {
-                const n1 = rangeMatch[1];
-                const n2 = rangeMatch[2];
-                const remSuf = (UNITS_DECLENSION[nextWithDot] && nextParts.suffix.startsWith('.'))
-                  ? nextParts.suffix.slice(1)
-                  : nextParts.suffix;
-                emittedPieces.push({
-                  spoken: parts.prefix + 'от ' + n1 + ' до ' + n2 + ' ' + unitInfoForRange.forms[2] + remSuf,
-                  tokenStartIdx: tok.index,
-                  tokenEndIdx: segmentTokens[i + 1].index
-                });
-                i += 2;
-                continue;
-              }
-
-              // Случай G: Целое или десятичное число + единица измерения (например: «1 мг», «2 мг», «5 мг», «3,5 мг»)
               const unitInfo = UNITS_DECLENSION[nextWithDot] || UNITS_DECLENSION[nextCoreLower];
               if (unitInfo) {
-                const remSuf = (UNITS_DECLENSION[nextWithDot] && nextParts.suffix.startsWith('.'))
-                  ? nextParts.suffix.slice(1)
-                  : nextParts.suffix;
-
-                if (/^\d{1,3}$/.test(parts.core)) {
-                  const numSpoken = integerToRussianWords(parts.core, unitInfo.gender);
-                  const unitForm = selectPluralForm(parts.core, unitInfo.forms);
-                  emittedPieces.push({
-                    spoken: parts.prefix + numSpoken + ' ' + unitForm + remSuf,
-                    tokenStartIdx: tok.index,
-                    tokenEndIdx: segmentTokens[i + 1].index
-                  });
+                const remSuf = (UNITS_DECLENSION[nextWithDot] && nextParts.suffix.startsWith('.')) ? nextParts.suffix.slice(1) : nextParts.suffix;
+                if (rangeMatch) {
+                  emit(parts.prefix + 'от ' + rangeMatch[1] + ' до ' + rangeMatch[2] + ' ' + unitInfo.forms[2] + remSuf, tok.index, nextTok.index);
                   i += 2;
                   continue;
                 }
-
-                // Десятичная дробь + единица измерения (всегда родительный падеж единственного числа: «3,5 миллиграмма»)
+                if (/^\d{1,3}$/.test(parts.core)) {
+                  emit(parts.prefix + integerToRussianWords(parts.core, unitInfo.gender) + ' ' + selectPluralForm(parts.core, unitInfo.forms) + remSuf, tok.index, nextTok.index);
+                  i += 2;
+                  continue;
+                }
                 if (/^\d+[,.]\d+$/.test(parts.core)) {
-                  const decNormalized = parts.core.replace('.', ',');
-                  emittedPieces.push({
-                    spoken: parts.prefix + decNormalized + ' ' + unitInfo.forms[1] + remSuf,
-                    tokenStartIdx: tok.index,
-                    tokenEndIdx: segmentTokens[i + 1].index
-                  });
+                  emit(parts.prefix + parts.core.replace('.', ',') + ' ' + unitInfo.forms[1] + remSuf, tok.index, nextTok.index);
                   i += 2;
                   continue;
                 }
               }
             }
 
-            // 3. Однотокенные числа с процентами или кратностью (например: «3,5%», «5%», «10–15%», «1.5x»)
+            // 3. Однотокенные проценты, спецсимволы, сокращения и однозначные слова с «ё»
             const decPctMatch = parts.core.match(/^(\d+)[,.](\d+)%$/);
             if (decPctMatch) {
-              emittedPieces.push({
-                spoken: parts.prefix + decPctMatch[1] + ',' + decPctMatch[2] + ' процента' + parts.suffix,
-                tokenStartIdx: tok.index,
-                tokenEndIdx: tok.index
-              });
+              emit(parts.prefix + decPctMatch[1] + ',' + decPctMatch[2] + ' процента' + parts.suffix, tok.index);
               i++;
               continue;
             }
-
             const rangePctMatch = parts.core.match(/^(\d{1,3})[–—-](\d{1,3})%$/);
             if (rangePctMatch) {
-              emittedPieces.push({
-                spoken: parts.prefix + 'от ' + rangePctMatch[1] + ' до ' + rangePctMatch[2] + ' процентов' + parts.suffix,
-                tokenStartIdx: tok.index,
-                tokenEndIdx: tok.index
-              });
+              emit(parts.prefix + 'от ' + rangePctMatch[1] + ' до ' + rangePctMatch[2] + ' процентов' + parts.suffix, tok.index);
               i++;
               continue;
             }
-
             const intPctMatch = parts.core.match(/^(\d{1,3})%$/);
             if (intPctMatch) {
-              const pctWords = integerToRussianWords(intPctMatch[1], 'm');
-              const pctForm = selectPluralForm(intPctMatch[1], UNITS_DECLENSION['%'].forms);
-              emittedPieces.push({
-                spoken: parts.prefix + pctWords + ' ' + pctForm + parts.suffix,
-                tokenStartIdx: tok.index,
-                tokenEndIdx: tok.index
-              });
+              emit(parts.prefix + integerToRussianWords(intPctMatch[1], 'm') + ' ' + selectPluralForm(intPctMatch[1], UNITS_DECLENSION['%'].forms) + parts.suffix, tok.index);
               i++;
               continue;
             }
 
-            // 4. Спецсимволы и однозначные слова с «ё» или сокращения с точкой
-            if (parts.core === '№') {
-              emittedPieces.push({ spoken: 'номер', tokenStartIdx: tok.index, tokenEndIdx: tok.index });
+            if (parts.core === '№' || parts.core === '§') {
+              emit(parts.core === '№' ? 'номер' : 'параграф', tok.index);
               i++;
               continue;
             }
-            if (parts.core === '§') {
-              emittedPieces.push({ spoken: 'параграф', tokenStartIdx: tok.index, tokenEndIdx: tok.index });
-              i++;
-              continue;
-            }
-
             if (parts.suffix.startsWith('.') && SINGLE_ABBREVIATIONS[coreWithDot]) {
               let expAbbr = SINGLE_ABBREVIATIONS[coreWithDot];
-              if (/^[А-ЯЁ]/.test(parts.core) && expAbbr.length > 1) {
-                expAbbr = expAbbr.charAt(0).toUpperCase() + expAbbr.slice(1);
-              }
-              emittedPieces.push({
-                spoken: parts.prefix + expAbbr + parts.suffix.slice(1),
-                tokenStartIdx: tok.index,
-                tokenEndIdx: tok.index
-              });
+              if (/^[А-ЯЁ]/.test(parts.core) && expAbbr.length > 1) expAbbr = expAbbr.charAt(0).toUpperCase() + expAbbr.slice(1);
+              emit(parts.prefix + expAbbr + parts.suffix.slice(1), tok.index);
               i++;
               continue;
             }
-
             if (SINGLE_ABBREVIATIONS[coreLower]) {
-              emittedPieces.push({
-                spoken: parts.prefix + SINGLE_ABBREVIATIONS[coreLower] + parts.suffix,
-                tokenStartIdx: tok.index,
-                tokenEndIdx: tok.index
-              });
+              emit(parts.prefix + SINGLE_ABBREVIATIONS[coreLower] + parts.suffix, tok.index);
               i++;
               continue;
             }
-
             if (UNAMBIGUOUS_YO_WORDS[coreLower]) {
               let yoWord = UNAMBIGUOUS_YO_WORDS[coreLower];
-              if (/^[А-ЯЁ]/.test(parts.core)) {
-                yoWord = yoWord.charAt(0).toUpperCase() + yoWord.slice(1);
-              }
-              emittedPieces.push({
-                spoken: parts.prefix + yoWord + parts.suffix,
-                tokenStartIdx: tok.index,
-                tokenEndIdx: tok.index
-              });
+              if (/^[А-ЯЁ]/.test(parts.core)) yoWord = yoWord.charAt(0).toUpperCase() + yoWord.slice(1);
+              emit(parts.prefix + yoWord + parts.suffix, tok.index);
               i++;
               continue;
             }
 
-            // По умолчанию сохраняем оригинальный токен без искажения смысла
-            emittedPieces.push({
-              spoken: tok.text,
-              tokenStartIdx: tok.index,
-              tokenEndIdx: tok.index
-            });
+            emit(tok.text, tok.index);
             i++;
           }
 
-          // Собираем окончательный текст для Utterance и строим точную посимвольную карту
           const charMap = [];
           const spokenChunks = [];
           let cursor = 0;
-
           for (let p = 0; p < emittedPieces.length; p++) {
             const piece = emittedPieces[p];
-            const pieceStr = piece.spoken;
             const start = cursor;
-            const end = start + pieceStr.length;
-            charMap.push({
-              charStart: start,
-              charEnd: end,
-              tokenStartIdx: piece.tokenStartIdx,
-              tokenEndIdx: piece.tokenEndIdx,
-              spoken: pieceStr
-            });
-            spokenChunks.push(pieceStr);
-            cursor = end + 1; // +1 за пробел между кусками
+            const end = start + piece.spoken.length;
+            charMap.push({ charStart: start, charEnd: end, tokenStartIdx: piece.tokenStartIdx, tokenEndIdx: piece.tokenEndIdx, spoken: piece.spoken });
+            spokenChunks.push(piece.spoken);
+            cursor = end + 1;
           }
 
-          return {
-            utteranceText: spokenChunks.join(' '),
-            charMap: charMap
-          };
+          return { utteranceText: spokenChunks.join(' '), charMap: charMap };
         }
 
         return {
@@ -1330,142 +907,85 @@
       // МОДУЛЬ 2. СЕГМЕНТАЦИЯ ПРЕДЛОЖЕНИЙ С УЧЁТОМ СОКРАЩЕНИЙ (SentenceSegmenter)
       // =========================================================================
       const SentenceSegmenter = (function () {
-        // Сокращения, после которых точка НЕ завершает предложение
         const NON_TERMINAL_ABBR = new Set([
           'см.', 'рис.', 'табл.', 'стр.', 'с.', 'гл.', 'разд.', 'п.', 'пп.',
           'им.', 'акад.', 'проф.', 'доц.', 'канд.', 'ул.', 'пр-т.', 'обл.',
           'р-н.', 'корп.', 'кв.', 'тел.', 'руб.', 'коп.', 'тыс.', 'млн.', 'млрд.',
           'т.', 'т.е.', 'т.к.', 'т.н.', 'в.', 'вв.'
         ]);
-
-        // Сокращения, которые могут стоять как в середине, так и в конце предложения («г.», «гг.», «и т. д.», «и др.»)
-        const CONTEXTUAL_END_ABBR = new Set([
-          'г.', 'гг.', 'д.', 'п.', 'др.', 'пр.', 'э.', 'ч.'
-        ]);
+        const CONTEXTUAL_END_ABBR = new Set(['г.', 'гг.', 'д.', 'п.', 'др.', 'пр.', 'э.', 'ч.']);
 
         function isSentenceBoundaryAfterToken(tokens, idx) {
           const curr = tokens[idx];
           if (!curr) return false;
           const raw = curr.text;
-
-          // Завершающие знаки ? ! … всегда закрывают предложение
-          if (/[!?…]+["»)\]]*$/.test(raw)) {
-            return true;
-          }
-
-          // Проверяем наличие точки на конце токена
-          if (!/\.+["»)\]]*$/.test(raw)) {
-            return false;
-          }
+          if (/[!?…]+["»)\]]*$/.test(raw)) return true;
+          if (!/\.+["»)\]]*$/.test(raw)) return false;
 
           const cleanLower = raw.replace(/["»)\]]+$/g, '').toLowerCase();
           const nextTok = idx + 1 < tokens.length ? tokens[idx + 1] : null;
           if (!nextTok) return true;
 
-          // Если следующее слово начинается со строчной буквы или цифры/тире, точка внутри предложения
           const nextClean = nextTok.text.replace(/^[«"(\[{]+/, '');
-          if (/^[а-яёa-z0-9—–-]/.test(nextClean)) {
+          if (/^[а-яёa-z0-9—–-]/.test(nextClean) || NON_TERMINAL_ABBR.has(cleanLower) || cleanLower === 'т.' || cleanLower === 'н.') {
             return false;
           }
-
-          // Безусловные нетерминальные сокращения (см., рис., табл., им., проф. и т.д.)
-          if (NON_TERMINAL_ABBR.has(cleanLower)) {
+          if (/^[А-ЯЁA-Z]\.$/.test(raw.replace(/^[«"(\[{]+/, '')) && (/^[А-ЯЁA-Z]\.$/.test(nextClean) || /^[А-ЯЁA-Z][а-яёa-z]+/.test(nextClean))) {
             return false;
           }
-
-          // Инициалы: одиночная заглавная буква с точкой («А.», «С.») перед другим инициалом или фамилией
-          if (/^[А-ЯЁA-Z]\.$/.test(raw.replace(/^[«"(\[{]+/, ''))) {
-            if (/^[А-ЯЁA-Z]\.$/.test(nextClean) || /^[А-ЯЁA-Z][а-яёa-z]+/.test(nextClean)) {
-              return false;
-            }
-          }
-
-          // Составные сокращения «т. е.», «т. д.», «т. п.», «н. э.»
-          if (cleanLower === 'т.' || cleanLower === 'н.') {
-            return false;
-          }
-
-          // Если «г.» / «гг.» стоит после числа года, а следующее слово начинается с заглавной буквы — это конец предложения
           if (CONTEXTUAL_END_ABBR.has(cleanLower)) {
             return /^[А-ЯЁA-Z]/.test(nextClean);
           }
-
           return true;
         }
 
-        // Разбиение длинного предложения (> maxWords) только по безопасной синтаксической границе (; — : ,)
         function splitLongSentenceSafely(sentenceTokens, maxWords) {
           const limit = maxWords || 55;
-          if (sentenceTokens.length <= limit) {
-            return [sentenceTokens];
-          }
-
+          if (sentenceTokens.length <= limit) return [sentenceTokens];
           const result = [];
           let start = 0;
 
           while (start < sentenceTokens.length) {
-            const remaining = sentenceTokens.length - start;
-            if (remaining <= limit) {
+            if (sentenceTokens.length - start <= limit) {
               result.push(sentenceTokens.slice(start));
               break;
             }
-
             const idealEnd = start + limit;
             const searchMin = start + Math.floor(limit * 0.45);
             const searchMax = Math.min(sentenceTokens.length - 2, start + limit + 10);
-
             let bestSplit = -1;
-            let bestPriority = 0; // 3: [;:], 2: перед тире, 1: запятая
+            let bestPriority = 0;
 
             for (let k = searchMin; k <= searchMax; k++) {
               const t = sentenceTokens[k].text;
               const nextT = sentenceTokens[k + 1] ? sentenceTokens[k + 1].text : '';
-              let priority = 0;
-              if (/[;:]$/.test(t)) {
-                priority = 3;
-              } else if (/^[—–]$/.test(nextT)) {
-                priority = 2;
-              } else if (/,$/.test(t)) {
-                priority = 1;
-              }
-
+              const priority = /[;:]$/.test(t) ? 3 : (/^[—–]$/.test(nextT) ? 2 : (/,$/.test(t) ? 1 : 0));
               if (priority > bestPriority || (priority === bestPriority && priority > 0 && Math.abs(k - idealEnd) < Math.abs(bestSplit - idealEnd))) {
                 bestPriority = priority;
                 bestSplit = k;
               }
             }
-
-            if (bestSplit === -1) {
-              bestSplit = start + limit - 1;
-            }
-
+            if (bestSplit === -1) bestSplit = start + limit - 1;
             result.push(sentenceTokens.slice(start, bestSplit + 1));
             start = bestSplit + 1;
           }
-
           return result;
         }
 
-        // Сегментация массива токенов одного абзаца на предложения
         function segmentParagraphTokens(paragraphTokens, maxSentenceWords) {
           const sentences = [];
           let current = [];
-
-          for (let i = 0; i < paragraphTokens.length; i++) {
-            const tok = paragraphTokens[i];
-            current.push(tok);
-            if (isSentenceBoundaryAfterToken(paragraphTokens, i)) {
-              const safeChunks = splitLongSentenceSafely(current, maxSentenceWords || 55);
-              safeChunks.forEach((ch) => sentences.push(ch));
+          const flush = () => {
+            if (current.length > 0) {
+              splitLongSentenceSafely(current, maxSentenceWords || 55).forEach((ch) => sentences.push(ch));
               current = [];
             }
+          };
+          for (let i = 0; i < paragraphTokens.length; i++) {
+            current.push(paragraphTokens[i]);
+            if (isSentenceBoundaryAfterToken(paragraphTokens, i)) flush();
           }
-
-          if (current.length > 0) {
-            const safeChunks = splitLongSentenceSafely(current, maxSentenceWords || 55);
-            safeChunks.forEach((ch) => sentences.push(ch));
-          }
-
+          flush();
           return sentences;
         }
 
@@ -1481,8 +1001,6 @@
       const PdfStructureExtractor = (function () {
         function reconstructParagraphsFromItems(items) {
           if (!items || items.length === 0) return [];
-
-          // Преобразуем элементы PDF.js с учётом координат X, Y и высоты шрифта
           const fragments = [];
           for (let i = 0; i < items.length; i++) {
             const item = items[i];
@@ -1492,33 +1010,20 @@
             const x = tr[4] || 0;
             const y = tr[5] || 0;
             const fontH = Math.hypot(tr[2] || 0, tr[3] || 12) || 12;
-            const width = item.width || (str.length * fontH * 0.5);
-            fragments.push({ str, x, y, fontH, width, hasEOL: !!item.hasEOL });
+            fragments.push({ str, x, y, fontH, width: item.width || (str.length * fontH * 0.5), hasEOL: !!item.hasEOL });
           }
-
           if (fragments.length === 0) return [];
 
-          // Собираем строки по близкой координате Y, не сливая далёкие колонки
           const lines = [];
           let currLine = null;
-
           for (let i = 0; i < fragments.length; i++) {
             const f = fragments[i];
             if (!currLine) {
-              currLine = {
-                text: f.str,
-                y: f.y,
-                startX: f.x,
-                endX: f.x + f.width,
-                fontH: f.fontH
-              };
+              currLine = { text: f.str, y: f.y, startX: f.x, endX: f.x + f.width, fontH: f.fontH };
               continue;
             }
-
-            const yDiff = Math.abs(f.y - currLine.y);
-            const sameLineY = yDiff <= Math.max(4, currLine.fontH * 0.45);
+            const sameLineY = Math.abs(f.y - currLine.y) <= Math.max(4, currLine.fontH * 0.45);
             const xGap = f.x - currLine.endX;
-            // Большой горизонтальный разрыв (> 6 высот шрифта) указывает на соседнюю колонку или ячейку таблицы
             const isSeparateColumn = sameLineY && (xGap > currLine.fontH * 6 || f.x < currLine.startX - currLine.fontH * 2);
 
             if (sameLineY && !isSeparateColumn) {
@@ -1526,186 +1031,76 @@
               currLine.text += (needSpace ? ' ' : '') + f.str;
               currLine.endX = Math.max(currLine.endX, f.x + f.width);
             } else {
-              if (currLine.text.trim()) {
-                lines.push(currLine);
-              }
-              currLine = {
-                text: f.str,
-                y: f.y,
-                startX: f.x,
-                endX: f.x + f.width,
-                fontH: f.fontH
-              };
+              if (currLine.text.trim()) lines.push(currLine);
+              currLine = { text: f.str, y: f.y, startX: f.x, endX: f.x + f.width, fontH: f.fontH };
             }
           }
-          if (currLine && currLine.text.trim()) {
-            lines.push(currLine);
-          }
-
+          if (currLine && currLine.text.trim()) lines.push(currLine);
           if (lines.length === 0) return [];
 
-          // Группируем строки в смысловые абзацы
           const paragraphs = [];
           let currParaText = lines[0].text.trim();
-
           for (let i = 1; i < lines.length; i++) {
             const prev = lines[i - 1];
             const curr = lines[i];
             const avgH = (prev.fontH + curr.fontH) / 2 || 12;
             const verticalGap = Math.abs(prev.y - curr.y);
-            const indentShift = curr.startX - prev.startX;
+            const isNewPara = verticalGap > avgH * 1.65 ||
+              ((curr.startX - prev.startX) > avgH * 1.4 && /[.!?;:…»"]$/.test(prev.text.trim())) ||
+              (prev.text.trim().length < 55 && !/[.,;:-]$/.test(prev.text.trim()) && verticalGap > avgH * 1.3);
 
-            const isLargeVerticalGap = verticalGap > avgH * 1.65;
-            const isIndentedNewPara = indentShift > avgH * 1.4 && /[.!?;:…»"]$/.test(prev.text.trim());
-            const isHeadingLine = prev.text.trim().length < 55 && !/[.,;:-]$/.test(prev.text.trim()) && verticalGap > avgH * 1.3;
-
-            if (isLargeVerticalGap || isIndentedNewPara || isHeadingLine) {
-              if (currParaText.trim()) {
-                paragraphs.push(currParaText.trim());
-              }
+            if (isNewPara) {
+              if (currParaText.trim()) paragraphs.push(currParaText.trim());
               currParaText = curr.text.trim();
             } else {
               currParaText = TextNormalizer.mergeLineHyphenation(currParaText, curr.text.trim());
             }
           }
-
-          if (currParaText.trim()) {
-            paragraphs.push(currParaText.trim());
-          }
-
+          if (currParaText.trim()) paragraphs.push(currParaText.trim());
           return paragraphs;
         }
 
-        return {
-          reconstructParagraphsFromItems: reconstructParagraphsFromItems
-        };
+        return { reconstructParagraphsFromItems: reconstructParagraphsFromItems };
       })();
 
       // =========================================================================
       // СОСТОЯНИЕ И DOM-ССЫЛКИ ПРИЛОЖЕНИЯ
       // =========================================================================
       const state = {
-        pdfDoc: null,
-        isDemoDoc: false,
-        fileKey: null,
-        fileName: '',
-        currentPage: 1,
-        totalPages: 0,
-        pageRawText: '',
-        paragraphs: [], // массив строк абзацев
-        words: [], // [{ text, index, el, phraseIdx, paragraphIdx }]
-        phrases: [], // [{ tokens, startWordIdx, endWordIdx, paragraphIdx }]
-        currentWordIndex: 0,
-        activeHighlightRange: null, // { startIdx, endIdx, isFallbackPhrase }
-        selectedStartIndex: null,
-        isSpeaking: false,
-        isPaused: false,
-        usingApproxHighlight: false,
-        smoothReading: true,
-        smartPronunciation: true,
-        continuousReading: true,
-        autoScroll: false,
-        readingPreset: 'neutral',
-        rate: 1.0,
-        pitch: 1.0,
-        fontSize: 20,
-        nightComfort: false,
-        selectedVoiceURI: '',
-        voices: [],
-        hasRussianVoice: false,
-        customDict: {},
-        searchMatches: [],
-        searchCurrentPos: -1,
-        activeUtterance: null,
-        fallbackTimer: null,
-        speechSessionId: 0,
-        pageLoadRequestId: 0,
-        pendingFileBuffer: null,
-        saveProgressTimer: null,
-        lastSavedProgressAt: 0,
-        sliderRestartDebounceTimer: null
+        pdfDoc: null, isDemoDoc: false, fileKey: null, fileName: '',
+        currentPage: 1, totalPages: 0, pageRawText: '', paragraphs: [],
+        words: [], phrases: [], currentWordIndex: 0,
+        activeHighlightRange: null, selectedStartIndex: null,
+        isSpeaking: false, isPaused: false, usingApproxHighlight: false,
+        smoothReading: true, smartPronunciation: true, continuousReading: true, autoScroll: false,
+        readingPreset: 'neutral', rate: 1.0, pitch: 1.0, fontSize: 20, nightComfort: false,
+        selectedVoiceURI: '', voices: [], hasRussianVoice: false, customDict: {},
+        searchMatches: [], searchCurrentPos: -1,
+        activeUtterance: null, fallbackTimer: null, speechSessionId: 0, pageLoadRequestId: 0,
+        pendingFileBuffer: null, saveProgressTimer: null, lastSavedProgressAt: 0, sliderRestartDebounceTimer: null
       };
 
-      const els = {
-        pdfFileInput: document.getElementById('pdfFileInput'),
-        selectPdfBtn: document.getElementById('selectPdfBtn'),
-        loadDemoBtn: document.getElementById('loadDemoBtn'),
-        emptyStateSelectBtn: document.getElementById('emptyStateSelectBtn'),
-        emptyStateDemoBtn: document.getElementById('emptyStateDemoBtn'),
-        nightModeBtn: document.getElementById('nightModeBtn'),
-        fileNameDisplay: document.getElementById('fileNameDisplay'),
-        statusAlert: document.getElementById('statusAlert'),
-        statusAlertText: document.getElementById('statusAlertText'),
-        closeAlertBtn: document.getElementById('closeAlertBtn'),
-        resumeBanner: document.getElementById('resumeBanner'),
-        resumeBannerText: document.getElementById('resumeBannerText'),
-        confirmResumeBtn: document.getElementById('confirmResumeBtn'),
-        dismissResumeBtn: document.getElementById('dismissResumeBtn'),
-        passwordModal: document.getElementById('passwordModal'),
-        passwordModalHint: document.getElementById('passwordModalHint'),
-        pdfPasswordInput: document.getElementById('pdfPasswordInput'),
-        submitPasswordBtn: document.getElementById('submitPasswordBtn'),
-        cancelPasswordBtn: document.getElementById('cancelPasswordBtn'),
-        playCurrentBtn: document.getElementById('playCurrentBtn'),
-        playCurrentBtnText: document.getElementById('playCurrentBtnText'),
-        playFromStartBtn: document.getElementById('playFromStartBtn'),
-        pauseResumeBtn: document.getElementById('pauseResumeBtn'),
-        pauseResumeBtnText: document.getElementById('pauseResumeBtnText'),
-        stopBtn: document.getElementById('stopBtn'),
-        speechStateDot: document.getElementById('speechStateDot'),
-        speechEqualizer: document.getElementById('speechEqualizer'),
-        readingProgressBarFill: document.getElementById('readingProgressBarFill'),
-        speechStateLabel: document.getElementById('speechStateLabel'),
-        voiceSelect: document.getElementById('voiceSelect'),
-        readingPresetSelect: document.getElementById('readingPresetSelect'),
-        voiceCountBadge: document.getElementById('voiceCountBadge'),
-        testVoiceBtn: document.getElementById('testVoiceBtn'),
-        rateRange: document.getElementById('rateRange'),
-        rateValueLabel: document.getElementById('rateValueLabel'),
-        rateDecBtn: document.getElementById('rateDecBtn'),
-        rateIncBtn: document.getElementById('rateIncBtn'),
-        pitchRange: document.getElementById('pitchRange'),
-        pitchValueLabel: document.getElementById('pitchValueLabel'),
-        pitchDecBtn: document.getElementById('pitchDecBtn'),
-        pitchIncBtn: document.getElementById('pitchIncBtn'),
-        smartPronunciationToggle: document.getElementById('smartPronunciationToggle'),
-        toggleDictModalBtn: document.getElementById('toggleDictModalBtn'),
-        pronunciationDictPanel: document.getElementById('pronunciationDictPanel'),
-        customDictFromInput: document.getElementById('customDictFromInput'),
-        customDictToInput: document.getElementById('customDictToInput'),
-        previewDictRuleBtn: document.getElementById('previewDictRuleBtn'),
-        addCustomDictRuleBtn: document.getElementById('addCustomDictRuleBtn'),
-        customDictTagsContainer: document.getElementById('customDictTagsContainer'),
-        toggleSelfTestBtn: document.getElementById('toggleSelfTestBtn'),
-        selfTestPanel: document.getElementById('selfTestPanel'),
-        runSelfTestBtn: document.getElementById('runSelfTestBtn'),
-        selfTestResultsContainer: document.getElementById('selfTestResultsContainer'),
-        fontSizeRange: document.getElementById('fontSizeRange'),
-        fontSizeValueLabel: document.getElementById('fontSizeValueLabel'),
-        fontDecBtn: document.getElementById('fontDecBtn'),
-        fontIncBtn: document.getElementById('fontIncBtn'),
-        smoothReadingToggle: document.getElementById('smoothReadingToggle'),
-        continuousReadingToggle: document.getElementById('continuousReadingToggle'),
-        autoScrollToggle: document.getElementById('autoScrollToggle'),
-        readingProgressText: document.getElementById('readingProgressText'),
-        prevPageBtn: document.getElementById('prevPageBtn'),
-        nextPageBtn: document.getElementById('nextPageBtn'),
-        pageNumberInput: document.getElementById('pageNumberInput'),
-        totalPagesLabel: document.getElementById('totalPagesLabel'),
-        goToPageBtn: document.getElementById('goToPageBtn'),
-        searchInput: document.getElementById('searchInput'),
-        searchCountLabel: document.getElementById('searchCountLabel'),
-        searchPrevBtn: document.getElementById('searchPrevBtn'),
-        searchNextBtn: document.getElementById('searchNextBtn'),
-        searchClearBtn: document.getElementById('searchClearBtn'),
-        copyPageTextBtn: document.getElementById('copyPageTextBtn'),
-        downloadPageTextBtn: document.getElementById('downloadPageTextBtn'),
-        readerScrollContainer: document.getElementById('readerScrollContainer'),
-        readerTextContainer: document.getElementById('readerTextContainer'),
-        pageMetaBadge: document.getElementById('pageMetaBadge'),
-        toastNotification: document.getElementById('toastNotification'),
-        toastMessage: document.getElementById('toastMessage')
-      };
+      const els = {};
+      [
+        'pdfFileInput', 'selectPdfBtn', 'loadDemoBtn', 'emptyStateSelectBtn', 'emptyStateDemoBtn',
+        'nightModeBtn', 'fileNameDisplay', 'statusAlert', 'statusAlertText', 'closeAlertBtn',
+        'resumeBanner', 'resumeBannerText', 'confirmResumeBtn', 'dismissResumeBtn',
+        'passwordModal', 'passwordModalHint', 'pdfPasswordInput', 'submitPasswordBtn', 'cancelPasswordBtn',
+        'playCurrentBtn', 'playCurrentBtnText', 'playFromStartBtn', 'pauseResumeBtn', 'pauseResumeBtnText', 'stopBtn',
+        'speechStateDot', 'speechEqualizer', 'readingProgressBarFill', 'speechStateLabel',
+        'voiceSelect', 'readingPresetSelect', 'voiceCountBadge', 'testVoiceBtn',
+        'rateRange', 'rateValueLabel', 'rateDecBtn', 'rateIncBtn',
+        'pitchRange', 'pitchValueLabel', 'pitchDecBtn', 'pitchIncBtn',
+        'smartPronunciationToggle', 'toggleDictModalBtn', 'pronunciationDictPanel',
+        'customDictFromInput', 'customDictToInput', 'previewDictRuleBtn', 'addCustomDictRuleBtn', 'customDictTagsContainer',
+        'toggleSelfTestBtn', 'selfTestPanel', 'runSelfTestBtn', 'selfTestResultsContainer',
+        'fontSizeRange', 'fontSizeValueLabel', 'fontDecBtn', 'fontIncBtn',
+        'smoothReadingToggle', 'continuousReadingToggle', 'autoScrollToggle', 'readingProgressText',
+        'prevPageBtn', 'nextPageBtn', 'pageNumberInput', 'totalPagesLabel', 'goToPageBtn',
+        'searchInput', 'searchCountLabel', 'searchPrevBtn', 'searchNextBtn', 'searchClearBtn',
+        'copyPageTextBtn', 'downloadPageTextBtn', 'readerScrollContainer', 'readerTextContainer',
+        'pageMetaBadge', 'toastNotification', 'toastMessage'
+      ].forEach((id) => { els[id] = document.getElementById(id); });
 
       const synthSupported = typeof window !== 'undefined' && 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
 
@@ -1716,17 +1111,11 @@
         try {
           const raw = window.localStorage.getItem(key);
           return raw ? JSON.parse(raw) : null;
-        } catch (err) {
-          return null;
-        }
+        } catch (err) { return null; }
       }
 
       function safeSetStorage(key, value) {
-        try {
-          window.localStorage.setItem(key, JSON.stringify(value));
-        } catch (err) {
-          // Игнорируем блокировку в приватном режиме
-        }
+        try { window.localStorage.setItem(key, JSON.stringify(value)); } catch (err) {}
       }
 
       let toastTimeout = null;
@@ -1735,121 +1124,69 @@
         els.toastMessage.textContent = message;
         els.toastNotification.classList.remove('hidden');
         if (toastTimeout) clearTimeout(toastTimeout);
-        toastTimeout = setTimeout(() => {
-          els.toastNotification.classList.add('hidden');
-        }, 2800);
+        toastTimeout = setTimeout(() => els.toastNotification.classList.add('hidden'), 2800);
       }
 
+      const ALERT_STYLES = {
+        error: ['bg-rose-950/85', 'border-rose-500/50', 'text-rose-100'],
+        warning: ['bg-amber-950/85', 'border-amber-500/50', 'text-amber-100'],
+        info: ['bg-sky-950/85', 'border-sky-500/50', 'text-sky-100']
+      };
+
       function showAlert(message, type) {
-        const kind = type || 'error';
-        els.statusAlert.classList.remove('hidden', 'bg-rose-950/85', 'border-rose-500/50', 'text-rose-100', 'bg-amber-950/85', 'border-amber-500/50', 'text-amber-100', 'bg-sky-950/85', 'border-sky-500/50', 'text-sky-100');
-        if (kind === 'error') {
-          els.statusAlert.classList.add('bg-rose-950/85', 'border-rose-500/50', 'text-rose-100');
-        } else if (kind === 'warning') {
-          els.statusAlert.classList.add('bg-amber-950/85', 'border-amber-500/50', 'text-amber-100');
-        } else {
-          els.statusAlert.classList.add('bg-sky-950/85', 'border-sky-500/50', 'text-sky-100');
-        }
+        const cls = ALERT_STYLES[type || 'error'] || ALERT_STYLES.info;
+        els.statusAlert.classList.remove('hidden', ...ALERT_STYLES.error, ...ALERT_STYLES.warning, ...ALERT_STYLES.info);
+        els.statusAlert.classList.add(...cls);
         els.statusAlertText.textContent = message;
       }
 
-      function hideAlert() {
-        els.statusAlert.classList.add('hidden');
-      }
+      function hideAlert() { els.statusAlert.classList.add('hidden'); }
 
       function loadGlobalSettings() {
         const saved = safeGetStorage(STORAGE_GLOBAL_KEY) || safeGetStorage(STORAGE_LEGACY_KEY);
         if (saved) {
-          if (typeof saved.rate === 'number' && saved.rate >= 0.5 && saved.rate <= 2.0) {
-            state.rate = saved.rate;
-          }
-          if (typeof saved.pitch === 'number' && saved.pitch >= 0.7 && saved.pitch <= 1.3) {
-            state.pitch = saved.pitch;
-          }
-          if (typeof saved.fontSize === 'number' && saved.fontSize >= 14 && saved.fontSize <= 34) {
-            state.fontSize = saved.fontSize;
-          }
-          if (typeof saved.smoothReading === 'boolean') {
-            state.smoothReading = saved.smoothReading;
-          }
-          if (typeof saved.smartPronunciation === 'boolean') {
-            state.smartPronunciation = saved.smartPronunciation;
-          }
-          if (saved.customDict && typeof saved.customDict === 'object') {
-            state.customDict = saved.customDict;
-          }
-          if (typeof saved.continuousReading === 'boolean') {
-            state.continuousReading = saved.continuousReading;
-          }
-          if (typeof saved.autoScrollV2 === 'boolean') {
-            state.autoScroll = saved.autoScrollV2;
-          }
-          if (typeof saved.nightComfort === 'boolean') {
-            state.nightComfort = saved.nightComfort;
-          }
-          if (typeof saved.readingPreset === 'string' && READING_STYLE_PRESETS[saved.readingPreset]) {
-            state.readingPreset = saved.readingPreset;
-          }
-          // Не сохраняем старые фиктивные URI вида open_preset_*
-          if (typeof saved.selectedVoiceURI === 'string' && !saved.selectedVoiceURI.startsWith('open_preset_')) {
-            state.selectedVoiceURI = saved.selectedVoiceURI;
-          }
+          if (typeof saved.rate === 'number' && saved.rate >= 0.5 && saved.rate <= 2.0) state.rate = saved.rate;
+          if (typeof saved.pitch === 'number' && saved.pitch >= 0.7 && saved.pitch <= 1.3) state.pitch = saved.pitch;
+          if (typeof saved.fontSize === 'number' && saved.fontSize >= 14 && saved.fontSize <= 34) state.fontSize = saved.fontSize;
+          ['smoothReading', 'smartPronunciation', 'continuousReading', 'nightComfort'].forEach((k) => {
+            if (typeof saved[k] === 'boolean') state[k] = saved[k];
+          });
+          if (typeof saved.autoScrollV2 === 'boolean') state.autoScroll = saved.autoScrollV2;
+          if (saved.customDict && typeof saved.customDict === 'object') state.customDict = saved.customDict;
+          if (typeof saved.readingPreset === 'string' && READING_STYLE_PRESETS[saved.readingPreset]) state.readingPreset = saved.readingPreset;
+          if (typeof saved.selectedVoiceURI === 'string' && !saved.selectedVoiceURI.startsWith('open_preset_')) state.selectedVoiceURI = saved.selectedVoiceURI;
         }
         applySettingsToUI();
       }
 
       function saveGlobalSettings() {
         safeSetStorage(STORAGE_GLOBAL_KEY, {
-          rate: state.rate,
-          pitch: state.pitch,
-          fontSize: state.fontSize,
-          smoothReading: state.smoothReading,
-          smartPronunciation: state.smartPronunciation,
-          continuousReading: state.continuousReading,
-          autoScrollV2: state.autoScroll,
-          nightComfort: state.nightComfort,
-          readingPreset: state.readingPreset,
-          selectedVoiceURI: state.selectedVoiceURI,
-          customDict: state.customDict
+          rate: state.rate, pitch: state.pitch, fontSize: state.fontSize,
+          smoothReading: state.smoothReading, smartPronunciation: state.smartPronunciation,
+          continuousReading: state.continuousReading, autoScrollV2: state.autoScroll,
+          nightComfort: state.nightComfort, readingPreset: state.readingPreset,
+          selectedVoiceURI: state.selectedVoiceURI, customDict: state.customDict
         });
       }
 
-      // Немедленное или троттлинг-сохранение прогресса чтения
       function saveDocumentProgress(immediate) {
         if (!state.fileKey) return;
         const writeNow = () => {
           state.lastSavedProgressAt = Date.now();
-          if (state.saveProgressTimer) {
-            clearTimeout(state.saveProgressTimer);
-            state.saveProgressTimer = null;
-          }
+          if (state.saveProgressTimer) { clearTimeout(state.saveProgressTimer); state.saveProgressTimer = null; }
           safeSetStorage(STORAGE_DOC_PREFIX + state.fileKey, {
-            fileName: state.fileName,
-            page: state.currentPage,
-            wordIndex: state.currentWordIndex,
-            updatedAt: state.lastSavedProgressAt
+            fileName: state.fileName, page: state.currentPage, wordIndex: state.currentWordIndex, updatedAt: state.lastSavedProgressAt
           });
         };
-
-        if (immediate) {
-          writeNow();
-          return;
-        }
-
         const elapsed = Date.now() - state.lastSavedProgressAt;
-        if (elapsed >= 2500) {
-          writeNow();
-        } else if (!state.saveProgressTimer) {
-          state.saveProgressTimer = setTimeout(writeNow, 2500 - elapsed);
-        }
+        if (immediate || elapsed >= 2500) writeNow();
+        else if (!state.saveProgressTimer) state.saveProgressTimer = setTimeout(writeNow, 2500 - elapsed);
       }
 
       function getSavedDocumentProgress(fileKey) {
-        if (!fileKey) return null;
-        return safeGetStorage(STORAGE_DOC_PREFIX + fileKey);
+        return fileKey ? safeGetStorage(STORAGE_DOC_PREFIX + fileKey) : null;
       }
 
-      // Безопасная отрисовка пользовательского словаря через DOM API (без innerHTML для пользовательских данных)
       function renderCustomDictTags() {
         if (!els.customDictTagsContainer) return;
         els.customDictTagsContainer.textContent = '';
@@ -1861,21 +1198,15 @@
           els.customDictTagsContainer.appendChild(hint);
           return;
         }
-
         entries.forEach(([fromKey, toVal]) => {
           const badge = document.createElement('span');
           badge.className = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-slate-200';
-
           const fromStrong = document.createElement('strong');
           fromStrong.className = 'text-sky-400';
           fromStrong.textContent = fromKey;
-
-          const arrow = document.createTextNode(' → ');
-
           const toSpan = document.createElement('span');
           toSpan.className = 'text-emerald-300';
           toSpan.textContent = toVal;
-
           const delBtn = document.createElement('button');
           delBtn.type = 'button';
           delBtn.className = 'ml-1 text-slate-400 hover:text-rose-400';
@@ -1887,11 +1218,7 @@
             renderCustomDictTags();
             showToast('Правило «' + fromKey + '» удалено');
           });
-
-          badge.appendChild(fromStrong);
-          badge.appendChild(arrow);
-          badge.appendChild(toSpan);
-          badge.appendChild(delBtn);
+          badge.append(fromStrong, document.createTextNode(' → '), toSpan, delBtn);
           els.customDictTagsContainer.appendChild(badge);
         });
       }
@@ -1910,12 +1237,7 @@
         els.continuousReadingToggle.checked = state.continuousReading;
         els.autoScrollToggle.checked = state.autoScroll;
         renderCustomDictTags();
-
-        if (state.nightComfort) {
-          document.body.classList.add('night-comfort');
-        } else {
-          document.body.classList.remove('night-comfort');
-        }
+        document.body.classList.toggle('night-comfort', !!state.nightComfort);
       }
 
       // =========================================================================
@@ -1929,37 +1251,30 @@
       let missingVoiceNotified = false;
 
       function populateVoices() {
-        if (!synthSupported) {
+        const setSingleVoiceOption = (msg, badgeText) => {
           els.voiceSelect.textContent = '';
           const opt = document.createElement('option');
           opt.value = '';
-          opt.textContent = 'Синтез речи не поддерживается браузером';
+          opt.textContent = msg;
           els.voiceSelect.appendChild(opt);
-          els.voiceCountBadge.textContent = 'Не поддерживается';
+          els.voiceCountBadge.textContent = badgeText;
+        };
+
+        if (!synthSupported) {
+          setSingleVoiceOption('Синтез речи не поддерживается браузером', 'Не поддерживается');
           showAlert('Ваш браузер не поддерживает Web Speech API (speechSynthesis). Чтение текста глазами и экспорт доступны, но озвучивание недоступно.', 'warning');
           return;
         }
 
         const rawVoices = window.speechSynthesis.getVoices() || [];
         if (rawVoices.length === 0) {
-          els.voiceSelect.textContent = '';
-          const opt = document.createElement('option');
-          opt.value = '';
-          opt.textContent = 'Ожидание загрузки системных голосов...';
-          els.voiceSelect.appendChild(opt);
-          els.voiceCountBadge.textContent = 'Голосов: 0';
+          setSingleVoiceOption('Ожидание загрузки системных голосов...', 'Голосов: 0');
           return;
         }
 
-        const sorted = [...rawVoices].sort((a, b) => {
-          const aRu = isRussianVoice(a);
-          const bRu = isRussianVoice(b);
-          if (aRu && !bRu) return -1;
-          if (!aRu && bRu) return 1;
-          if (a.default && !b.default) return -1;
-          if (!a.default && b.default) return 1;
-          return (a.name || '').localeCompare(b.name || '', 'ru');
-        });
+        const sorted = [...rawVoices].sort((a, b) =>
+          (isRussianVoice(b) - isRussianVoice(a)) || (Boolean(b.default) - Boolean(a.default)) || (a.name || '').localeCompare(b.name || '', 'ru')
+        );
 
         state.voices = sorted;
         els.voiceSelect.textContent = '';
@@ -1979,32 +1294,20 @@
           if (voice.localService) tags.push('локальный');
           if (voice.default) tags.push('по умолчанию');
           option.textContent = (voice.name || voice.voiceURI) + ' (' + tags.join(', ') + ')';
-          if (ru) {
-            ruGroup.appendChild(option);
-          } else {
-            otherGroup.appendChild(option);
-          }
+          (ru ? ruGroup : otherGroup).appendChild(option);
         });
 
         state.hasRussianVoice = ruCount > 0;
-
-        if (ruCount > 0) {
-          els.voiceSelect.appendChild(ruGroup);
-        }
-        if (otherGroup.children.length > 0) {
-          els.voiceSelect.appendChild(otherGroup);
-        }
-
+        if (ruCount > 0) els.voiceSelect.appendChild(ruGroup);
+        if (otherGroup.children.length > 0) els.voiceSelect.appendChild(otherGroup);
         els.voiceCountBadge.textContent = 'Доступно голосов: ' + sorted.length + ' (русских: ' + ruCount + ')';
 
         if (ruCount === 0) {
           showAlert('В вашем браузере не обнаружено русскоязычных голосов (ru). Иностранный голос не сможет корректно читать русский текст. Установите русский голосовой пакет в настройках вашей ОС.', 'warning');
         }
 
-        // Сохраняем текущий выбор пользователя или восстанавливаем сохранённый voiceURI
         const desiredURI = state.selectedVoiceURI;
         const foundSaved = desiredURI ? sorted.find((v) => v.voiceURI === desiredURI) : null;
-
         if (foundSaved) {
           els.voiceSelect.value = foundSaved.voiceURI;
         } else {
@@ -2035,71 +1338,47 @@
       // =========================================================================
       // МОДУЛЬ 6. ПОДСВЕТКА ТОКЕНОВ И ДИАПАЗОНОВ (O(1) БЕЗ ПОЛНОГО ОБХОДА DOM)
       // =========================================================================
-      function clearWordHighlights() {
-        if (state.activeHighlightRange) {
-          const { startIdx, endIdx } = state.activeHighlightRange;
-          for (let i = startIdx; i <= endIdx; i++) {
-            const w = state.words[i];
-            if (w && w.el) {
-              w.el.classList.remove('active-word', 'active-phrase-fallback', 'selected-start-word');
-            }
-          }
-          state.activeHighlightRange = null;
+      function removeHighlightClassesFromRange(range) {
+        if (!range) return;
+        for (let i = range.startIdx; i <= range.endIdx; i++) {
+          const w = state.words[i];
+          if (w && w.el) w.el.classList.remove('active-word', 'active-phrase-fallback', 'selected-start-word');
         }
+      }
+
+      function clearWordHighlights() {
+        removeHighlightClassesFromRange(state.activeHighlightRange);
+        state.activeHighlightRange = null;
         if (state.selectedStartIndex !== null) {
           const sw = state.words[state.selectedStartIndex];
-          if (sw && sw.el) {
-            sw.el.classList.remove('selected-start-word', 'active-word');
-          }
+          if (sw && sw.el) sw.el.classList.remove('selected-start-word', 'active-word');
           state.selectedStartIndex = null;
         }
       }
 
-      // Подсветка диапазона исходных токенов [startIdx..endIdx] за O(k) без обхода всех слов страницы
       function highlightTokenRange(startIdx, endIdx, options) {
         if (state.words.length === 0) return;
         const opts = options || {};
         const shouldScroll = opts.scroll !== false;
         const isFallbackPhrase = !!opts.isFallbackPhrase;
-
         const safeStart = Math.max(0, Math.min(startIdx, state.words.length - 1));
         const safeEnd = Math.max(safeStart, Math.min(endIdx !== undefined ? endIdx : safeStart, state.words.length - 1));
 
-        // Снимаем классы только с предыдущего активного диапазона
-        if (state.activeHighlightRange) {
-          const prev = state.activeHighlightRange;
-          for (let i = prev.startIdx; i <= prev.endIdx; i++) {
-            const w = state.words[i];
-            if (w && w.el) {
-              w.el.classList.remove('active-word', 'active-phrase-fallback', 'selected-start-word');
-            }
-          }
-        }
+        removeHighlightClassesFromRange(state.activeHighlightRange);
         if (state.selectedStartIndex !== null) {
           const sw = state.words[state.selectedStartIndex];
-          if (sw && sw.el) {
-            sw.el.classList.remove('selected-start-word');
-          }
+          if (sw && sw.el) sw.el.classList.remove('selected-start-word');
         }
 
         state.currentWordIndex = safeStart;
-
         if (state.isSpeaking) {
+          const cls = (isFallbackPhrase && safeEnd > safeStart) ? 'active-phrase-fallback' : 'active-word';
           for (let i = safeStart; i <= safeEnd; i++) {
-            const w = state.words[i];
-            if (!w || !w.el) continue;
-            if (isFallbackPhrase && safeEnd > safeStart) {
-              w.el.classList.add('active-phrase-fallback');
-            } else {
-              w.el.classList.add('active-word');
-            }
+            if (state.words[i] && state.words[i].el) state.words[i].el.classList.add(cls);
           }
           state.activeHighlightRange = { startIdx: safeStart, endIdx: safeEnd, isFallbackPhrase: isFallbackPhrase };
         } else {
-          const w = state.words[safeStart];
-          if (w && w.el) {
-            w.el.classList.add('selected-start-word');
-          }
+          if (state.words[safeStart] && state.words[safeStart].el) state.words[safeStart].el.classList.add('selected-start-word');
           state.selectedStartIndex = safeStart;
           state.activeHighlightRange = { startIdx: safeStart, endIdx: safeStart, isFallbackPhrase: false };
         }
@@ -2109,15 +1388,9 @@
           const container = els.readerScrollContainer;
           const containerRect = container.getBoundingClientRect();
           const wordRect = targetEl.getBoundingClientRect();
-          const isAbove = wordRect.top < containerRect.top + 36;
-          const isBelow = wordRect.bottom > containerRect.bottom - 36;
-          if (isAbove || isBelow) {
+          if (wordRect.top < containerRect.top + 36 || wordRect.bottom > containerRect.bottom - 36) {
             const offsetInside = (wordRect.top - containerRect.top) + container.scrollTop;
-            const targetScrollTop = Math.max(0, offsetInside - container.clientHeight / 2);
-            container.scrollTo({
-              top: targetScrollTop,
-              behavior: 'smooth'
-            });
+            container.scrollTo({ top: Math.max(0, offsetInside - container.clientHeight / 2), behavior: 'smooth' });
           }
         }
 
@@ -2132,21 +1405,15 @@
       function updateSpeechStatusUI() {
         const hasWords = state.words.length > 0;
         const currentWordNum = hasWords ? Math.min(state.currentWordIndex + 1, state.words.length) : 0;
-        els.readingProgressText.textContent = hasWords
-          ? 'слово ' + currentWordNum + ' из ' + state.words.length
-          : 'слово 0 из 0';
-
+        els.readingProgressText.textContent = hasWords ? 'слово ' + currentWordNum + ' из ' + state.words.length : 'слово 0 из 0';
         if (els.readingProgressBarFill) {
-          const pct = hasWords ? Math.min(100, Math.round((currentWordNum / state.words.length) * 100)) : 0;
-          els.readingProgressBarFill.style.width = pct + '%';
+          els.readingProgressBarFill.style.width = (hasWords ? Math.min(100, Math.round((currentWordNum / state.words.length) * 100)) : 0) + '%';
         }
 
         if (state.isSpeaking && !state.isPaused) {
           els.speechStateDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
           if (els.speechEqualizer) els.speechEqualizer.className = 'speech-eq speaking text-emerald-400';
-          els.speechStateLabel.textContent = state.usingApproxHighlight
-            ? 'Читает (приблиз. подсветка)'
-            : 'Идёт озвучивание...';
+          els.speechStateLabel.textContent = state.usingApproxHighlight ? 'Читает (приблиз. подсветка)' : 'Идёт озвучивание...';
           els.pauseResumeBtn.disabled = false;
           els.pauseResumeBtnText.textContent = 'Пауза';
           els.stopBtn.disabled = false;
@@ -2198,8 +1465,7 @@
           const subP = document.createElement('p');
           subP.className = 'text-xs text-slate-400 max-w-md mx-auto';
           subP.textContent = 'Страница может быть отсканированным изображением. Оптическое распознавание (OCR) в браузерной версии без сервера не используется.';
-          emptyMsg.appendChild(titleP);
-          emptyMsg.appendChild(subP);
+          emptyMsg.append(titleP, subP);
           els.readerTextContainer.appendChild(emptyMsg);
           els.pageMetaBadge.textContent = 'Страница ' + state.currentPage + ' • 0 слов';
           updateSpeechStatusUI();
@@ -2207,11 +1473,9 @@
         }
 
         let globalWordIndex = 0;
-
         nonEmptyParas.forEach((cleanPara, pIdx) => {
           const pEl = document.createElement('p');
           pEl.className = 'mb-4 last:mb-0';
-
           const rawTokens = cleanPara.split(' ').filter(Boolean);
           rawTokens.forEach((tokenStr, idx) => {
             const span = document.createElement('span');
@@ -2219,64 +1483,34 @@
             span.textContent = tokenStr;
             const wordIdx = globalWordIndex++;
             span.dataset.index = String(wordIdx);
-
             pEl.appendChild(span);
-            if (idx < rawTokens.length - 1) {
-              pEl.appendChild(document.createTextNode(' '));
-            }
-
-            state.words.push({
-              text: tokenStr,
-              index: wordIdx,
-              el: span,
-              phraseIdx: 0,
-              paragraphIdx: pIdx
-            });
+            if (idx < rawTokens.length - 1) pEl.appendChild(document.createTextNode(' '));
+            state.words.push({ text: tokenStr, index: wordIdx, el: span, phraseIdx: 0, paragraphIdx: pIdx });
           });
-
           els.readerTextContainer.appendChild(pEl);
         });
 
         buildPhrasesFromWords();
-
-        els.pageMetaBadge.textContent =
-          'Страница ' + state.currentPage + ' из ' + state.totalPages +
-          ' • Предложений: ' + state.phrases.length + ' • Слов: ' + state.words.length;
+        els.pageMetaBadge.textContent = 'Страница ' + state.currentPage + ' из ' + state.totalPages + ' • Предложений: ' + state.phrases.length + ' • Слов: ' + state.words.length;
         updateSpeechStatusUI();
-
-        if (els.searchInput.value.trim()) {
-          performSearchOnPage(els.searchInput.value.trim(), false);
-        }
+        if (els.searchInput.value.trim()) performSearchOnPage(els.searchInput.value.trim(), false);
       }
 
       function buildPhrasesFromWords() {
         state.phrases = [];
         if (state.words.length === 0) return;
-
-        // Группируем токены по абзацам, чтобы сегментация никогда не склеивала разные абзацы
         const byParagraph = new Map();
         for (let i = 0; i < state.words.length; i++) {
           const w = state.words[i];
-          if (!byParagraph.has(w.paragraphIdx)) {
-            byParagraph.set(w.paragraphIdx, []);
-          }
+          if (!byParagraph.has(w.paragraphIdx)) byParagraph.set(w.paragraphIdx, []);
           byParagraph.get(w.paragraphIdx).push(w);
         }
-
         byParagraph.forEach((paraTokens, pIdx) => {
-          const sentenceArrays = SentenceSegmenter.segmentParagraphTokens(paraTokens, 55);
-          sentenceArrays.forEach((sentTokens) => {
+          SentenceSegmenter.segmentParagraphTokens(paraTokens, 55).forEach((sentTokens) => {
             if (!sentTokens || sentTokens.length === 0) return;
             const phraseIdx = state.phrases.length;
-            sentTokens.forEach((w) => {
-              w.phraseIdx = phraseIdx;
-            });
-            state.phrases.push({
-              tokens: sentTokens,
-              startWordIdx: sentTokens[0].index,
-              endWordIdx: sentTokens[sentTokens.length - 1].index,
-              paragraphIdx: pIdx
-            });
+            sentTokens.forEach((w) => { w.phraseIdx = phraseIdx; });
+            state.phrases.push({ tokens: sentTokens, startWordIdx: sentTokens[0].index, endWordIdx: sentTokens[sentTokens.length - 1].index, paragraphIdx: pIdx });
           });
         });
       }
@@ -2284,37 +1518,33 @@
       // =========================================================================
       // МОДУЛЬ 8. УПРАВЛЕНИЕ СЕССИЕЙ СИНТЕЗА И СИНХРОНИЗАЦИЕЙ ПОДСВЕТКИ
       // =========================================================================
+      function createConfiguredUtterance(text) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        const voiceCfg = getSelectedVoiceConfig();
+        if (voiceCfg.voice) utterance.voice = voiceCfg.voice;
+        utterance.lang = voiceCfg.lang || 'ru-RU';
+        utterance.rate = voiceCfg.rate;
+        utterance.pitch = voiceCfg.pitch;
+        return { utterance, voiceCfg };
+      }
+
       function stopSpeech(resetHighlightToSelected) {
         state.speechSessionId++;
-        if (state.sliderRestartDebounceTimer) {
-          clearTimeout(state.sliderRestartDebounceTimer);
-          state.sliderRestartDebounceTimer = null;
-        }
-        if (state.fallbackTimer) {
-          clearInterval(state.fallbackTimer);
-          state.fallbackTimer = null;
-        }
+        if (state.sliderRestartDebounceTimer) { clearTimeout(state.sliderRestartDebounceTimer); state.sliderRestartDebounceTimer = null; }
+        if (state.fallbackTimer) { clearInterval(state.fallbackTimer); state.fallbackTimer = null; }
         if (synthSupported) {
-          try {
-            window.speechSynthesis.cancel();
-          } catch (e) {}
+          try { window.speechSynthesis.cancel(); } catch (e) {}
         }
         if (state.activeUtterance) {
-          state.activeUtterance.onstart = null;
-          state.activeUtterance.onboundary = null;
-          state.activeUtterance.onend = null;
-          state.activeUtterance.onerror = null;
+          state.activeUtterance.onstart = state.activeUtterance.onboundary = state.activeUtterance.onend = state.activeUtterance.onerror = null;
           state.activeUtterance = null;
         }
         state.isSpeaking = false;
         state.isPaused = false;
         state.usingApproxHighlight = false;
 
-        if (resetHighlightToSelected && state.words.length > 0) {
-          highlightWord(state.currentWordIndex, false);
-        } else {
-          clearWordHighlights();
-        }
+        if (resetHighlightToSelected && state.words.length > 0) highlightWord(state.currentWordIndex, false);
+        else clearWordHighlights();
         saveDocumentProgress(true);
         updateSpeechStatusUI();
       }
@@ -2336,7 +1566,6 @@
           showAlert('На текущей странице нет текста для озвучивания. Пожалуйста, выберите PDF-файл или перейдите на страницу с текстом.', 'warning');
           return;
         }
-
         hideAlert();
         stopSpeech(false);
 
@@ -2348,67 +1577,51 @@
         const sessionId = ++state.speechSessionId;
 
         highlightWord(safeIdx, true);
-
-        if (state.smoothReading) {
-          speakPhraseStartingAtWord(safeIdx, sessionId);
-        } else {
-          speakSingleWordLoop(safeIdx, sessionId);
-        }
+        if (state.smoothReading) speakPhraseStartingAtWord(safeIdx, sessionId);
+        else speakSingleWordLoop(safeIdx, sessionId);
       }
 
       function speakPhraseStartingAtWord(wordIdx, sessionId) {
         if (sessionId !== state.speechSessionId || !state.isSpeaking) return;
-        if (wordIdx >= state.words.length) {
-          onPageReadingFinished(sessionId);
-          return;
-        }
+        if (wordIdx >= state.words.length) { onPageReadingFinished(sessionId); return; }
 
         const startWord = state.words[wordIdx];
         const phrase = state.phrases[startWord.phraseIdx];
-        if (!phrase) {
-          onPageReadingFinished(sessionId);
-          return;
-        }
+        if (!phrase) { onPageReadingFinished(sessionId); return; }
 
-        // Берём токены от выбранного слова до конца текущего предложения
         const sliceWords = state.words.slice(wordIdx, phrase.endWordIdx + 1);
         const prepared = TextNormalizer.buildSpokenSegmentWithMap(sliceWords, {
           smartPronunciation: state.smartPronunciation,
           customDict: state.customDict
         });
-
         const utteranceText = prepared.utteranceText;
         const charMap = prepared.charMap;
 
         if (!utteranceText.trim() || charMap.length === 0) {
           const nextIdx = phrase.endWordIdx + 1;
-          if (nextIdx < state.words.length) {
-            speakPhraseStartingAtWord(nextIdx, sessionId);
-          } else {
-            onPageReadingFinished(sessionId);
-          }
+          if (nextIdx < state.words.length) speakPhraseStartingAtWord(nextIdx, sessionId);
+          else onPageReadingFinished(sessionId);
           return;
         }
 
-        const utterance = new SpeechSynthesisUtterance(utteranceText);
-        const voiceCfg = getSelectedVoiceConfig();
-        if (voiceCfg.voice) {
-          utterance.voice = voiceCfg.voice;
-        }
-        utterance.lang = voiceCfg.lang || 'ru-RU';
-        utterance.rate = voiceCfg.rate;
-        utterance.pitch = voiceCfg.pitch;
+        const { utterance, voiceCfg } = createConfiguredUtterance(utteranceText);
         state.activeUtterance = utterance;
-
         let lastBoundaryAt = 0;
         let boundaryEventsCount = 0;
 
-        // Резервный трекер подсветки (помечается как приблизительный; автоматически перехватывает, если boundary перестали приходить)
+        const highlightByCharOffset = (charIdx) => {
+          for (let i = charMap.length - 1; i >= 0; i--) {
+            if (charIdx >= charMap[i].charStart) {
+              highlightTokenRange(charMap[i].tokenStartIdx, charMap[i].tokenEndIdx, { scroll: true });
+              break;
+            }
+          }
+        };
+
         const startFallbackWordTracker = () => {
           if (state.fallbackTimer) clearInterval(state.fallbackTimer);
           const totalChars = Math.max(1, utteranceText.length);
-          const effectiveRate = voiceCfg.rate || state.rate || 1.0;
-          const charsPerSec = 13.2 * effectiveRate;
+          const charsPerSec = 13.2 * (voiceCfg.rate || state.rate || 1.0);
           const startedAt = performance.now();
           let pausedAccumMs = 0;
           let lastPauseStart = null;
@@ -2428,89 +1641,45 @@
             }
 
             const now = performance.now();
-            // Если реальные события onboundary приходили недавно (< 1300 мс назад) и их больше одного, доверяем им
-            const hasActiveBoundaryStream = boundaryEventsCount >= 2 && (now - lastBoundaryAt) < 1300;
-            if (hasActiveBoundaryStream) {
-              if (state.usingApproxHighlight) {
-                state.usingApproxHighlight = false;
-                updateSpeechStatusUI();
-              }
+            if (boundaryEventsCount >= 2 && (now - lastBoundaryAt) < 1300) {
+              if (state.usingApproxHighlight) { state.usingApproxHighlight = false; updateSpeechStatusUI(); }
               return;
             }
-
-            // Включаем приблизительную подсветку по скорости речи
-            if (!state.usingApproxHighlight) {
-              state.usingApproxHighlight = true;
-              updateSpeechStatusUI();
-            }
-
+            if (!state.usingApproxHighlight) { state.usingApproxHighlight = true; updateSpeechStatusUI(); }
             const elapsedSec = (now - startedAt - pausedAccumMs) / 1000;
-            const estimatedChar = Math.min(totalChars - 1, Math.floor(elapsedSec * charsPerSec));
-
-            for (let i = charMap.length - 1; i >= 0; i--) {
-              if (estimatedChar >= charMap[i].charStart) {
-                const entry = charMap[i];
-                highlightTokenRange(entry.tokenStartIdx, entry.tokenEndIdx, { scroll: true });
-                break;
-              }
-            }
+            highlightByCharOffset(Math.min(totalChars - 1, Math.floor(elapsedSec * charsPerSec)));
           }, 120);
         };
 
         utterance.onstart = () => {
           if (sessionId !== state.speechSessionId) return;
-          const firstEntry = charMap[0];
-          highlightTokenRange(firstEntry.tokenStartIdx, firstEntry.tokenEndIdx, { scroll: true });
+          highlightTokenRange(charMap[0].tokenStartIdx, charMap[0].tokenEndIdx, { scroll: true });
           startFallbackWordTracker();
         };
 
         utterance.onboundary = (event) => {
           if (sessionId !== state.speechSessionId || !state.isSpeaking) return;
-          // Игнорируем не-словные события, если указан иной name и нет валидного charIndex
           if (event.name && event.name !== 'word' && event.name !== 'sentence') return;
           if (typeof event.charIndex !== 'number' || event.charIndex < 0) return;
-
           lastBoundaryAt = performance.now();
           boundaryEventsCount++;
-          if (state.usingApproxHighlight) {
-            state.usingApproxHighlight = false;
-          }
-
-          const cIdx = Math.min(event.charIndex, utteranceText.length - 1);
-          for (let i = charMap.length - 1; i >= 0; i--) {
-            if (cIdx >= charMap[i].charStart) {
-              const entry = charMap[i];
-              highlightTokenRange(entry.tokenStartIdx, entry.tokenEndIdx, { scroll: true });
-              break;
-            }
-          }
+          state.usingApproxHighlight = false;
+          highlightByCharOffset(Math.min(event.charIndex, utteranceText.length - 1));
         };
 
         utterance.onend = () => {
           if (sessionId !== state.speechSessionId) return;
-          if (state.fallbackTimer) {
-            clearInterval(state.fallbackTimer);
-            state.fallbackTimer = null;
-          }
+          if (state.fallbackTimer) { clearInterval(state.fallbackTimer); state.fallbackTimer = null; }
           if (!state.isSpeaking || state.isPaused) return;
-
           const nextWordIdx = phrase.endWordIdx + 1;
-          if (nextWordIdx < state.words.length) {
-            speakPhraseStartingAtWord(nextWordIdx, sessionId);
-          } else {
-            onPageReadingFinished(sessionId);
-          }
+          if (nextWordIdx < state.words.length) speakPhraseStartingAtWord(nextWordIdx, sessionId);
+          else onPageReadingFinished(sessionId);
         };
 
         utterance.onerror = (event) => {
           if (sessionId !== state.speechSessionId) return;
-          if (state.fallbackTimer) {
-            clearInterval(state.fallbackTimer);
-            state.fallbackTimer = null;
-          }
-          if (!event || event.error === 'canceled' || event.error === 'interrupted') {
-            return;
-          }
+          if (state.fallbackTimer) { clearInterval(state.fallbackTimer); state.fallbackTimer = null; }
+          if (!event || event.error === 'canceled' || event.error === 'interrupted') return;
           state.isSpeaking = false;
           state.isPaused = false;
           state.usingApproxHighlight = false;
@@ -2526,13 +1695,9 @@
         }
       }
 
-      // Пословный режим чтения (когда плавный режим отключён)
       function speakSingleWordLoop(wordIdx, sessionId) {
         if (sessionId !== state.speechSessionId || !state.isSpeaking) return;
-        if (wordIdx >= state.words.length) {
-          onPageReadingFinished(sessionId);
-          return;
-        }
+        if (wordIdx >= state.words.length) { onPageReadingFinished(sessionId); return; }
 
         const wordObj = state.words[wordIdx];
         const prepared = TextNormalizer.buildSpokenSegmentWithMap([wordObj], {
@@ -2540,36 +1705,20 @@
           customDict: state.customDict
         });
         const cleanWord = prepared.utteranceText.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, '') || wordObj.text;
-
-        const utterance = new SpeechSynthesisUtterance(cleanWord);
-        const voiceCfg = getSelectedVoiceConfig();
-        if (voiceCfg.voice) {
-          utterance.voice = voiceCfg.voice;
-        }
-        utterance.lang = voiceCfg.lang || 'ru-RU';
-        utterance.rate = voiceCfg.rate;
-        utterance.pitch = voiceCfg.pitch;
+        const { utterance } = createConfiguredUtterance(cleanWord);
         state.activeUtterance = utterance;
 
         highlightTokenRange(wordIdx, wordIdx, { scroll: true });
-
         utterance.onend = () => {
           if (sessionId !== state.speechSessionId || !state.isSpeaking || state.isPaused) return;
-          const nextIdx = wordIdx + 1;
-          if (nextIdx < state.words.length) {
-            speakSingleWordLoop(nextIdx, sessionId);
-          } else {
-            onPageReadingFinished(sessionId);
-          }
+          if (wordIdx + 1 < state.words.length) speakSingleWordLoop(wordIdx + 1, sessionId);
+          else onPageReadingFinished(sessionId);
         };
-
         utterance.onerror = (event) => {
-          if (sessionId !== state.speechSessionId) return;
-          if (!event || event.error === 'canceled' || event.error === 'interrupted') return;
+          if (sessionId !== state.speechSessionId || !event || event.error === 'canceled' || event.error === 'interrupted') return;
           state.isSpeaking = false;
           updateSpeechStatusUI();
         };
-
         window.speechSynthesis.speak(utterance);
       }
 
@@ -2594,9 +1743,7 @@
           showToast('Достигнут конец документа');
         } else {
           showToast('Чтение страницы завершено');
-          if (state.words.length > 0) {
-            highlightWord(0, false);
-          }
+          if (state.words.length > 0) highlightWord(0, false);
         }
       }
 
@@ -2604,67 +1751,68 @@
         if (!state.isSpeaking) return;
         if (!state.isPaused) {
           state.isPaused = true;
-          if (synthSupported) {
-            try {
-              window.speechSynthesis.pause();
-            } catch (e) {}
-          }
+          if (synthSupported) { try { window.speechSynthesis.pause(); } catch (e) {} }
           saveDocumentProgress(true);
           updateSpeechStatusUI();
         } else {
-          const resumeIdx = state.currentWordIndex;
-          startReadingFromIndex(resumeIdx);
+          startReadingFromIndex(state.currentWordIndex);
         }
       }
 
-      // Честное тестирование выбранного голоса на одинаковой проверочной фразе
       function testSelectedVoice() {
         if (!synthSupported) {
           showAlert('Ваш браузер не поддерживает озвучивание текста.', 'error');
           return;
         }
         stopSpeech(true);
-        const voiceCfg = getSelectedVoiceConfig();
-        const utterance = new SpeechSynthesisUtterance(UNIFORM_VOICE_TEST_TEXT);
-        if (voiceCfg.voice) {
-          utterance.voice = voiceCfg.voice;
-        }
-        utterance.lang = voiceCfg.lang || 'ru-RU';
-        utterance.rate = voiceCfg.rate;
-        utterance.pitch = voiceCfg.pitch;
+        const { utterance, voiceCfg } = createConfiguredUtterance(UNIFORM_VOICE_TEST_TEXT);
         window.speechSynthesis.speak(utterance);
         showToast('Тест голоса: ' + voiceCfg.voiceName);
       }
 
-      // Отложенный перезапуск синтеза при изменении скорости, высоты или голоса во время чтения
       function scheduleSpeechRestartIfSpeaking() {
         if (!state.isSpeaking || state.isPaused) return;
-        if (state.sliderRestartDebounceTimer) {
-          clearTimeout(state.sliderRestartDebounceTimer);
-        }
+        if (state.sliderRestartDebounceTimer) clearTimeout(state.sliderRestartDebounceTimer);
         const resumeIdx = state.currentWordIndex;
         state.sliderRestartDebounceTimer = setTimeout(() => {
           state.sliderRestartDebounceTimer = null;
-          if (state.isSpeaking && !state.isPaused) {
-            startReadingFromIndex(resumeIdx);
-          }
+          if (state.isSpeaking && !state.isPaused) startReadingFromIndex(resumeIdx);
         }, 280);
       }
 
       // =========================================================================
       // МОДУЛЬ 9. ЗАГРУЗКА PDF И НАВИГАЦИЯ С ЗАЩИТОЙ ОТ АСИНХРОННЫХ ГОНОК
       // =========================================================================
+      async function initDocumentViewAndResume(resumePrefix) {
+        els.fileNameDisplay.textContent = state.fileName;
+        els.fileNameDisplay.title = state.fileName;
+        els.totalPagesLabel.textContent = String(state.totalPages);
+        els.pageNumberInput.max = String(state.totalPages);
+        els.pageNumberInput.disabled = false;
+        els.goToPageBtn.disabled = false;
+
+        const savedProgress = getSavedDocumentProgress(state.fileKey);
+        if (savedProgress && typeof savedProgress.page === 'number' && savedProgress.page >= 1 && savedProgress.page <= state.totalPages && (savedProgress.page > 1 || (savedProgress.wordIndex && savedProgress.wordIndex > 0))) {
+          await goToPage(savedProgress.page, false);
+          const savedWord = Math.min(savedProgress.wordIndex || 0, Math.max(0, state.words.length - 1));
+          state.currentWordIndex = savedWord;
+          highlightWord(savedWord, true);
+          els.resumeBannerText.textContent = resumePrefix + ' (стр. ' + savedProgress.page + ', слово ' + (savedWord + 1) + '). Продолжить?';
+          els.resumeBanner.classList.remove('hidden');
+        } else {
+          await goToPage(1, false);
+        }
+      }
+
       async function handleFileSelected(file) {
         if (!file) {
           showAlert('Файл не выбран. Пожалуйста, выберите документ в формате PDF.', 'warning');
           return;
         }
-        const isPdf = file.type === 'application/pdf' || /\.pdf$/i.test(file.name || '');
-        if (!isPdf) {
+        if (file.type !== 'application/pdf' && !/\.pdf$/i.test(file.name || '')) {
           showAlert('Выбранный файл не является PDF-документом. Пожалуйста, выберите файл с расширением .pdf.', 'error');
           return;
         }
-
         stopSpeech(false);
         hideAlert();
         els.passwordModal.classList.add('hidden');
@@ -2687,45 +1835,14 @@
           showAlert('Библиотека PDF.js ещё не загрузилась. Проверьте подключение к интернету и обновите страницу.', 'error');
           return;
         }
-
         try {
-          const loadingTask = window.pdfjsLib.getDocument({
-            data: new Uint8Array(arrayBuffer),
-            password: password || undefined
-          });
-
+          const loadingTask = window.pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer), password: password || undefined });
           const pdfDoc = await loadingTask.promise;
           state.pdfDoc = pdfDoc;
           state.totalPages = pdfDoc.numPages;
           els.passwordModal.classList.add('hidden');
           els.pdfPasswordInput.value = '';
-
-          els.fileNameDisplay.textContent = state.fileName;
-          els.fileNameDisplay.title = state.fileName;
-          els.totalPagesLabel.textContent = String(state.totalPages);
-          els.pageNumberInput.max = String(state.totalPages);
-          els.pageNumberInput.disabled = false;
-          els.goToPageBtn.disabled = false;
-
-          const savedProgress = getSavedDocumentProgress(state.fileKey);
-          if (
-            savedProgress &&
-            typeof savedProgress.page === 'number' &&
-            savedProgress.page >= 1 &&
-            savedProgress.page <= state.totalPages &&
-            (savedProgress.page > 1 || (savedProgress.wordIndex && savedProgress.wordIndex > 0))
-          ) {
-            await goToPage(savedProgress.page, false);
-            const savedWord = Math.min(savedProgress.wordIndex || 0, Math.max(0, state.words.length - 1));
-            state.currentWordIndex = savedWord;
-            highlightWord(savedWord, true);
-
-            els.resumeBannerText.textContent =
-              'Вы уже читали «' + state.fileName + '». Остановились на стр. ' + savedProgress.page + ', слово ' + (savedWord + 1) + '. Продолжить?';
-            els.resumeBanner.classList.remove('hidden');
-          } else {
-            await goToPage(1, false);
-          }
+          await initDocumentViewAndResume('Вы уже читали «' + state.fileName + '»');
         } catch (err) {
           if (err && (err.name === 'PasswordException' || /password/i.test(err.message || ''))) {
             els.passwordModal.classList.remove('hidden');
@@ -2744,36 +1861,15 @@
         hideAlert();
         els.passwordModal.classList.add('hidden');
         els.resumeBanner.classList.add('hidden');
-
         state.pdfDoc = null;
         state.isDemoDoc = true;
         state.fileName = 'Демо-документ «Учебный практикум и проверка речи».pdf';
         state.fileKey = 'builtin_demo_document_v2';
         state.totalPages = DEMO_PAGES.length;
-
-        els.fileNameDisplay.textContent = state.fileName;
-        els.fileNameDisplay.title = state.fileName;
-        els.totalPagesLabel.textContent = String(state.totalPages);
-        els.pageNumberInput.max = String(state.totalPages);
-        els.pageNumberInput.disabled = false;
-        els.goToPageBtn.disabled = false;
-
-        const savedProgress = getSavedDocumentProgress(state.fileKey);
-        if (savedProgress && savedProgress.page >= 1 && savedProgress.page <= state.totalPages && (savedProgress.page > 1 || savedProgress.wordIndex > 0)) {
-          await goToPage(savedProgress.page, false);
-          const savedWord = Math.min(savedProgress.wordIndex || 0, Math.max(0, state.words.length - 1));
-          state.currentWordIndex = savedWord;
-          highlightWord(savedWord, true);
-          els.resumeBannerText.textContent =
-            'Найдена сохранённая позиция (стр. ' + savedProgress.page + ', слово ' + (savedWord + 1) + '). Продолжить озвучивание?';
-          els.resumeBanner.classList.remove('hidden');
-        } else {
-          await goToPage(1, false);
-        }
+        await initDocumentViewAndResume('Найдена сохранённая позиция');
         showToast('Демо-документ открыт');
       }
 
-      // Переход на страницу с защитой от гонок при быстром переключении
       async function goToPage(pageNum, resetSavedWord) {
         if (state.totalPages === 0) return false;
         const targetPage = Math.max(1, Math.min(pageNum, state.totalPages));
@@ -2781,9 +1877,7 @@
 
         stopSpeech(false);
         state.currentPage = targetPage;
-        if (resetSavedWord !== false) {
-          state.currentWordIndex = 0;
-        }
+        if (resetSavedWord !== false) state.currentWordIndex = 0;
 
         els.pageNumberInput.value = String(targetPage);
         els.prevPageBtn.disabled = targetPage <= 1;
@@ -2793,27 +1887,20 @@
           const demoText = DEMO_PAGES[targetPage - 1] || '';
           const demoParas = demoText.split(/\n\s*\n+/).map((p) => p.trim()).filter(Boolean);
           renderPageParagraphsToDOM(demoParas, demoText);
-          if (state.words.length > 0) {
-            highlightWord(state.currentWordIndex, false);
-          }
+          if (state.words.length > 0) highlightWord(state.currentWordIndex, false);
           saveDocumentProgress(true);
           return true;
         }
 
         if (!state.pdfDoc) return false;
-
         try {
           const page = await state.pdfDoc.getPage(targetPage);
           if (requestId !== state.pageLoadRequestId) return false;
-
           const textContent = await page.getTextContent();
           if (requestId !== state.pageLoadRequestId) return false;
 
-          const items = textContent.items || [];
-          const paragraphs = PdfStructureExtractor.reconstructParagraphsFromItems(items);
-          const fullPageText = paragraphs.join('\n\n');
-
-          renderPageParagraphsToDOM(paragraphs, fullPageText);
+          const paragraphs = PdfStructureExtractor.reconstructParagraphsFromItems(textContent.items || []);
+          renderPageParagraphsToDOM(paragraphs, paragraphs.join('\n\n'));
 
           if (state.words.length === 0) {
             showAlert('На странице ' + targetPage + ' не обнаружено текстового слоя (возможно, это скан или изображение без OCR).', 'warning');
@@ -2834,11 +1921,7 @@
       // МОДУЛЬ 10. ПОИСК, ЭКСПОРТ И КОНТРОЛЬНАЯ ПРОВЕРКА 10 ПРИМЕРОВ
       // =========================================================================
       function performSearchOnPage(query, jumpToFirst) {
-        state.words.forEach((w) => {
-          if (w.el) {
-            w.el.classList.remove('search-match', 'search-current');
-          }
-        });
+        state.words.forEach((w) => { if (w.el) w.el.classList.remove('search-match', 'search-current'); });
         state.searchMatches = [];
         state.searchCurrentPos = -1;
 
@@ -2847,45 +1930,33 @@
           els.searchCountLabel.textContent = '0/0';
           return;
         }
-
         state.words.forEach((w) => {
           if (w.text.toLowerCase().includes(cleanQuery)) {
             state.searchMatches.push(w.index);
             if (w.el) w.el.classList.add('search-match');
           }
         });
-
         if (state.searchMatches.length === 0) {
           els.searchCountLabel.textContent = '0/0';
           return;
         }
-
         state.searchCurrentPos = 0;
         updateActiveSearchMatch(jumpToFirst !== false);
       }
 
       function updateActiveSearchMatch(scroll) {
-        state.words.forEach((w) => {
-          if (w.el) w.el.classList.remove('search-current');
-        });
+        state.words.forEach((w) => { if (w.el) w.el.classList.remove('search-current'); });
         if (state.searchMatches.length === 0 || state.searchCurrentPos < 0) {
           els.searchCountLabel.textContent = '0/0';
           return;
         }
-
-        const targetWordIdx = state.searchMatches[state.searchCurrentPos];
-        const wordObj = state.words[targetWordIdx];
+        const wordObj = state.words[state.searchMatches[state.searchCurrentPos]];
         if (wordObj && wordObj.el) {
           wordObj.el.classList.add('search-current');
           if (scroll && els.readerScrollContainer) {
             const container = els.readerScrollContainer;
-            const cRect = container.getBoundingClientRect();
-            const wRect = wordObj.el.getBoundingClientRect();
-            const offsetInside = (wRect.top - cRect.top) + container.scrollTop;
-            container.scrollTo({
-              top: Math.max(0, offsetInside - container.clientHeight / 2),
-              behavior: 'smooth'
-            });
+            const offsetInside = (wordObj.el.getBoundingClientRect().top - container.getBoundingClientRect().top) + container.scrollTop;
+            container.scrollTo({ top: Math.max(0, offsetInside - container.clientHeight / 2), behavior: 'smooth' });
           }
         }
         els.searchCountLabel.textContent = (state.searchCurrentPos + 1) + '/' + state.searchMatches.length;
@@ -2897,11 +1968,8 @@
           return;
         }
         try {
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            await navigator.clipboard.writeText(state.pageRawText);
-          } else {
-            throw new Error('Fallback copy');
-          }
+          if (navigator.clipboard && navigator.clipboard.writeText) await navigator.clipboard.writeText(state.pageRawText);
+          else throw new Error('Fallback copy');
           showToast('Исходный текст страницы скопирован в буфер обмена');
         } catch (err) {
           const textarea = document.createElement('textarea');
@@ -2910,12 +1978,8 @@
           textarea.style.opacity = '0';
           document.body.appendChild(textarea);
           textarea.select();
-          try {
-            document.execCommand('copy');
-            showToast('Исходный текст страницы скопирован');
-          } catch (e) {
-            showAlert('Не удалось скопировать текст автоматически.', 'error');
-          }
+          try { document.execCommand('copy'); showToast('Исходный текст страницы скопирован'); }
+          catch (e) { showAlert('Не удалось скопировать текст автоматически.', 'error'); }
           document.body.removeChild(textarea);
         }
       }
@@ -2925,10 +1989,8 @@
           showAlert('На текущей странице нет текста для скачивания.', 'warning');
           return;
         }
-        const baseName = (state.fileName || 'document').replace(/\.pdf$/i, '');
-        const downloadName = baseName + '_стр_' + state.currentPage + '.txt';
-        const blob = new Blob([state.pageRawText], { type: 'text/plain;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
+        const downloadName = (state.fileName || 'document').replace(/\.pdf$/i, '') + '_стр_' + state.currentPage + '.txt';
+        const url = URL.createObjectURL(new Blob([state.pageRawText], { type: 'text/plain;charset=utf-8' }));
         const a = document.createElement('a');
         a.href = url;
         a.download = downloadName;
@@ -2939,7 +2001,6 @@
         showToast('Файл ' + downloadName + ' сохранён');
       }
 
-      // Автоматическая проверка 10 контрольных примеров из ТЗ
       function runVerificationSuite() {
         const testDict = Object.assign({ 'берет книгу': 'берёт книгу', 'ч. т. д.': 'что и требовалось доказать' }, state.customDict);
         const examples = [
@@ -2959,26 +2020,13 @@
           const rawTokens = ex.text.split(/\s+/).filter(Boolean).map((t, idx) => ({ text: t, index: idx }));
           const segments = SentenceSegmenter.segmentParagraphTokens(rawTokens, 55);
           const segmentDetails = segments.map((seg) => {
-            const built = TextNormalizer.buildSpokenSegmentWithMap(seg, {
-              smartPronunciation: true,
-              customDict: testDict
-            });
+            const built = TextNormalizer.buildSpokenSegmentWithMap(seg, { smartPronunciation: true, customDict: testDict });
             const mappingSummary = built.charMap.map((m) =>
               '[' + m.tokenStartIdx + (m.tokenEndIdx > m.tokenStartIdx ? '..' + m.tokenEndIdx : '') + ']:«' + m.spoken + '»(@' + m.charStart + '-' + m.charEnd + ')'
             ).join(' ');
-            return {
-              original: seg.map((t) => t.text).join(' '),
-              spoken: built.utteranceText,
-              mappingSummary: mappingSummary
-            };
+            return { original: seg.map((t) => t.text).join(' '), spoken: built.utteranceText, mappingSummary: mappingSummary };
           });
-          return {
-            id: ex.id,
-            title: ex.title,
-            input: ex.text,
-            segmentCount: segments.length,
-            segments: segmentDetails
-          };
+          return { id: ex.id, title: ex.title, input: ex.text, segmentCount: segments.length, segments: segmentDetails };
         });
 
         if (els.selfTestResultsContainer) {
@@ -2986,38 +2034,24 @@
           results.forEach((res) => {
             const card = document.createElement('div');
             card.className = 'p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1';
-
-            const head = document.createElement('div');
-            head.className = 'font-semibold text-sky-300';
-            head.textContent = res.id + '. ' + res.title + ' (сегментов: ' + res.segmentCount + ')';
-            card.appendChild(head);
-
+            const addLine = (cls, text) => {
+              const d = document.createElement('div');
+              d.className = cls;
+              d.textContent = text;
+              card.appendChild(d);
+            };
+            addLine('font-semibold text-sky-300', res.id + '. ' + res.title + ' (сегментов: ' + res.segmentCount + ')');
             res.segments.forEach((seg, sIdx) => {
-              const lineOrig = document.createElement('div');
-              lineOrig.className = 'text-slate-300';
-              lineOrig.textContent = 'Сегмент ' + (sIdx + 1) + ' [исх.]: ' + seg.original;
-
-              const lineSpoken = document.createElement('div');
-              lineSpoken.className = 'text-emerald-300';
-              lineSpoken.textContent = 'Сегмент ' + (sIdx + 1) + ' [речь]: ' + seg.spoken;
-
-              const lineMap = document.createElement('div');
-              lineMap.className = 'text-[11px] text-slate-400 font-mono break-all';
-              lineMap.textContent = 'Карта токенов: ' + seg.mappingSummary;
-
-              card.appendChild(lineOrig);
-              card.appendChild(lineSpoken);
-              card.appendChild(lineMap);
+              addLine('text-slate-300', 'Сегмент ' + (sIdx + 1) + ' [исх.]: ' + seg.original);
+              addLine('text-emerald-300', 'Сегмент ' + (sIdx + 1) + ' [речь]: ' + seg.spoken);
+              addLine('text-[11px] text-slate-400 font-mono break-all', 'Карта токенов: ' + seg.mappingSummary);
             });
-
             els.selfTestResultsContainer.appendChild(card);
           });
         }
-
         return results;
       }
 
-      // Экспортируем для автоматического тестирования в Node/консоли
       if (typeof window !== 'undefined') {
         window.__PDFReaderTestAPI = {
           TextNormalizer: TextNormalizer,
@@ -3034,12 +2068,9 @@
         const triggerFileDialog = () => els.pdfFileInput.click();
         els.selectPdfBtn.addEventListener('click', triggerFileDialog);
         els.emptyStateSelectBtn.addEventListener('click', triggerFileDialog);
-
         els.pdfFileInput.addEventListener('change', (e) => {
           const file = e.target.files && e.target.files[0];
-          if (file) {
-            handleFileSelected(file);
-          }
+          if (file) handleFileSelected(file);
           els.pdfFileInput.value = '';
         });
 
@@ -3047,21 +2078,17 @@
         els.emptyStateDemoBtn.addEventListener('click', loadDemoDocument);
         els.closeAlertBtn.addEventListener('click', hideAlert);
 
-        // Делегирование клика по словам в контейнере чтения
         els.readerTextContainer.addEventListener('click', (e) => {
           const target = e.target && e.target.closest ? e.target.closest('.reader-word') : null;
           if (!target) return;
           const idx = parseInt(target.dataset.index, 10);
-          if (!isNaN(idx)) {
-            onWordClicked(idx);
-          }
+          if (!isNaN(idx)) onWordClicked(idx);
         });
 
         els.confirmResumeBtn.addEventListener('click', () => {
           els.resumeBanner.classList.add('hidden');
           startReadingFromIndex(state.currentWordIndex);
         });
-
         els.dismissResumeBtn.addEventListener('click', async () => {
           els.resumeBanner.classList.add('hidden');
           await goToPage(1, true);
@@ -3069,18 +2096,9 @@
         });
 
         els.submitPasswordBtn.addEventListener('click', () => {
-          const pwd = els.pdfPasswordInput.value;
-          if (state.pendingFileBuffer) {
-            openPdfFromBuffer(state.pendingFileBuffer.slice(0), pwd);
-          }
+          if (state.pendingFileBuffer) openPdfFromBuffer(state.pendingFileBuffer.slice(0), els.pdfPasswordInput.value);
         });
-
-        els.pdfPasswordInput.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter') {
-            els.submitPasswordBtn.click();
-          }
-        });
-
+        els.pdfPasswordInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') els.submitPasswordBtn.click(); });
         els.cancelPasswordBtn.addEventListener('click', () => {
           els.passwordModal.classList.add('hidden');
           els.pdfPasswordInput.value = '';
@@ -3088,137 +2106,95 @@
 
         els.playCurrentBtn.addEventListener('click', () => {
           els.resumeBanner.classList.add('hidden');
-          if (state.isSpeaking && state.isPaused) {
-            togglePauseResume();
-          } else {
-            startReadingFromIndex(state.currentWordIndex);
-          }
+          if (state.isSpeaking && state.isPaused) togglePauseResume();
+          else startReadingFromIndex(state.currentWordIndex);
         });
-
         els.playFromStartBtn.addEventListener('click', () => {
           els.resumeBanner.classList.add('hidden');
           startReadingFromIndex(0);
         });
-
         els.pauseResumeBtn.addEventListener('click', togglePauseResume);
-
-        els.stopBtn.addEventListener('click', () => {
-          stopSpeech(true);
-          showToast('Озвучивание остановлено');
-        });
-
+        els.stopBtn.addEventListener('click', () => { stopSpeech(true); showToast('Озвучивание остановлено'); });
         els.testVoiceBtn.addEventListener('click', testSelectedVoice);
 
-        // Смена системного голоса
         els.voiceSelect.addEventListener('change', () => {
           state.selectedVoiceURI = els.voiceSelect.value;
           saveGlobalSettings();
           scheduleSpeechRestartIfSpeaking();
         });
 
-        // Смена пресета чтения (меняет только скорость и высоту голоса, не подменяя сам голос)
         if (els.readingPresetSelect) {
           els.readingPresetSelect.addEventListener('change', () => {
             const presetKey = els.readingPresetSelect.value;
             const preset = READING_STYLE_PRESETS[presetKey];
             if (!preset) return;
             state.readingPreset = presetKey;
-            if ( typeof preset.rate === 'number') state.rate = preset.rate;
-            if ( typeof preset.pitch === 'number') state.pitch = preset.pitch;
+            if (typeof preset.rate === 'number') state.rate = preset.rate;
+            if (typeof preset.pitch === 'number') state.pitch = preset.pitch;
             applySettingsToUI();
             saveGlobalSettings();
             scheduleSpeechRestartIfSpeaking();
           });
         }
 
-        // Скорость речи: плавное обновление подписи на input, перезапуск с debounce
         const setRateValue = (newRate, triggerRestart) => {
-          const clamped = Math.round(Math.max(0.5, Math.min(2.0, newRate)) * 10) / 10;
-          state.rate = clamped;
+          state.rate = Math.round(Math.max(0.5, Math.min(2.0, newRate)) * 10) / 10;
           state.readingPreset = 'neutral';
           applySettingsToUI();
           saveGlobalSettings();
-          if (triggerRestart) {
-            scheduleSpeechRestartIfSpeaking();
-          }
+          if (triggerRestart) scheduleSpeechRestartIfSpeaking();
         };
-
         els.rateRange.addEventListener('input', () => {
           const val = parseFloat(els.rateRange.value);
-          if (!isNaN(val)) {
-            els.rateValueLabel.textContent = val.toFixed(1) + 'x';
-          }
+          if (!isNaN(val)) els.rateValueLabel.textContent = val.toFixed(1) + 'x';
         });
-        els.rateRange.addEventListener('change', () => {
-          setRateValue(parseFloat(els.rateRange.value), true);
-        });
+        els.rateRange.addEventListener('change', () => setRateValue(parseFloat(els.rateRange.value), true));
         els.rateDecBtn.addEventListener('click', () => setRateValue(state.rate - 0.1, true));
         els.rateIncBtn.addEventListener('click', () => setRateValue(state.rate + 0.1, true));
 
-        // Высота голоса (pitch): обновление на change или с debounce
         const setPitchValue = (newPitch, triggerRestart) => {
-          const clamped = Math.round(Math.max(0.7, Math.min(1.3, newPitch)) * 20) / 20;
-          state.pitch = clamped;
+          state.pitch = Math.round(Math.max(0.7, Math.min(1.3, newPitch)) * 20) / 20;
           state.readingPreset = 'neutral';
           applySettingsToUI();
           saveGlobalSettings();
-          if (triggerRestart) {
-            scheduleSpeechRestartIfSpeaking();
-          }
+          if (triggerRestart) scheduleSpeechRestartIfSpeaking();
         };
-
         els.pitchRange.addEventListener('input', () => {
           const val = parseFloat(els.pitchRange.value);
-          if (!isNaN(val)) {
-            els.pitchValueLabel.textContent = val.toFixed(2);
-          }
+          if (!isNaN(val)) els.pitchValueLabel.textContent = val.toFixed(2);
         });
-        els.pitchRange.addEventListener('change', () => {
-          setPitchValue(parseFloat(els.pitchRange.value), true);
-        });
+        els.pitchRange.addEventListener('change', () => setPitchValue(parseFloat(els.pitchRange.value), true));
         els.pitchDecBtn.addEventListener('click', () => setPitchValue(state.pitch - 0.05, true));
         els.pitchIncBtn.addEventListener('click', () => setPitchValue(state.pitch + 0.05, true));
 
-        // Размер шрифта: НЕ перезапускает и НЕ прерывает синтез речи
         const updateFontSize = (newSize) => {
-          const clamped = Math.max(14, Math.min(34, Math.round(newSize)));
-          state.fontSize = clamped;
+          state.fontSize = Math.max(14, Math.min(34, Math.round(newSize)));
           applySettingsToUI();
           saveGlobalSettings();
         };
-
-        els.fontSizeRange.addEventListener('input', () => {
-          updateFontSize(parseInt(els.fontSizeRange.value, 10));
-        });
+        els.fontSizeRange.addEventListener('input', () => updateFontSize(parseInt(els.fontSizeRange.value, 10)));
         els.fontDecBtn.addEventListener('click', () => updateFontSize(state.fontSize - 2));
         els.fontIncBtn.addEventListener('click', () => updateFontSize(state.fontSize + 2));
 
-        // Переключатели режимов
         els.smoothReadingToggle.addEventListener('change', () => {
           state.smoothReading = els.smoothReadingToggle.checked;
           saveGlobalSettings();
           scheduleSpeechRestartIfSpeaking();
         });
-
         els.smartPronunciationToggle.addEventListener('change', () => {
           state.smartPronunciation = els.smartPronunciationToggle.checked;
           saveGlobalSettings();
           scheduleSpeechRestartIfSpeaking();
           showToast(state.smartPronunciation ? 'Подготовка текста для речи включена' : 'Подготовка текста для речи отключена');
         });
-
         els.continuousReadingToggle.addEventListener('change', () => {
           state.continuousReading = els.continuousReadingToggle.checked;
           saveGlobalSettings();
         });
-
-        // Автопрокрутка НЕ перезапускает синтез
         els.autoScrollToggle.addEventListener('change', () => {
           state.autoScroll = els.autoScrollToggle.checked;
           saveGlobalSettings();
         });
-
-        // Ночной режим НЕ перезапускает синтез
         els.nightModeBtn.addEventListener('click', () => {
           state.nightComfort = !state.nightComfort;
           applySettingsToUI();
@@ -3226,11 +2202,7 @@
           showToast(state.nightComfort ? 'Включён тёплый ночной режим' : 'Включён стандартный тёмный режим');
         });
 
-        // Пользовательский словарь и предпрослушивание правила
-        els.toggleDictModalBtn.addEventListener('click', () => {
-          els.pronunciationDictPanel.classList.toggle('hidden');
-        });
-
+        els.toggleDictModalBtn.addEventListener('click', () => els.pronunciationDictPanel.classList.toggle('hidden'));
         if (els.previewDictRuleBtn) {
           els.previewDictRuleBtn.addEventListener('click', () => {
             if (!synthSupported) return;
@@ -3240,13 +2212,8 @@
               return;
             }
             stopSpeech(true);
-            const voiceCfg = getSelectedVoiceConfig();
-            const u = new SpeechSynthesisUtterance(toSpoken);
-            if (voiceCfg.voice) u.voice = voiceCfg.voice;
-            u.lang = voiceCfg.lang || 'ru-RU';
-            u.rate = voiceCfg.rate;
-            u.pitch = voiceCfg.pitch;
-            window.speechSynthesis.speak(u);
+            const { utterance } = createConfiguredUtterance(toSpoken);
+            window.speechSynthesis.speak(utterance);
             showToast('Прослушивание замены: «' + toSpoken + '»');
           });
         }
@@ -3266,34 +2233,18 @@
           showToast('Добавлено правило: «' + fromWord + '» → «' + toSpoken + '»');
         });
 
-        // Панель проверки 10 контрольных примеров
         if (els.toggleSelfTestBtn) {
           els.toggleSelfTestBtn.addEventListener('click', () => {
             els.selfTestPanel.classList.toggle('hidden');
-            if (!els.selfTestPanel.classList.contains('hidden')) {
-              runVerificationSuite();
-            }
+            if (!els.selfTestPanel.classList.contains('hidden')) runVerificationSuite();
           });
         }
         if (els.runSelfTestBtn) {
-          els.runSelfTestBtn.addEventListener('click', () => {
-            runVerificationSuite();
-            showToast('Контрольные примеры пересчитаны');
-          });
+          els.runSelfTestBtn.addEventListener('click', () => { runVerificationSuite(); showToast('Контрольные примеры пересчитаны'); });
         }
 
-        // Навигация по страницам
-        els.prevPageBtn.addEventListener('click', () => {
-          if (state.currentPage > 1) {
-            goToPage(state.currentPage - 1, true);
-          }
-        });
-
-        els.nextPageBtn.addEventListener('click', () => {
-          if (state.currentPage < state.totalPages) {
-            goToPage(state.currentPage + 1, true);
-          }
-        });
+        els.prevPageBtn.addEventListener('click', () => { if (state.currentPage > 1) goToPage(state.currentPage - 1, true); });
+        els.nextPageBtn.addEventListener('click', () => { if (state.currentPage < state.totalPages) goToPage(state.currentPage + 1, true); });
 
         const handlePageJump = () => {
           const val = parseInt(els.pageNumberInput.value, 10);
@@ -3304,57 +2255,35 @@
           }
           goToPage(val, true);
         };
-
         els.goToPageBtn.addEventListener('click', handlePageJump);
-        els.pageNumberInput.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter') {
-            handlePageJump();
-          }
-        });
+        els.pageNumberInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handlePageJump(); });
 
-        // Поиск по тексту страницы (не прерывает синтез речи)
-        els.searchInput.addEventListener('input', () => {
-          performSearchOnPage(els.searchInput.value, true);
-        });
-
+        els.searchInput.addEventListener('input', () => performSearchOnPage(els.searchInput.value, true));
         els.searchNextBtn.addEventListener('click', () => {
           if (state.searchMatches.length === 0) return;
           state.searchCurrentPos = (state.searchCurrentPos + 1) % state.searchMatches.length;
           updateActiveSearchMatch(true);
         });
-
         els.searchPrevBtn.addEventListener('click', () => {
           if (state.searchMatches.length === 0) return;
           state.searchCurrentPos = (state.searchCurrentPos - 1 + state.searchMatches.length) % state.searchMatches.length;
           updateActiveSearchMatch(true);
         });
-
-        els.searchClearBtn.addEventListener('click', () => {
-          els.searchInput.value = '';
-          performSearchOnPage('', false);
-        });
+        els.searchClearBtn.addEventListener('click', () => { els.searchInput.value = ''; performSearchOnPage('', false); });
 
         els.copyPageTextBtn.addEventListener('click', copyCurrentPageText);
         els.downloadPageTextBtn.addEventListener('click', downloadCurrentPageText);
 
-        window.addEventListener('dragover', (e) => {
-          e.preventDefault();
-        });
+        window.addEventListener('dragover', (e) => e.preventDefault());
         window.addEventListener('drop', (e) => {
           e.preventDefault();
           const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
-          if (file) {
-            handleFileSelected(file);
-          }
+          if (file) handleFileSelected(file);
         });
 
         const flushAndCancelOnLeave = () => {
           saveDocumentProgress(true);
-          if (synthSupported) {
-            try {
-              window.speechSynthesis.cancel();
-            } catch (e) {}
-          }
+          if (synthSupported) { try { window.speechSynthesis.cancel(); } catch (e) {} }
         };
         window.addEventListener('pagehide', flushAndCancelOnLeave);
         window.addEventListener('beforeunload', flushAndCancelOnLeave);
